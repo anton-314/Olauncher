@@ -20,7 +20,6 @@ class Prefs(private val prefs: SharedPreferences) {
     private val FIRST_OPEN_TIME = "FIRST_OPEN_TIME"
     private val FIRST_SETTINGS_OPEN = "FIRST_SETTINGS_OPEN"
     private val FIRST_HIDE = "FIRST_HIDE"
-    private val USER_STATE = "USER_STATE"
     private val LOCK_MODE = "LOCK_MODE"
     private val HOME_APPS_NUM = "HOME_APPS_NUM"
     private val AUTO_SHOW_KEYBOARD = "AUTO_SHOW_KEYBOARD"
@@ -36,19 +35,12 @@ class Prefs(private val prefs: SharedPreferences) {
     private val SWIPE_RIGHT_ENABLED = "SWIPE_RIGHT_ENABLED"
     private val HIDDEN_APPS = "HIDDEN_APPS"
     private val HIDDEN_APPS_UPDATED = "HIDDEN_APPS_UPDATED"
-    private val SHOW_HINT_COUNTER = "SHOW_HINT_COUNTER"
     private val APP_THEME = "APP_THEME"
-    private val ABOUT_CLICKED = "ABOUT_CLICKED"
-    private val RATE_CLICKED = "RATE_CLICKED"
-    private val WALLPAPER_MSG_SHOWN = "WALLPAPER_MSG_SHOWN"
-    private val SHARE_SHOWN_TIME = "SHARE_SHOWN_TIME"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
     private val BOLD_FONT = "BOLD_FONT"
-    private val PRO_MESSAGE_SHOWN = "PRO_MESSAGE_SHOWN"
     private val HIDE_SET_DEFAULT_LAUNCHER = "HIDE_SET_DEFAULT_LAUNCHER"
     private val SCREEN_TIME_LAST_UPDATED = "SCREEN_TIME_LAST_UPDATED"
     private val LAUNCHER_RESTART_TIMESTAMP = "LAUNCHER_RECREATE_TIMESTAMP"
-    private val SHOWN_ON_DAY_OF_YEAR = "SHOWN_ON_DAY_OF_YEAR"
     // Home button for recents feature disabled
     // private val HOME_BUTTON_SHOW_RECENTS = "HOME_BUTTON_SHOW_RECENTS"
 
@@ -141,10 +133,6 @@ class Prefs(private val prefs: SharedPreferences) {
         get() = prefs.getBoolean(FIRST_HIDE, true)
         set(value) = prefs.edit { putBoolean(FIRST_HIDE, value).apply() }
 
-    var userState: String
-        get() = prefs.getString(USER_STATE, Constants.UserState.START).toString()
-        set(value) = prefs.edit { putString(USER_STATE, value).apply() }
-
     var lockModeOn: Boolean
         get() = prefs.getBoolean(LOCK_MODE, false)
         set(value) = prefs.edit { putBoolean(LOCK_MODE, value).apply() }
@@ -211,10 +199,6 @@ class Prefs(private val prefs: SharedPreferences) {
         get() = prefs.getBoolean(BOLD_FONT, false)
         set(value) = prefs.edit { putBoolean(BOLD_FONT, value).apply() }
 
-    var proMessageShown: Boolean
-        get() = prefs.getBoolean(PRO_MESSAGE_SHOWN, false)
-        set(value) = prefs.edit { putBoolean(PRO_MESSAGE_SHOWN, value).apply() }
-
     var hideSetDefaultLauncher: Boolean
         get() = prefs.getBoolean(HIDE_SET_DEFAULT_LAUNCHER, false)
         set(value) = prefs.edit { putBoolean(HIDE_SET_DEFAULT_LAUNCHER, value).apply() }
@@ -226,10 +210,6 @@ class Prefs(private val prefs: SharedPreferences) {
     var launcherRestartTimestamp: Long
         get() = prefs.getLong(LAUNCHER_RESTART_TIMESTAMP, 0L)
         set(value) = prefs.edit { putLong(LAUNCHER_RESTART_TIMESTAMP, value).apply() }
-
-    var shownOnDayOfYear: Int
-        get() = prefs.getInt(SHOWN_ON_DAY_OF_YEAR, 0)
-        set(value) = prefs.edit { putInt(SHOWN_ON_DAY_OF_YEAR, value).apply() }
 
     // Home button for recents feature disabled
     // var homeButtonShowRecents: Boolean
@@ -245,26 +225,6 @@ class Prefs(private val prefs: SharedPreferences) {
     var hiddenAppsUpdated: Boolean
         get() = prefs.getBoolean(HIDDEN_APPS_UPDATED, false)
         set(value) = prefs.edit { putBoolean(HIDDEN_APPS_UPDATED, value).apply() }
-
-    var toShowHintCounter: Int
-        get() = prefs.getInt(SHOW_HINT_COUNTER, 1)
-        set(value) = prefs.edit { putInt(SHOW_HINT_COUNTER, value).apply() }
-
-    var aboutClicked: Boolean
-        get() = prefs.getBoolean(ABOUT_CLICKED, false)
-        set(value) = prefs.edit { putBoolean(ABOUT_CLICKED, value).apply() }
-
-    var rateClicked: Boolean
-        get() = prefs.getBoolean(RATE_CLICKED, false)
-        set(value) = prefs.edit { putBoolean(RATE_CLICKED, value).apply() }
-
-    var wallpaperMsgShown: Boolean
-        get() = prefs.getBoolean(WALLPAPER_MSG_SHOWN, false)
-        set(value) = prefs.edit { putBoolean(WALLPAPER_MSG_SHOWN, value).apply() }
-
-    var shareShownTime: Long
-        get() = prefs.getLong(SHARE_SHOWN_TIME, 0L)
-        set(value) = prefs.edit { putLong(SHARE_SHOWN_TIME, value).apply() }
 
     var appName1: String
         get() = prefs.getString(APP_NAME_1, "").toString()

@@ -695,11 +695,6 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                 else
                     lockPhone()
             }
-
-            override fun onClick() {
-                super.onClick()
-                viewModel.checkForMessages.call()
-            }
         }
     }
 

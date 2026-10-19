@@ -253,9 +253,6 @@ fun Long.isDaySince(now: Long = System.currentTimeMillis()): Int =
     Math.round((now.convertEpochToMidnight() - this.convertEpochToMidnight()).toDouble()
             / Constants.ONE_DAY_IN_MILLIS).toInt()
 
-fun Long.hasBeenDays(days: Int): Boolean =
-    ((System.currentTimeMillis() - this) / Constants.ONE_DAY_IN_MILLIS) >= days
-
 fun Long.hasBeenHours(hours: Int): Boolean =
     ((System.currentTimeMillis() - this) / Constants.ONE_HOUR_IN_MILLIS) >= hours
 
