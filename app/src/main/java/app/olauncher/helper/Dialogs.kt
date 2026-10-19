@@ -58,9 +58,20 @@ class OlDialog(context: Context) : AlertDialog(context) {
     }
 
     override fun dismiss() {
-        val blur = blur ?: return super.dismiss()
+        val blur = blur
         this.blur = null
-        blur.fadeOut { super.dismiss() }
+        if (blur == null || window?.decorView?.isAttachedToWindow != true) return dismissSafely()
+        blur.fadeOut { dismissSafely() }
+    }
+
+    // The fade ends after a delay; if the activity was destroyed meanwhile the window is
+    // already gone, and dismissing it again throws "View not attached to window manager"
+    private fun dismissSafely() {
+        try {
+            super.dismiss()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
     }
 }
 

@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import app.olauncher.BuildConfig
 import app.olauncher.MainViewModel
@@ -30,6 +30,7 @@ import app.olauncher.helper.createDialog
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.hideStatusBar
 import app.olauncher.helper.isAccessServiceEnabled
+import app.olauncher.helper.isAt
 import app.olauncher.helper.isDarkThemeOn
 import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isOlauncherDefault
@@ -43,12 +44,15 @@ import app.olauncher.helper.OlDialog
 import app.olauncher.helper.showPopupMenu
 import app.olauncher.helper.showStatusBar
 import app.olauncher.helper.showToast
+import app.olauncher.helper.startActivitySafely
 import app.olauncher.listener.DeviceAdmin
 
 class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListener {
 
     private lateinit var prefs: Prefs
-    private lateinit var viewModel: MainViewModel
+
+    // Not lateinit: onDestroy also runs for an instance restored on the back stack whose view was never created
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var deviceManager: DevicePolicyManager
     private lateinit var componentName: ComponentName
 
@@ -65,9 +69,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
-        viewModel = activity?.run {
-            ViewModelProvider(this)[MainViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
         viewModel.isOlauncherDefault()
 
         deviceManager = requireContext().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
@@ -147,7 +148,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         when (view.id) {
             R.id.alignment -> {
                 prefs.appLabelAlignment = prefs.homeAlignment
-                findNavController().navigate(R.id.action_settingsFragment_to_appListFragment)
+                if (isShowing()) findNavController().navigate(R.id.action_settingsFragment_to_appListFragment)
                 requireContext().showToast(getString(R.string.alignment_changed))
             }
 
@@ -155,10 +156,19 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             R.id.appThemeText -> showAppThemeMenu(view, showSystem = true)
             R.id.swipeLeftApp -> toggleSwipeLeft()
             R.id.swipeRightApp -> toggleSwipeRight()
-            R.id.toggleLock -> startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            R.id.toggleLock -> openAccessibilitySettings()
         }
         return true
     }
+
+    private fun openAccessibilitySettings() {
+        if (!requireContext().startActivitySafely(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)))
+            requireContext().showToast(R.string.unable_to_open_app)
+    }
+
+    // False while leaving settings: a stale click must not navigate from the wrong screen
+    private fun isShowing(): Boolean =
+        _binding != null && isAdded && findNavController().isAt(R.id.settingsFragment)
 
     private fun initClickListeners() {
         binding.olauncherHiddenApps.setOnClickListener(this)
@@ -364,6 +374,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             requireContext().showToast(getString(R.string.no_hidden_apps))
             return
         }
+        if (!isShowing()) return
         viewModel.getHiddenApps()
         findNavController().navigate(
             R.id.action_settingsFragment_to_appListFragment,
@@ -378,15 +389,17 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun openAccessibilityService() {
-        // prefs.lockModeOn = true
+        // Set here rather than by the service, which runs in another process. It only takes
+        // effect once the service is enabled, as the setting shows On only with both.
+        if (!isAccessServiceEnabled(requireContext())) prefs.lockModeOn = true
         populateLockSettings()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            openAccessibilitySettings()
     }
 
     private fun toggleLockMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (!prefs.lockModeOn && !isAccessServiceEnabled(requireContext())) {
+            if (!isAccessServiceEnabled(requireContext())) {
                 showAccessibilityDialog()
                 return
             }
@@ -403,7 +416,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
                     DevicePolicyManager.EXTRA_ADD_EXPLANATION,
                     getString(R.string.admin_permission_message)
                 )
-                requireActivity().startActivityForResult(intent, Constants.REQUEST_CODE_ENABLE_ADMIN)
+                try {
+                    requireActivity().startActivityForResult(intent, Constants.REQUEST_CODE_ENABLE_ADMIN)
+                } catch (e: Exception) {
+                    requireContext().showToast(R.string.unable_to_open_app)
+                }
             }
         }
         populateLockSettings()
@@ -639,6 +656,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             requireContext().showToast(getString(R.string.long_press_to_enable))
             return
         }
+        if (!isShowing()) return
         viewModel.getAppList(true)
         findNavController().navigate(
             R.id.action_settingsFragment_to_appListFragment,

@@ -1,5 +1,6 @@
 package app.olauncher.helper
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AppOpsManager
 import android.app.SearchManager
@@ -20,7 +21,9 @@ import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
+import androidx.navigation.NavController
 import app.olauncher.BuildConfig
 import app.olauncher.R
 import app.olauncher.data.Constants
@@ -64,14 +67,20 @@ fun Activity.showLauncherSelector(requestCode: Int) {
     val roleManager = getSystemService(Context.ROLE_SERVICE) as RoleManager
     if (roleManager.isRoleAvailable(RoleManager.ROLE_HOME)) {
         val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_HOME)
-        startActivityForResult(intent, requestCode)
+        try {
+            startActivityForResult(intent, requestCode)
+        } catch (e: Exception) {
+            resetDefaultLauncher()
+        }
     } else
         resetDefaultLauncher()
 }
 
+// The home intent is implicit on purpose: it has to show the system's launcher chooser
+@SuppressLint("UnsafeImplicitIntentLaunch")
 fun Context.resetDefaultLauncher() {
+    val componentName = ComponentName(this, FakeHomeActivity::class.java)
     try {
-        val componentName = ComponentName(this, FakeHomeActivity::class.java)
         packageManager.setComponentEnabledSetting(
             componentName,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -80,13 +89,19 @@ fun Context.resetDefaultLauncher() {
         val selector = Intent(Intent.ACTION_MAIN)
         selector.addCategory(Intent.CATEGORY_HOME)
         startActivity(selector)
-        packageManager.setComponentEnabledSetting(
-            componentName,
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            PackageManager.DONT_KILL_APP
-        )
     } catch (e: Exception) {
         e.printStackTrace()
+    } finally {
+        // Never leave the fake home screen enabled, or it stays a second launcher choice
+        try {
+            packageManager.setComponentEnabledSetting(
+                componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
 
@@ -98,14 +113,29 @@ fun Context.isDefaultLauncher(): Boolean {
 fun Context.resetLauncherViaFakeActivity() {
     resetDefaultLauncher()
     if (getDefaultLauncherPackage(this).contains("."))
-        startActivity(Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS))
+        startActivitySafely(Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS))
 }
 
 fun Context.openSearch(query: String? = null) {
     val intent = Intent(Intent.ACTION_WEB_SEARCH)
     intent.putExtra(SearchManager.QUERY, query ?: "")
-    startActivity(intent)
+    if (!startActivitySafely(intent)) showToast(R.string.unable_to_open_app)
 }
+
+/**
+ * Starts [intent], returning false instead of crashing when no app handles it. Settings screens
+ * and web search are missing on some devices (TVs, de-googled ROMs, work-managed phones).
+ */
+fun Context.startActivitySafely(intent: Intent): Boolean = try {
+    startActivity(intent)
+    true
+} catch (e: Exception) {
+    e.printStackTrace()
+    false
+}
+
+/** Navigation calls from stale clicks or late callbacks must only act on the screen they belong to. */
+fun NavController.isAt(@IdRes destinationId: Int): Boolean = currentDestination?.id == destinationId
 
 private var isEinkDevice: Boolean? = null
 
@@ -218,8 +248,10 @@ fun Long.convertEpochToMidnight(): Long {
     return calendar.timeInMillis
 }
 
-fun Long.isDaySince(): Int = ((System.currentTimeMillis().convertEpochToMidnight() - this.convertEpochToMidnight())
-        / Constants.ONE_DAY_IN_MILLIS).toInt()
+// Rounded, not truncated: across a daylight saving change two midnights are 23 or 25 hours apart
+fun Long.isDaySince(now: Long = System.currentTimeMillis()): Int =
+    Math.round((now.convertEpochToMidnight() - this.convertEpochToMidnight()).toDouble()
+            / Constants.ONE_DAY_IN_MILLIS).toInt()
 
 fun Long.hasBeenDays(days: Int): Boolean =
     ((System.currentTimeMillis() - this) / Constants.ONE_DAY_IN_MILLIS) >= days

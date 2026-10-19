@@ -25,9 +25,11 @@ internal open class OnSwipeTouchListener(c: Context?) : OnTouchListener {
 
     //    private var doubleTapOn = false
     private val gestureDetector: GestureDetector
+    private var touchedView: View? = null
 
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (motionEvent.action == MotionEvent.ACTION_UP)
+        touchedView = view
+        if (motionEvent.action == MotionEvent.ACTION_UP || motionEvent.action == MotionEvent.ACTION_CANCEL)
             longPressOn = false
         return gestureDetector.onTouchEvent(motionEvent)
     }
@@ -66,7 +68,8 @@ internal open class OnSwipeTouchListener(c: Context?) : OnTouchListener {
             GlobalScope.launch {
                 delay(Constants.LONG_PRESS_DELAY_MS)
                 withContext(Dispatchers.Main) {
-                    if (isActive && longPressOn)
+                    // The screen may be gone by now, e.g. after the user navigated away
+                    if (isActive && longPressOn && touchedView?.isAttachedToWindow == true)
                         onLongClick()
                 }
             }

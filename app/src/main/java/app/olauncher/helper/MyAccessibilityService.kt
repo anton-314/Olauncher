@@ -6,7 +6,6 @@ import android.os.Build
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import app.olauncher.R
-import app.olauncher.data.Prefs
 
 class MyAccessibilityService : AccessibilityService() {
 
@@ -14,10 +13,9 @@ class MyAccessibilityService : AccessibilityService() {
         return START_STICKY
     }
 
-    override fun onServiceConnected() {
-        Prefs(applicationContext).lockModeOn = true
-        super.onServiceConnected()
-    }
+    // No prefs are written here: this service runs in its own process, and SharedPreferences are
+    // not multi-process safe, so the launcher process would overwrite the value with its cached copy.
+    // Lock mode is switched on in settings, before the user is sent to enable this service.
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         try {

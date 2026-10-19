@@ -24,8 +24,10 @@ import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
+import app.olauncher.helper.buildBangSearchUrl
 import app.olauncher.helper.deletePinnedShortcut
 import app.olauncher.helper.hideKeyboard
+import app.olauncher.helper.isAt
 import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isSystemAnimationsDisabled
 import app.olauncher.helper.isSystemApp
@@ -96,7 +98,7 @@ class AppDrawerFragment : BaseFragment() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query?.startsWith("!") == true)
-                    requireContext().openUrl(Constants.URL_DUCK_SEARCH + query.replace(" ", "%20"))
+                    requireContext().openUrl(buildBangSearchUrl(query))
                 else if (adapter.itemCount == 0)
                     requireContext().openSearch(query?.trim())
                 else
@@ -151,11 +153,14 @@ class AppDrawerFragment : BaseFragment() {
             flag,
             prefs.appLabelAlignment,
             appClickListener = { appModel ->
-                viewModel.selectedApp(appModel, flag)
-                if (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_HIDDEN_APPS)
-                    findNavController().popBackStack(R.id.mainFragment, false)
-                else
-                    findNavController().popBackStack()
+                // A second tap before the drawer has closed would pick again and pop the screen below
+                if (isShowing()) {
+                    viewModel.selectedApp(appModel, flag)
+                    if (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_HIDDEN_APPS)
+                        findNavController().popBackStack(R.id.mainFragment, false)
+                    else
+                        findNavController().popBackStack()
+                }
             },
             appInfoListener = {
                 openAppInfo(
@@ -163,7 +168,7 @@ class AppDrawerFragment : BaseFragment() {
                     it.user,
                     it.appPackage
                 )
-                findNavController().popBackStack(R.id.mainFragment, false)
+                if (isShowing()) findNavController().popBackStack(R.id.mainFragment, false)
             },
             appDeleteListener = { appModel ->
                 when (appModel) {
@@ -195,6 +200,9 @@ class AppDrawerFragment : BaseFragment() {
                     requireContext().showToast("Hiding pinned shortcuts is not supported")
                     return@AppDrawerAdapter
                 }
+                // The holder's position is -1 while the list is being laid out, or stale after a filter
+                if (!isShowing() || adapter.appFilteredList.getOrNull(position) != appModel)
+                    return@AppDrawerAdapter
                 adapter.appFilteredList.removeAt(position)
                 adapter.notifyItemRemoved(position)
                 adapter.appsList.remove(appModel)
@@ -209,7 +217,7 @@ class AppDrawerFragment : BaseFragment() {
                 prefs.hiddenApps = newSet
                 if (newSet.isEmpty())
                     findNavController().popBackStack()
-                if (prefs.firstHide) {
+                else if (prefs.firstHide) {
                     binding.search.hideKeyboard()
                     prefs.firstHide = false
                     viewModel.showDialog.postValue(Constants.Dialog.HIDDEN)
@@ -232,7 +240,7 @@ class AppDrawerFragment : BaseFragment() {
             },
             privateSpaceSettingsListener = {
                 viewModel.openPrivateSpaceSettings()
-                findNavController().popBackStack(R.id.mainFragment, false)
+                if (isShowing()) findNavController().popBackStack(R.id.mainFragment, false)
             }
         )
 
@@ -326,9 +334,13 @@ class AppDrawerFragment : BaseFragment() {
                 Constants.FLAG_SET_HOME_APP_7 -> prefs.appName7 = name
                 Constants.FLAG_SET_HOME_APP_8 -> prefs.appName8 = name
             }
-            findNavController().popBackStack()
+            if (isShowing()) findNavController().popBackStack()
         }
     }
+
+    // False once this drawer is being closed: a second pop would remove the screen below it
+    private fun isShowing(): Boolean =
+        _binding != null && isAdded && findNavController().isAt(R.id.appListFragment)
 
     private fun getRecyclerViewOnScrollListener(): RecyclerView.OnScrollListener {
         return object : RecyclerView.OnScrollListener() {
@@ -358,6 +370,8 @@ class AppDrawerFragment : BaseFragment() {
     }
 
     private fun checkMessageAndExit() {
+        // Called for every overscrolling scroll step, so it runs many times during one drag
+        if (!isShowing()) return
         findNavController().popBackStack()
         if (flag == Constants.FLAG_LAUNCH_APP)
             viewModel.checkForMessages.call()

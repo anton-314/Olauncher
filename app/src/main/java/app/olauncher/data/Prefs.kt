@@ -6,8 +6,15 @@ import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 
-class Prefs(context: Context) {
-    private val PREFS_FILENAME = "app.olauncher"
+class Prefs(private val prefs: SharedPreferences) {
+
+    constructor(context: Context) : this(context.getSharedPreferences(PREFS_FILENAME, 0))
+
+    companion object {
+        private const val PREFS_FILENAME = "app.olauncher"
+        const val MIN_TEXT_SIZE_SCALE = 0.5f
+        const val MAX_TEXT_SIZE_SCALE = 2.0f
+    }
 
     private val FIRST_OPEN = "FIRST_OPEN"
     private val FIRST_OPEN_TIME = "FIRST_OPEN_TIME"
@@ -118,8 +125,6 @@ class Prefs(context: Context) {
     private val SHORTCUT_ID_SWIPE_RIGHT = "SHORTCUT_ID_SWIPE_RIGHT"
     private val IS_SHORTCUT_SWIPE_RIGHT = "IS_SHORTCUT_SWIPE_RIGHT"
 
-    private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
-
     var firstOpen: Boolean
         get() = prefs.getBoolean(FIRST_OPEN, true)
         set(value) = prefs.edit { putBoolean(FIRST_OPEN, value).apply() }
@@ -197,7 +202,9 @@ class Prefs(context: Context) {
         set(value) = prefs.edit { putInt(APP_THEME, value).apply() }
 
     var textSizeScale: Float
+        // A broken value would make every label invisible or huge, so keep it in the range the settings offer
         get() = prefs.getFloat(TEXT_SIZE_SCALE, 1.0f)
+            .let { if (it.isNaN()) 1.0f else it.coerceIn(MIN_TEXT_SIZE_SCALE, MAX_TEXT_SIZE_SCALE) }
         set(value) = prefs.edit { putFloat(TEXT_SIZE_SCALE, value).apply() }
 
     var boldFont: Boolean
@@ -230,8 +237,10 @@ class Prefs(context: Context) {
     //     set(value) = prefs.edit { putBoolean(HOME_BUTTON_SHOW_RECENTS, value).apply() }
 
     var hiddenApps: MutableSet<String>
-        get() = prefs.getStringSet(HIDDEN_APPS, mutableSetOf()) as MutableSet<String>
-        set(value) = prefs.edit { putStringSet(HIDDEN_APPS, value).apply() }
+        // Return a copy: SharedPreferences forbids changing the set it hands out, and putting
+        // the same, mutated instance back is not detected as a change, so it isn't persisted
+        get() = prefs.getStringSet(HIDDEN_APPS, null)?.toMutableSet() ?: mutableSetOf()
+        set(value) = prefs.edit { putStringSet(HIDDEN_APPS, HashSet(value)).apply() }
 
     var hiddenAppsUpdated: Boolean
         get() = prefs.getBoolean(HIDDEN_APPS_UPDATED, false)
@@ -641,7 +650,16 @@ class Prefs(context: Context) {
         if (appPackageSwipeRight == packageName) appActivityClassNameRight = activityClassName
     }
 
-    fun getAppRenameLabel(appPackage: String): String = prefs.getString(appPackage, "").toString()
+    // Rename labels share the file with the settings, and the legacy lookup by raw shortcut id
+    // lets another app choose the key. A key holding a non-string setting must not break the list.
+    fun getAppRenameLabel(appPackage: String): String = try {
+        prefs.getString(appPackage, "").orEmpty()
+    } catch (_: ClassCastException) {
+        ""
+    }
 
-    fun setAppRenameLabel(appPackage: String, renameLabel: String) = prefs.edit { putString(appPackage, renameLabel) }
+    // A blank label clears the rename, so the app's own label shows again
+    fun setAppRenameLabel(appPackage: String, renameLabel: String) = prefs.edit {
+        if (renameLabel.isBlank()) remove(appPackage) else putString(appPackage, renameLabel)
+    }
 }

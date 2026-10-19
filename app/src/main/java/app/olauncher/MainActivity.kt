@@ -44,6 +44,7 @@ import app.olauncher.helper.shareApp
 import app.olauncher.helper.showLauncherSelector
 import app.olauncher.helper.showMessageDialog
 import app.olauncher.helper.showToast
+import app.olauncher.helper.startActivitySafely
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -121,7 +122,8 @@ class MainActivity : AppCompatActivity() {
                 addAction(Intent.ACTION_PROFILE_AVAILABLE)
                 addAction(Intent.ACTION_PROFILE_UNAVAILABLE)
             }
-            registerReceiver(profileReceiver, filter)
+            // Not exported: only the system may deliver these, other apps must not trigger reloads
+            registerReceiver(profileReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
         }
     }
 
@@ -263,7 +265,8 @@ class MainActivity : AppCompatActivity() {
 
                 Constants.Dialog.DIGITAL_WELLBEING -> {
                     showMessage(R.string.screen_time, R.string.app_usage_message, R.string.permission) {
-                        startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                        if (!startActivitySafely(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)))
+                            showToast(R.string.unable_to_open_app)
                     }
                 }
 
@@ -359,7 +362,7 @@ class MainActivity : AppCompatActivity() {
     private fun openLauncherChooser(resetFailed: Boolean) {
         if (resetFailed) {
             val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
-            startActivity(intent)
+            startActivitySafely(intent)
         }
     }
 

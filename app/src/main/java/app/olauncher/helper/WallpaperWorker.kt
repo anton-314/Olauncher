@@ -22,8 +22,9 @@ class WallpaperWorker(appContext: Context, workerParams: WorkerParameters) : Cor
                 if (prefs.dailyWallpaperUrl == wallpaperUrl)
                     true
                 else {
-                    prefs.dailyWallpaperUrl = wallpaperUrl
+                    // Remember the URL only once it is applied, or a failed attempt is never retried
                     setWallpaper(applicationContext, wallpaperUrl)
+                        .also { applied -> if (applied) prefs.dailyWallpaperUrl = wallpaperUrl }
                 }
             } else
                 true

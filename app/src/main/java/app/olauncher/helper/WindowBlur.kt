@@ -34,13 +34,14 @@ class WindowBlur(private val window: Window) {
 
     /** Call after the window is shown so its theme attributes have been resolved. */
     fun fadeIn() {
-        if (!supported) return
+        // The explicit version check lets lint verify the API 31 calls below
+        if (!supported || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
         start()
     }
 
     /** Fades the window and its blur out together, then runs [onEnd]. */
     fun fadeOut(onEnd: () -> Unit) {
-        if (!supported) {
+        if (!supported || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             onEnd()
             return
         }

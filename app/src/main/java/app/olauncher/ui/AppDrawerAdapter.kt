@@ -322,10 +322,9 @@ class AppDrawerAdapter(
                     appRenameListener(appModel, renameLabel)
                     renameLayout.visibility = View.GONE
                 } else {
-                    appRenameListener(
-                        appModel,
-                        getAppName(etAppRename.context, appModel.appPackage, appModel.user)
-                    )
+                    // Saving an empty name clears the rename. Storing getAppName() instead would
+                    // freeze the label and give a pinned shortcut its app's name.
+                    appRenameListener(appModel, "")
                     renameLayout.visibility = View.GONE
                 }
             }

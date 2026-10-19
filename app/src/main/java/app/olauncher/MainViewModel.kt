@@ -8,6 +8,7 @@ import android.content.pm.LauncherApps
 import android.os.Build
 import android.os.UserHandle
 import android.os.UserManager
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -74,7 +75,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         when (flag) {
             Constants.FLAG_LAUNCH_APP -> {
                 when (appModel) {
-                    is AppModel.PinnedShortcut -> launchShortcut(appModel)
+                    is AppModel.PinnedShortcut ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) launchShortcut(appModel)
+
                     is AppModel.App ->
                         launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
 
@@ -105,6 +108,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun launchShortcut(appModel: AppModel.PinnedShortcut) {
         val launcher = appContext.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
         val query = LauncherApps.ShortcutQuery().apply {
@@ -365,8 +369,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun launchApp(packageName: String, activityClassName: String?, userHandle: UserHandle) {
+        // The blank row padding the end of the drawer has no package
+        if (packageName.isBlank()) return
         val launcher = appContext.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
-        val activityInfo = launcher.getActivityList(packageName, userHandle)
+        // Throws for a profile that was removed or is locked
+        val activityInfo = try {
+            launcher.getActivityList(packageName, userHandle)
+        } catch (e: Exception) {
+            appContext.showToast(appContext.getString(R.string.unable_to_open_app))
+            return
+        }
 
         val isActivityValid = activityClassName.isNullOrBlank().not()
                 && activityInfo.any { it.componentName.className == activityClassName }
@@ -462,14 +474,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val endTime = System.currentTimeMillis()
 
             // Querying a whole day of usage events is slow, so keep it off the main thread
+            // An exception here would crash the launcher, so a failed query just shows nothing new
             val timeSpent = withContext(Dispatchers.IO) {
-                val eventLogWrapper = EventLogWrapper(appContext)
-                eventLogWrapper.aggregateSimpleUsageStats(
-                    eventLogWrapper.aggregateForegroundStats(
-                        eventLogWrapper.getForegroundStatsByTimestamps(startTime, endTime)
+                try {
+                    val eventLogWrapper = EventLogWrapper(appContext)
+                    eventLogWrapper.aggregateSimpleUsageStats(
+                        eventLogWrapper.aggregateForegroundStats(
+                            eventLogWrapper.getForegroundStatsByTimestamps(startTime, endTime)
+                        )
                     )
-                )
-            }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            } ?: return@launch
             screenTimeValue.value = appContext.formattedTimeSpent(timeSpent)
             prefs.screenTimeLastUpdated = endTime
         }

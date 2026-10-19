@@ -26,3 +26,37 @@ data class ComponentForegroundStat(
                 "packageName='$packageName')"
     }
 }
+
+/**
+ * Merges overlapping or adjacent time intervals to prevent double-counting
+ * when multiple components of the same package have overlapping foreground times.
+ * Empty and reversed intervals are dropped: swapped events in the system log
+ * can produce an end before the begin, which would otherwise subtract time.
+ */
+internal fun mergeOverlappingIntervals(stats: List<ComponentForegroundStat>): List<ComponentForegroundStat> {
+    val sorted = stats.filter { it.endTime > it.beginTime }.sortedBy { it.beginTime }
+    if (sorted.size <= 1) return sorted
+
+    val merged = mutableListOf<ComponentForegroundStat>()
+    var current = sorted[0]
+
+    for (i in 1 until sorted.size) {
+        val next = sorted[i]
+        if (next.beginTime <= current.endTime) {
+            current = ComponentForegroundStat(
+                current.beginTime,
+                maxOf(current.endTime, next.endTime),
+                current.packageName
+            )
+        } else {
+            merged.add(current)
+            current = next
+        }
+    }
+    merged.add(current)
+    return merged
+}
+
+/** Total time covered by [stats], counting overlapping periods once. */
+internal fun totalForegroundTime(stats: List<ComponentForegroundStat>): Long =
+    mergeOverlappingIntervals(stats).sumOf { it.endTime - it.beginTime }

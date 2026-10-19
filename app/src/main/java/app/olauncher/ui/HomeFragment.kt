@@ -35,6 +35,7 @@ import app.olauncher.helper.dpToPx
 import app.olauncher.helper.expandNotificationDrawer
 import app.olauncher.helper.getChangedAppTheme
 import app.olauncher.helper.getUserHandleFromString
+import app.olauncher.helper.isAt
 import app.olauncher.helper.isPackageInstalled
 import app.olauncher.helper.openAlarmApp
 import app.olauncher.helper.openCalendar
@@ -131,6 +132,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     override fun onLongClick(view: View): Boolean {
+        // Long presses arrive delayed; ignore them once the home screen is no longer showing
+        if (!canNavigate()) return true
         when (view.id) {
             R.id.homeApp1 -> showAppList(Constants.FLAG_SET_HOME_APP_1, prefs.appName1.isNotEmpty(), true)
             R.id.homeApp2 -> showAppList(Constants.FLAG_SET_HOME_APP_2, prefs.appName2.isNotEmpty(), true)
@@ -390,8 +393,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         // Get user handle for the app/shortcut
         val userHandle = getUserHandleFromString(requireContext(), userString)
 
-        // If it's a shortcut, verify it still exists
-        if (isShortcut) {
+        // If it's a shortcut, verify it still exists. Shortcuts are only ever saved on Android 8+.
+        if (isShortcut && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             val launcherApps = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
 
             // Query for the specific shortcut
@@ -400,24 +403,32 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                 setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
             }
 
-            try {
-                val shortcuts = launcherApps.getShortcuts(query, userHandle)
-                // Check if our shortcut still exists
-                if (shortcuts?.any { it.id == shortcutId } == true) {
-                    textView.text = appName
-                    return true
-                }
-                textView.text = ""
-                return false
+            // Returning false erases the slot for good, so do that only when the shortcut is known to be gone.
+            // Shortcuts can't be queried while Olauncher is not the default launcher (opened from another
+            // launcher), or while their profile is paused or locked; keep the slot in those cases.
+            val shortcuts = try {
+                if (launcherApps.hasShortcutHostPermission()) launcherApps.getShortcuts(query, userHandle) else null
             } catch (e: Exception) {
                 e.printStackTrace()
-                textView.text = ""
-                return false
+                null
             }
+            if (shortcuts == null || shortcuts.any { it.id == shortcutId }) {
+                textView.text = appName
+                return true
+            }
+            textView.text = ""
+            return false
         }
 
         // Regular app check
-        if (isPackageInstalled(requireContext(), packageName, userString)) {
+        val installed = try {
+            isPackageInstalled(requireContext(), packageName, userString)
+        } catch (e: Exception) {
+            // Unknown, e.g. the profile is unavailable: keep the slot
+            e.printStackTrace()
+            true
+        }
+        if (installed) {
             textView.text = appName
             return true
         }
@@ -534,6 +545,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun showAppList(flag: Int, rename: Boolean = false, includeHiddenApps: Boolean = false) {
+        // A second swipe or a late long press must not open another drawer on top of the first
+        if (!canNavigate()) return
         viewModel.getAppList(includeHiddenApps)
         try {
             findNavController().navigate(
@@ -554,6 +567,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
             e.printStackTrace()
         }
     }
+
+    private fun canNavigate(): Boolean =
+        _binding != null && isAdded && findNavController().isAt(R.id.mainFragment)
 
     private fun lockPhone() {
         requireActivity().runOnUiThread {
@@ -662,6 +678,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
             override fun onLongClick() {
                 super.onLongClick()
+                if (!canNavigate()) return
                 try {
                     findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
                     viewModel.firstOpen(false)

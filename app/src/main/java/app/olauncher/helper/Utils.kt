@@ -44,14 +44,16 @@ import app.olauncher.data.shortcutIdentity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
+import java.net.URLEncoder
 import java.text.Collator
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.Scanner
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -182,15 +184,13 @@ private suspend fun getPinnedShortcuts(
 // This is to ensure backward compatibility with older app versions
 // which did not support multiple user profiles
 private fun upgradeHiddenApps(prefs: Prefs) {
-    val hiddenAppsSet = prefs.hiddenApps
-    val newHiddenAppsSet = mutableSetOf<String>()
-    for (hiddenPackage in hiddenAppsSet) {
-        if (hiddenPackage.contains("|")) newHiddenAppsSet.add(hiddenPackage)
-        else newHiddenAppsSet.add(hiddenPackage + android.os.Process.myUserHandle().toString())
-    }
-    prefs.hiddenApps = newHiddenAppsSet
+    prefs.hiddenApps = migrateHiddenApps(prefs.hiddenApps, android.os.Process.myUserHandle().toString())
     prefs.hiddenAppsUpdated = true
 }
+
+// Hidden apps are stored as "package|user"; entries from before multi-profile support have no user
+internal fun migrateHiddenApps(hiddenApps: Set<String>, userHandle: String): MutableSet<String> =
+    hiddenApps.mapTo(mutableSetOf()) { if (it.contains("|")) it else "$it|$userHandle" }
 
 fun isPackageInstalled(context: Context, packageName: String, userString: String): Boolean {
     val launcher = context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
@@ -336,21 +336,77 @@ fun openAppInfo(context: Context, userHandle: UserHandle, packageName: String) {
         context.showToast(context.getString(R.string.unable_to_open_app_info))
 }
 
-suspend fun getBitmapFromURL(src: String?): Bitmap? {
+private const val CONNECT_TIMEOUT_MS = 15_000
+private const val READ_TIMEOUT_MS = 30_000
+private const val MAX_WALLPAPER_LIST_BYTES = 1L shl 20 // 1 MB
+private const val MAX_WALLPAPER_IMAGE_BYTES = 30L shl 20 // 30 MB
+
+/**
+ * Downloads [url] over HTTPS. Returns null on any error, a non-200 response, or a body larger
+ * than [maxBytes], so a slow or hostile server can neither hang the worker nor exhaust memory.
+ */
+private fun downloadBytes(url: String, maxBytes: Long): ByteArray? {
+    if (!isSecureWebUrl(url)) return null
+    val connection = URL(url).openConnection() as? HttpURLConnection ?: return null
+    return try {
+        connection.connectTimeout = CONNECT_TIMEOUT_MS
+        connection.readTimeout = READ_TIMEOUT_MS
+        // HttpURLConnection never follows a redirect from https to http
+        if (connection.responseCode != HttpURLConnection.HTTP_OK) return null
+        if (connection.contentLengthLong > maxBytes) return null
+        connection.inputStream.use { it.readBounded(maxBytes) }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    } finally {
+        connection.disconnect()
+    }
+}
+
+/** Reads the whole stream, or returns null as soon as it turns out longer than [maxBytes]. */
+internal fun InputStream.readBounded(maxBytes: Long): ByteArray? {
+    val output = ByteArrayOutputStream()
+    val buffer = ByteArray(8192)
+    var total = 0L
+    while (true) {
+        val read = read(buffer)
+        if (read < 0) break
+        total += read
+        if (total > maxBytes) return null
+        output.write(buffer, 0, read)
+    }
+    return output.toByteArray()
+}
+
+/**
+ * Largest power-of-two subsampling that still keeps the decoded image at least
+ * [reqWidth] x [reqHeight], so it can be scaled to fill the screen without losing sharpness.
+ */
+internal fun calculateInSampleSize(width: Int, height: Int, reqWidth: Int, reqHeight: Int): Int {
+    if (width <= 0 || height <= 0 || reqWidth <= 0 || reqHeight <= 0) return 1
+    var sampleSize = 1
+    while (width / (sampleSize * 2) >= reqWidth && height / (sampleSize * 2) >= reqHeight)
+        sampleSize *= 2
+    return sampleSize
+}
+
+suspend fun getBitmapFromURL(src: String?, reqWidth: Int, reqHeight: Int): Bitmap? {
     return withContext(Dispatchers.IO) {
-        var bitmap: Bitmap? = null
         try {
-            val url = URL(src)
-            val connection: HttpURLConnection = url
-                .openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
-            val input: InputStream = connection.inputStream
-            bitmap = BitmapFactory.decodeStream(input)
+            val bytes = downloadBytes(src ?: return@withContext null, MAX_WALLPAPER_IMAGE_BYTES)
+                ?: return@withContext null
+            // Decode the size first: a full-resolution decode of a huge image would run the launcher out of memory
+            val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+            options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight, reqWidth, reqHeight)
+            options.inJustDecodeBounds = false
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
         } catch (e: Exception) {
             e.printStackTrace()
+            null
+        } catch (e: OutOfMemoryError) {
+            null
         }
-        bitmap
     }
 }
 
@@ -386,28 +442,29 @@ suspend fun getWallpaperBitmap(originalImage: Bitmap, width: Int, height: Int): 
 
 suspend fun setWallpaper(appContext: Context, url: String): Boolean {
     return withContext(Dispatchers.IO) {
-        val originalImageBitmap = getBitmapFromURL(url) ?: return@withContext false
         if (appContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet(appContext).not())
             return@withContext false
 
-        val wallpaperManager = WallpaperManager.getInstance(appContext)
         val (width, height) = getScreenDimensions(appContext)
-        val scaledBitmap = getWallpaperBitmap(originalImageBitmap, width, height)
+        if (width <= 0 || height <= 0) return@withContext false
+        val originalImageBitmap = getBitmapFromURL(url, width, height) ?: return@withContext false
+        var scaledBitmap: Bitmap? = null
 
         try {
+            val wallpaperManager = WallpaperManager.getInstance(appContext)
+            scaledBitmap = getWallpaperBitmap(originalImageBitmap, width, height)
             wallpaperManager.setBitmap(scaledBitmap, null, false, WallpaperManager.FLAG_SYSTEM)
             wallpaperManager.setBitmap(scaledBitmap, null, false, WallpaperManager.FLAG_LOCK)
-        } catch (e: Exception) {
-            return@withContext false
-        }
-
-        try {
-            originalImageBitmap.recycle()
-            scaledBitmap.recycle()
+            true
         } catch (e: Exception) {
             e.printStackTrace()
+            false
+        } catch (e: OutOfMemoryError) {
+            false
+        } finally {
+            originalImageBitmap.recycle()
+            scaledBitmap?.recycle()
         }
-        true
     }
 }
 
@@ -430,22 +487,15 @@ suspend fun getTodaysWallpaper(wallType: String, firstOpenTime: Long): String {
                 String.format("%s_%s", month, day)
             }
 
-            val url = URL(Constants.URL_WALLPAPERS)
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
+            val response = downloadBytes(Constants.URL_WALLPAPERS, MAX_WALLPAPER_LIST_BYTES)
+                ?: return@withContext getBackupWallpaper(wallType)
 
-            val inputStream = connection.inputStream
-            val scanner = Scanner(inputStream)
-            val stringBuffer = StringBuffer()
-            while (scanner.hasNext()) {
-                stringBuffer.append(scanner.nextLine())
-            }
-
-            val json = JSONObject(stringBuffer.toString())
+            val json = JSONObject(String(response, Charsets.UTF_8))
             val wallpapers = json.getString(key)
             val wallpapersJson = JSONObject(wallpapers)
+            // The link is later opened from settings, so accept nothing but a plain https URL
             wallpaperUrl = wallpapersJson.getString(wallType)
+                .takeIf { isSecureWebUrl(it) } ?: getBackupWallpaper(wallType)
             wallpaperUrl
 
         } catch (e: Exception) {
@@ -501,6 +551,8 @@ fun openAlarmApp(context: Context) {
     }
 }
 
+// Lint matches ACTION_MAIN against our home filters, but the APP_CALENDAR category excludes them
+@SuppressLint("UnsafeImplicitIntentLaunch")
 fun openCalendar(context: Context) {
     try {
         val calendarUri = CalendarContract.CONTENT_URI
@@ -527,9 +579,23 @@ fun isAccessServiceEnabled(context: Context): Boolean {
     }
     if (enabled == 1) {
         val enabledServicesString: String? = Settings.Secure.getString(context.contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
-        return enabledServicesString?.contains(context.packageName + "/" + MyAccessibilityService::class.java.name) ?: false
+        return isServiceInEnabledList(enabledServicesString, context.packageName, MyAccessibilityService::class.java.name)
     }
     return false
+}
+
+/**
+ * [enabledServices] is the ':' separated list from ENABLED_ACCESSIBILITY_SERVICES. Each entry is a
+ * flattened component name, "package/full.ClassName" or "package/.ShortName". Compared exactly, so
+ * that another package whose name merely contains ours does not count.
+ */
+internal fun isServiceInEnabledList(enabledServices: String?, packageName: String, className: String): Boolean {
+    if (enabledServices.isNullOrBlank()) return false
+    return enabledServices.split(':').any { entry ->
+        val pkg = entry.trim().substringBefore('/', "")
+        val cls = entry.trim().substringAfter('/', "")
+        pkg == packageName && (if (cls.startsWith(".")) pkg + cls else cls) == className
+    }
 }
 
 fun isTablet(context: Context): Boolean {
@@ -556,11 +622,24 @@ fun Context.copyToClipboard(text: String) {
 }
 
 fun Context.openUrl(url: String) {
-    if (url.isEmpty()) return
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = Uri.parse(url)
-    startActivity(intent)
+    // Web links only: the daily wallpaper link comes from the network and must not reach other apps' intents
+    if (!isSecureWebUrl(url)) return
+    startActivitySafely(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }
+
+/** True only for an absolute https URL with a host and no user info. */
+fun isSecureWebUrl(url: String?): Boolean {
+    if (url.isNullOrBlank()) return false
+    return try {
+        val uri = URI(url)
+        uri.scheme.equals("https", ignoreCase = true) && !uri.host.isNullOrBlank() && uri.rawUserInfo == null
+    } catch (e: Exception) {
+        false
+    }
+}
+
+fun buildBangSearchUrl(query: String): String =
+    Constants.URL_DUCK_SEARCH + URLEncoder.encode(query, "UTF-8")
 
 fun Context.isSystemApp(packageName: String, user: UserHandle? = null): Boolean {
     if (packageName.isBlank()) return true
@@ -586,7 +665,7 @@ fun Context.isSystemApp(packageName: String, user: UserHandle? = null): Boolean 
 fun Context.uninstall(packageName: String) {
     val intent = Intent(Intent.ACTION_DELETE)
     intent.data = Uri.parse("package:$packageName")
-    startActivity(intent)
+    startActivitySafely(intent)
 }
 
 @ColorInt

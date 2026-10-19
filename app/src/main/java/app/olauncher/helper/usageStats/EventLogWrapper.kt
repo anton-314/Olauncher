@@ -177,7 +177,7 @@ class EventLogWrapper(private val context: Context) {
         moveToForegroundMap.forEach { (key, value) ->
             if (value != null) { // If it's a remaining start event
                 // Test if it's a foreground app (True unmatched open event)
-                if (foregroundProcesses.any { it.contains(key.packageName) }) {
+                if (foregroundProcesses.any { processBelongsToPackage(it, key.packageName) }) {
                     componentForegroundStats.add(
                         ComponentForegroundStat(
                             value,
@@ -275,9 +275,7 @@ class EventLogWrapper(private val context: Context) {
         // Group by package name, merge overlapping intervals, then sum durations
         val applicationTotalTime = foregroundStats
             .groupBy { it.packageName }
-            .mapValues { (_, stats) ->
-                mergeOverlappingIntervals(stats).sumOf { it.endTime - it.beginTime }
-            }
+            .mapValues { (_, stats) -> totalForegroundTime(stats) }
 
         val firstBeginTime = foregroundStats.first().beginTime
         val timeZoneOffset = Calendar.getInstance().timeZone.getOffset(firstBeginTime)
@@ -354,38 +352,16 @@ class EventLogWrapper(private val context: Context) {
     fun aggregateSimpleUsageStats(usageStats: List<SimpleUsageStat>): Long {
         return usageStats.sumOf { it.timeUsed }
     }
-    /**
-     * Merges overlapping or adjacent time intervals to prevent double-counting
-     * when multiple components of the same package have overlapping foreground times.
-     */
-    private fun mergeOverlappingIntervals(
-        stats: List<ComponentForegroundStat>
-    ): List<ComponentForegroundStat> {
-        if (stats.size <= 1) return stats
-
-        val sorted = stats.sortedBy { it.beginTime }
-        val merged = mutableListOf<ComponentForegroundStat>()
-        var current = sorted[0]
-
-        for (i in 1 until sorted.size) {
-            val next = sorted[i]
-            if (next.beginTime <= current.endTime) {
-                current = ComponentForegroundStat(
-                    current.beginTime,
-                    max(current.endTime, next.endTime),
-                    current.packageName
-                )
-            } else {
-                merged.add(current)
-                current = next
-            }
-        }
-        merged.add(current)
-        return merged
-    }
 
     /**
      * Stores a class name and its corresponding package.
      */
     private data class AppClass(val packageName: String, val className: String?)
 }
+
+/**
+ * A process is named after its package, optionally followed by ":name" for extra processes.
+ * A plain substring test would also match "com.app" against "com.app.other".
+ */
+internal fun processBelongsToPackage(processName: String, packageName: String): Boolean =
+    processName == packageName || processName.startsWith("$packageName:")

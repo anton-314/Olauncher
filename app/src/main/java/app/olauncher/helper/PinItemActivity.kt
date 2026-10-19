@@ -1,7 +1,9 @@
 package app.olauncher.helper
 
 import android.content.pm.LauncherApps
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import app.olauncher.R
 
@@ -12,8 +14,17 @@ class PinItemActivity : AppCompatActivity() {
         
         window.setBackgroundDrawable(null)
 
-        val launcherApps = getSystemService(LauncherApps::class.java)
-        val pinItemRequest = launcherApps.getPinItemRequest(intent)
+        // This activity is exported, so any app can start it with any intent. Pin requests exist only
+        // on Android 8+, and a crafted extra fails to unparcel; neither may crash the launcher process.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            finish()
+            return
+        }
+        val pinItemRequest = try {
+            getSystemService(LauncherApps::class.java).getPinItemRequest(intent)?.takeIf { it.isValid }
+        } catch (e: Exception) {
+            null
+        }
 
         when (pinItemRequest != null) {
             true -> handleRequestType(pinItemRequest)
@@ -23,6 +34,7 @@ class PinItemActivity : AppCompatActivity() {
         finish()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleRequestType(pinItemRequest: LauncherApps.PinItemRequest) {
         when (pinItemRequest.requestType) {
             LauncherApps.PinItemRequest.REQUEST_TYPE_SHORTCUT ->
@@ -35,8 +47,9 @@ class PinItemActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleShortcutRequest(pinItemRequest: LauncherApps.PinItemRequest) {
-        val shortcutInfo = pinItemRequest.shortcutInfo
+        val shortcutInfo = runCatching { pinItemRequest.shortcutInfo }.getOrNull()
         if (shortcutInfo != null) {
             val success = runCatching { pinItemRequest.accept() }.getOrDefault(false)
             val message = when (success) {

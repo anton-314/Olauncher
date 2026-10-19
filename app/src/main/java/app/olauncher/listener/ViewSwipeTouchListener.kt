@@ -23,6 +23,11 @@ internal open class ViewSwipeTouchListener(c: Context?, v: View) : OnTouchListen
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> view.isPressed = true
             MotionEvent.ACTION_UP -> view.isPressed = false
+            // A cancelled gesture (e.g. a parent took over the touch) must not stay pressed or fire a long press
+            MotionEvent.ACTION_CANCEL -> {
+                view.isPressed = false
+                longPressOn = false
+            }
         }
         return gestureDetector.onTouchEvent(motionEvent)
     }
@@ -50,7 +55,8 @@ internal open class ViewSwipeTouchListener(c: Context?, v: View) : OnTouchListen
             GlobalScope.launch {
                 delay(Constants.LONG_PRESS_DELAY_MS)
                 withContext(Dispatchers.Main) {
-                    if (isActive && longPressOn)
+                    // The screen may be gone by now, e.g. after the user navigated away
+                    if (isActive && longPressOn && view.isAttachedToWindow)
                         onLongClick(view)
                 }
             }
