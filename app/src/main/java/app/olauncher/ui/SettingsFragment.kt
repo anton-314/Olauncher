@@ -14,6 +14,9 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
@@ -274,29 +277,49 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         val context = requireContext()
         when {
             !AnkiDroid.isInstalled(context) -> context.showToast(getString(R.string.ankidroid_not_installed))
-            !AnkiDroid.hasPermission(context) -> ankiPermission.launch(AnkiDroid.PERMISSION)
+            !AnkiDroid.hasPermission(context) -> {
+                viewModel.isAwayForPermission = true
+                ankiPermission.launch(AnkiDroid.PERMISSION)
+            }
             else -> showAnkiDeckMenu()
         }
     }
 
+    // A dialog rather than a popup menu: the row sits at the bottom of the screen and decks can be many
     private fun showAnkiDeckMenu() {
         val context = requireContext().applicationContext
         viewLifecycleOwner.lifecycleScope.launch {
             val decks = withContext(Dispatchers.IO) { AnkiDroid.getDecks(context) }
             if (!isShowing()) return@launch
-            binding.ankiDeck.showPopupMenu(
-                configure = { menu ->
-                    menu.add(Menu.NONE, 0, 0, R.string.off)
-                    decks.forEachIndexed { i, deck -> menu.add(Menu.NONE, i + 1, i + 1, deck.name) }
+            val rows = mutableListOf<Pair<TextView, AnkiDroid.Deck?>>()
+            val dialog = requireContext().createDialog(R.string.anki_deck, R.string.close) { container ->
+                ScrollView(container.context).apply {
+                    addView(LinearLayout(container.context).apply {
+                        orientation = LinearLayout.VERTICAL
+                        (listOf(null) + decks).forEach { deck ->
+                            val row = layoutInflater.inflate(R.layout.item_dialog_choice, this, false) as TextView
+                            row.text = deck?.name ?: getString(R.string.off)
+                            addView(row)
+                            rows.add(row to deck)
+                        }
+                    })
                 }
-            ) { item ->
-                val deck = decks.getOrNull(item.itemId - 1)
-                prefs.ankiDeckId = deck?.id ?: 0L
-                prefs.ankiDeckName = deck?.name.orEmpty()
-                populateAnki()
-                if (deck != null && !AnkiDroid.canReadMedia(context)) showMediaAccessDialog()
             }
+            rows.forEach { (row, deck) ->
+                row.setOnClickListener {
+                    dialog.dismiss()
+                    selectAnkiDeck(deck)
+                }
+            }
+            showDialog(dialog)
         }
+    }
+
+    private fun selectAnkiDeck(deck: AnkiDroid.Deck?) {
+        prefs.ankiDeckId = deck?.id ?: 0L
+        prefs.ankiDeckName = deck?.name.orEmpty()
+        populateAnki()
+        if (deck != null && !AnkiDroid.canReadMedia(requireContext())) showMediaAccessDialog()
     }
 
     // Images in cards are read from the AnkiDroid folder; the cards still work without them
@@ -317,9 +340,13 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
                 Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
                 "package:${requireContext().packageName}".toUri()
             )
-            if (!requireContext().startActivitySafely(intent))
+            viewModel.isAwayForPermission = true
+            if (!requireContext().startActivitySafely(intent)) {
+                viewModel.isAwayForPermission = false
                 requireContext().showToast(R.string.unable_to_open_app)
+            }
         } else {
+            viewModel.isAwayForPermission = true
             storagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
     }

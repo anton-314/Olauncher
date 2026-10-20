@@ -80,6 +80,12 @@ class BreathingPauseActivity : AppCompatActivity() {
     private var cardShownAt = 0L
     private var cardView: WebView? = null
 
+    // Read once before the first WebView exists: creating one resets the activity's configuration,
+    // after which the theme reads as light (card text black on black) and the language may change
+    private var cardTextColor = ""
+    private var cardNightMode = false
+    private var answerLabels = emptyList<String>()
+
     private val countdown = object : Runnable {
         override fun run() {
             val openLabel = getString(R.string.open_app)
@@ -120,6 +126,11 @@ class BreathingPauseActivity : AppCompatActivity() {
         binding = ActivityBreathingPauseBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (!prefs.showStatusBar) window.hideStatusBar()
+
+        cardTextColor = String.format(Locale.ROOT, "#%06X", 0xFFFFFF and getColorFromAttr(R.attr.primaryColor))
+        cardNightMode = isDarkThemeOn()
+        answerLabels = listOf(R.string.anki_again, R.string.anki_hard, R.string.anki_good, R.string.anki_easy)
+            .map { getString(it) }
 
         val label = intent.getStringExtra(EXTRA_LABEL) ?: appLabel(appPackage)
         binding.tvMessage.text = getString(R.string.breathing_pause_message, label)
@@ -222,16 +233,13 @@ class BreathingPauseActivity : AppCompatActivity() {
         val content = cardContent ?: return
         loadCardPage(content.answer, content.css)
         val times = ankiCards[ankiIndex].nextReviewTimes
-        listOf(
-            binding.answerAgain to R.string.anki_again,
-            binding.answerHard to R.string.anki_hard,
-            binding.answerGood to R.string.anki_good,
-            binding.answerEasy to R.string.anki_easy,
-        ).forEachIndexed { i, (button, label) ->
-            button.text = SpannableStringBuilder(getString(label)).apply {
-                times.getOrNull(i)?.let { time -> append("\n").inSpans(RelativeSizeSpan(0.75f)) { append(time) } }
+        listOf(binding.answerAgain, binding.answerHard, binding.answerGood, binding.answerEasy)
+            .zip(answerLabels)
+            .forEachIndexed { i, (button, label) ->
+                button.text = SpannableStringBuilder(label).apply {
+                    times.getOrNull(i)?.let { time -> append("\n").inSpans(RelativeSizeSpan(0.75f)) { append(time) } }
+                }
             }
-        }
         binding.tvShowAnswer.isVisible = false
         binding.answerButtons.isInvisible = false
     }
@@ -250,8 +258,7 @@ class BreathingPauseActivity : AppCompatActivity() {
     }
 
     private fun loadCardPage(content: String, css: String) {
-        val textColor = String.format(Locale.ROOT, "#%06X", 0xFFFFFF and getColorFromAttr(R.attr.primaryColor))
-        val page = AnkiCardHtml.build(content, css, textColor, isDarkThemeOn())
+        val page = AnkiCardHtml.build(content, css, cardTextColor, cardNightMode)
         val view = cardView ?: createCardView().also { cardView = it }
         view.loadDataWithBaseURL(AnkiCardHtml.BASE_URL, page, "text/html", "utf-8", null)
     }
@@ -276,10 +283,14 @@ class BreathingPauseActivity : AppCompatActivity() {
         private val mediaDirectory: File,
     ) : WebViewClient() {
 
-        // Links in a card don't navigate away from it
-        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = true
+        // Links in a card don't navigate away from it; the card page itself loads without a gesture
+        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) =
+            request.hasGesture() || request.url.host != AnkiCardHtml.HOST
 
-        override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse {
+        override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
+            // The card page itself: WebView loads the string as a data: URL. Navigations away from
+            // it are cancelled in shouldOverrideUrlLoading.
+            if (request.isForMainFrame) return null
             val url = request.url
             if (url.host != AnkiCardHtml.HOST) return notFound()
             val path = url.path.orEmpty()

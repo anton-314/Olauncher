@@ -64,6 +64,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // Suppress backToHomeScreen during Private Space lock/unlock auth
     var isPrivateSpaceToggling = false
 
+    // Keeps settings open while a permission screen started from it is in front
+    var isAwayForPermission = false
+
     val showDialog = SingleLiveEvent<String>()
     val showBreathingPause = SingleLiveEvent<AppModel>()
     // The app waiting behind the breathing pause screen, kept here to survive activity recreation
