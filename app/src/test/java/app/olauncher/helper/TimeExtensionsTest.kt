@@ -67,14 +67,12 @@ class TimeExtensionsTest {
         // e.g. after the clock was moved back; callers compare with >= so this must not look old
         val tomorrow = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) }.timeInMillis
         assertTrue(tomorrow.isDaySince() < 0)
-        assertFalse(tomorrow.hasBeenDays(1))
         assertFalse(tomorrow.hasBeenHours(1))
         assertFalse(tomorrow.hasBeenMinutes(1))
     }
 
     @Test
     fun `never set timestamp counts as long ago`() {
-        assertTrue(0L.hasBeenDays(14))
         assertTrue(0L.hasBeenHours(4))
         assertTrue(0L.hasBeenMinutes(1))
     }

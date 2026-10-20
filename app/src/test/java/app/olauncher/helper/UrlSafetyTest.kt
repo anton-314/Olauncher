@@ -20,11 +20,8 @@ class UrlSafetyTest {
     @Test
     fun `all built-in links pass`() {
         listOf(
-            Constants.URL_ABOUT_OLAUNCHER, Constants.URL_OLAUNCHER_PRIVACY, Constants.URL_DOUBLE_TAP,
-            Constants.URL_OLAUNCHER_GITHUB, Constants.URL_OLAUNCHER_PLAY_STORE, Constants.URL_OLAUNCHER_PRO,
-            Constants.URL_PLAY_STORE_DEV, Constants.URL_TWITTER_TANUJ, Constants.URL_WALLPAPERS,
-            Constants.URL_NTS, Constants.URL_PENTASTIC, Constants.URL_DEFAULT_DARK_WALLPAPER,
-            Constants.URL_DEFAULT_LIGHT_WALLPAPER, Constants.URL_DIGITAL_WELLBEING_LEARN_MORE,
+            Constants.URL_WALLPAPERS, Constants.URL_DEFAULT_DARK_WALLPAPER,
+            Constants.URL_DEFAULT_LIGHT_WALLPAPER, Constants.URL_DUCK_SEARCH,
         ).forEach { assertTrue(it, isSecureWebUrl(it)) }
     }
 

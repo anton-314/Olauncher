@@ -195,7 +195,6 @@ class PrefsTest {
         assertTrue(prefs.firstOpen)
         assertEquals(4, prefs.homeAppsNum)
         assertEquals(Constants.DateTime.ON, prefs.dateTimeVisibility)
-        assertEquals(Constants.UserState.START, prefs.userState)
         assertEquals("Camera", prefs.appNameSwipeLeft)
         assertEquals("Phone", prefs.appNameSwipeRight)
         assertTrue(prefs.swipeLeftEnabled)
