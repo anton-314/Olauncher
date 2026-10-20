@@ -122,4 +122,14 @@
     <string name="breathing_pause">Respiră</string>
     <string name="breathing_pause_message">Respiră adânc. Chiar vrei să deschizi %1$s acum?</string>
     <string name="open_app">Deschide</string>
+    <string name="anki_deck">Pachet Anki</string>
+    <string name="anki_cards">Carduri Anki pe pauză</string>
+    <string name="show_answer">Arată răspunsul</string>
+    <string name="anki_again">Din nou</string>
+    <string name="anki_hard">Greu</string>
+    <string name="anki_good">Bine</string>
+    <string name="anki_easy">Ușor</string>
+    <string name="ankidroid_not_installed">AnkiDroid nu este instalat</string>
+    <string name="anki_permission_needed">Olauncher are nevoie de acces la AnkiDroid pentru a afișa carduri</string>
+    <string name="anki_media_access_message">Permite-i lui Olauncher să citească folderul AnkiDroid ca să afișeze imaginile cardurilor. Fără acest acces, cardurile apar fără imagini.</string>
 </resources>

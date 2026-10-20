@@ -122,4 +122,14 @@
     <string name="breathing_pause">Hengähdystauko</string>
     <string name="breathing_pause_message">Hengitä syvään. Haluatko todella avata sovelluksen %1$s nyt?</string>
     <string name="open_app">Avaa</string>
+    <string name="anki_deck">Anki-pakka</string>
+    <string name="anki_cards">Anki-kortteja taukoa kohden</string>
+    <string name="show_answer">Näytä vastaus</string>
+    <string name="anki_again">Uudelleen</string>
+    <string name="anki_hard">Vaikea</string>
+    <string name="anki_good">Hyvä</string>
+    <string name="anki_easy">Helppo</string>
+    <string name="ankidroid_not_installed">AnkiDroidia ei ole asennettu</string>
+    <string name="anki_permission_needed">Olauncher tarvitsee pääsyn AnkiDroidiin korttien näyttämiseksi</string>
+    <string name="anki_media_access_message">Salli Olauncherin lukea AnkiDroid-kansiota, jotta korttien kuvat näkyvät. Ilman tätä käyttöoikeutta kortit näytetään ilman kuvia.</string>
 </resources>

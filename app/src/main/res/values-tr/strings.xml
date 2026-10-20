@@ -125,4 +125,14 @@
     <string name="breathing_pause">Nefes molası</string>
     <string name="breathing_pause_message">Derin bir nefes al. %1$s uygulamasını şimdi gerçekten açmak istiyor musun?</string>
     <string name="open_app">Aç</string>
+    <string name="anki_deck">Anki destesi</string>
+    <string name="anki_cards">Mola başına Anki kartı</string>
+    <string name="show_answer">Cevabı göster</string>
+    <string name="anki_again">Tekrar</string>
+    <string name="anki_hard">Zor</string>
+    <string name="anki_good">İyi</string>
+    <string name="anki_easy">Kolay</string>
+    <string name="ankidroid_not_installed">AnkiDroid yüklü değil</string>
+    <string name="anki_permission_needed">Olauncher\'ın kartları göstermek için AnkiDroid erişimine ihtiyacı var</string>
+    <string name="anki_media_access_message">Kartların resimlerini göstermesi için Olauncher\'ın AnkiDroid klasörünü okumasına izin ver. Bu erişim olmadan kartlar resimsiz gösterilir.</string>
 </resources><!-- Turkish -->

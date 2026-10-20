@@ -120,4 +120,14 @@
     <string name="breathing_pause">הפסקת נשימה</string>
     <string name="breathing_pause_message">קחו נשימה עמוקה. באמת לפתוח את %1$s עכשיו?</string>
     <string name="open_app">פתיחה</string>
+    <string name="anki_deck">חפיסת Anki</string>
+    <string name="anki_cards">כרטיסי Anki לכל השהיה</string>
+    <string name="show_answer">הצגת התשובה</string>
+    <string name="anki_again">שוב</string>
+    <string name="anki_hard">קשה</string>
+    <string name="anki_good">טוב</string>
+    <string name="anki_easy">קל</string>
+    <string name="ankidroid_not_installed">AnkiDroid לא מותקנת</string>
+    <string name="anki_permission_needed">Olauncher צריכה גישה ל-AnkiDroid כדי להציג כרטיסים</string>
+    <string name="anki_media_access_message">יש לאפשר ל-Olauncher לקרוא את תיקיית AnkiDroid כדי שהכרטיסים יציגו את התמונות שלהם. ללא גישה זו הכרטיסים מוצגים ללא תמונות.</string>
 </resources>

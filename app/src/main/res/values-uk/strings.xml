@@ -125,4 +125,14 @@
     <string name="breathing_pause">Перепочинок</string>
     <string name="breathing_pause_message">Зроби глибокий вдих. Справді відкрити %1$s зараз?</string>
     <string name="open_app">Відкрити</string>
+    <string name="anki_deck">Колода Anki</string>
+    <string name="anki_cards">Карток Anki за паузу</string>
+    <string name="show_answer">Показати відповідь</string>
+    <string name="anki_again">Знову</string>
+    <string name="anki_hard">Важко</string>
+    <string name="anki_good">Добре</string>
+    <string name="anki_easy">Легко</string>
+    <string name="ankidroid_not_installed">AnkiDroid не встановлено</string>
+    <string name="anki_permission_needed">Olauncher потрібен доступ до AnkiDroid, щоб показувати картки</string>
+    <string name="anki_media_access_message">Дозволь Olauncher читати папку AnkiDroid, щоб картки показували зображення. Без цього доступу картки показуються без зображень.</string>
 </resources><!-- Ukrainian -->

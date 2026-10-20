@@ -124,4 +124,14 @@
     <string name="breathing_pause">Oddech</string>
     <string name="breathing_pause_message">Głęboki wdech. Na pewno otworzyć teraz %1$s?</string>
     <string name="open_app">Otwórz</string>
+    <string name="anki_deck">Talia Anki</string>
+    <string name="anki_cards">Karty Anki na przerwę</string>
+    <string name="show_answer">Pokaż odpowiedź</string>
+    <string name="anki_again">Ponownie</string>
+    <string name="anki_hard">Trudne</string>
+    <string name="anki_good">Dobre</string>
+    <string name="anki_easy">Łatwe</string>
+    <string name="ankidroid_not_installed">AnkiDroid nie jest zainstalowany</string>
+    <string name="anki_permission_needed">Olauncher potrzebuje dostępu do AnkiDroid, aby wyświetlać karty</string>
+    <string name="anki_media_access_message">Zezwól Olauncherowi na odczyt folderu AnkiDroid, aby karty pokazywały obrazy. Bez tego dostępu karty są wyświetlane bez obrazów.</string>
 </resources><!-- Polish -->

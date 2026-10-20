@@ -122,4 +122,14 @@
     <string name="breathing_pause">พักหายใจ</string>
     <string name="breathing_pause_message">หายใจลึก ๆ คุณต้องการเปิด %1$s ตอนนี้จริง ๆ หรือ?</string>
     <string name="open_app">เปิด</string>
+    <string name="anki_deck">สำรับ Anki</string>
+    <string name="anki_cards">การ์ด Anki ต่อการพัก</string>
+    <string name="show_answer">แสดงคำตอบ</string>
+    <string name="anki_again">อีกครั้ง</string>
+    <string name="anki_hard">ยาก</string>
+    <string name="anki_good">ดี</string>
+    <string name="anki_easy">ง่าย</string>
+    <string name="ankidroid_not_installed">ไม่ได้ติดตั้ง AnkiDroid</string>
+    <string name="anki_permission_needed">Olauncher ต้องเข้าถึง AnkiDroid เพื่อแสดงการ์ด</string>
+    <string name="anki_media_access_message">อนุญาตให้ Olauncher อ่านโฟลเดอร์ AnkiDroid เพื่อให้การ์ดแสดงรูปภาพ หากไม่อนุญาต การ์ดจะแสดงโดยไม่มีรูปภาพ</string>
 </resources>

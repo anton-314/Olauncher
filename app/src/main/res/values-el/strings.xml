@@ -122,4 +122,14 @@
     <string name="breathing_pause">Ανάσα</string>
     <string name="breathing_pause_message">Πάρε μια βαθιά ανάσα. Θέλεις σίγουρα να ανοίξεις το %1$s τώρα;</string>
     <string name="open_app">Άνοιγμα</string>
+    <string name="anki_deck">Τράπουλα Anki</string>
+    <string name="anki_cards">Κάρτες Anki ανά παύση</string>
+    <string name="show_answer">Εμφάνιση απάντησης</string>
+    <string name="anki_again">Ξανά</string>
+    <string name="anki_hard">Δύσκολο</string>
+    <string name="anki_good">Καλό</string>
+    <string name="anki_easy">Εύκολο</string>
+    <string name="ankidroid_not_installed">Το AnkiDroid δεν είναι εγκατεστημένο</string>
+    <string name="anki_permission_needed">Το Olauncher χρειάζεται πρόσβαση στο AnkiDroid για να εμφανίζει κάρτες</string>
+    <string name="anki_media_access_message">Επιτρέψτε στο Olauncher να διαβάζει τον φάκελο του AnkiDroid ώστε οι κάρτες να δείχνουν τις εικόνες τους. Χωρίς αυτή την πρόσβαση οι κάρτες εμφανίζονται χωρίς εικόνες.</string>
 </resources>

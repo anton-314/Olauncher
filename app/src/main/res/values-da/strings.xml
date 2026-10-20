@@ -122,4 +122,14 @@
     <string name="breathing_pause">Åndepause</string>
     <string name="breathing_pause_message">Tag en dyb indånding. Vil du virkelig åbne %1$s nu?</string>
     <string name="open_app">Åbn</string>
+    <string name="anki_deck">Anki-kortsæt</string>
+    <string name="anki_cards">Anki-kort pr. pause</string>
+    <string name="show_answer">Vis svar</string>
+    <string name="anki_again">Igen</string>
+    <string name="anki_hard">Svært</string>
+    <string name="anki_good">Godt</string>
+    <string name="anki_easy">Let</string>
+    <string name="ankidroid_not_installed">AnkiDroid er ikke installeret</string>
+    <string name="anki_permission_needed">Olauncher skal have adgang til AnkiDroid for at vise kort</string>
+    <string name="anki_media_access_message">Giv Olauncher lov til at læse AnkiDroid-mappen, så kortene viser deres billeder. Uden denne adgang vises kortene uden billeder.</string>
 </resources>

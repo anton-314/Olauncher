@@ -137,6 +137,18 @@ class PrefsTest {
     }
 
     @Test
+    fun `anki review is off by default and the card count stays within 1 to 3`() {
+        assertEquals(0L, prefs.ankiDeckId)
+        assertEquals(2, prefs.ankiCardCount)
+        prefs.ankiCardCount = 3
+        assertEquals(3, prefs.ankiCardCount)
+        prefs.ankiCardCount = 7
+        assertEquals(3, prefs.ankiCardCount)
+        prefs.ankiCardCount = 0
+        assertEquals(1, prefs.ankiCardCount)
+    }
+
+    @Test
     fun `hidden apps getter returns a copy that does not change the stored set`() {
         prefs.hiddenApps = mutableSetOf("a|UserHandle{0}")
         val hidden = prefs.hiddenApps

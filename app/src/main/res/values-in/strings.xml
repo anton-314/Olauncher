@@ -124,4 +124,14 @@
     <string name="breathing_pause">Tarik napas</string>
     <string name="breathing_pause_message">Tarik napas dalam-dalam. Yakin ingin membuka %1$s sekarang?</string>
     <string name="open_app">Buka</string>
+    <string name="anki_deck">Dek Anki</string>
+    <string name="anki_cards">Kartu Anki per jeda</string>
+    <string name="show_answer">Tampilkan jawaban</string>
+    <string name="anki_again">Ulangi</string>
+    <string name="anki_hard">Sulit</string>
+    <string name="anki_good">Baik</string>
+    <string name="anki_easy">Mudah</string>
+    <string name="ankidroid_not_installed">AnkiDroid tidak terpasang</string>
+    <string name="anki_permission_needed">Olauncher memerlukan akses ke AnkiDroid untuk menampilkan kartu</string>
+    <string name="anki_media_access_message">Izinkan Olauncher membaca folder AnkiDroid agar kartu menampilkan gambarnya. Tanpa akses ini, kartu ditampilkan tanpa gambar.</string>
 </resources><!-- Indonesian -->

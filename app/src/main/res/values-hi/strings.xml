@@ -122,4 +122,14 @@
     <string name="breathing_pause">साँस लें</string>
     <string name="breathing_pause_message">गहरी साँस लें। क्या आप सच में अभी %1$s खोलना चाहते हैं?</string>
     <string name="open_app">खोलें</string>
+    <string name="anki_deck">Anki डेक</string>
+    <string name="anki_cards">हर विराम में Anki कार्ड</string>
+    <string name="show_answer">उत्तर दिखाएँ</string>
+    <string name="anki_again">फिर से</string>
+    <string name="anki_hard">कठिन</string>
+    <string name="anki_good">अच्छा</string>
+    <string name="anki_easy">आसान</string>
+    <string name="ankidroid_not_installed">AnkiDroid इंस्टॉल नहीं है</string>
+    <string name="anki_permission_needed">कार्ड दिखाने के लिए Olauncher को AnkiDroid की पहुँच चाहिए</string>
+    <string name="anki_media_access_message">Olauncher को AnkiDroid फ़ोल्डर पढ़ने दें, ताकि कार्ड अपनी तस्वीरें दिखा सकें। इस पहुँच के बिना कार्ड बिना तस्वीरों के दिखेंगे।</string>
 </resources>

@@ -125,4 +125,14 @@
     <string name="breathing_pause">ひと呼吸</string>
     <string name="breathing_pause_message">深呼吸しましょう。本当に今 %1$s を開きますか？</string>
     <string name="open_app">開く</string>
+    <string name="anki_deck">Anki デッキ</string>
+    <string name="anki_cards">休憩ごとの Anki カード</string>
+    <string name="show_answer">解答を表示</string>
+    <string name="anki_again">もう一度</string>
+    <string name="anki_hard">難しい</string>
+    <string name="anki_good">正解</string>
+    <string name="anki_easy">簡単</string>
+    <string name="ankidroid_not_installed">AnkiDroid がインストールされていません</string>
+    <string name="anki_permission_needed">カードを表示するには Olauncher に AnkiDroid へのアクセスが必要です</string>
+    <string name="anki_media_access_message">カードの画像を表示するため、Olauncher に AnkiDroid フォルダの読み取りを許可してください。許可しない場合、カードは画像なしで表示されます。</string>
 </resources> <!-- Japanese -->

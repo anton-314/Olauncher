@@ -1,5 +1,6 @@
 package app.olauncher.ui
 
+import android.Manifest
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
@@ -14,9 +15,13 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import app.olauncher.BuildConfig
 import app.olauncher.MainViewModel
@@ -25,6 +30,8 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.DialogTextSizeBinding
 import app.olauncher.databinding.FragmentSettingsBinding
+import app.olauncher.helper.AnkiDroid
+import app.olauncher.helper.OlDialog
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.createDialog
 import app.olauncher.helper.getColorFromAttr
@@ -38,12 +45,14 @@ import app.olauncher.helper.isTablet
 import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openUrl
 import app.olauncher.helper.setPlainWallpaper
-import app.olauncher.helper.OlDialog
 import app.olauncher.helper.showPopupMenu
 import app.olauncher.helper.showStatusBar
 import app.olauncher.helper.showToast
 import app.olauncher.helper.startActivitySafely
 import app.olauncher.listener.DeviceAdmin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListener {
 
@@ -55,6 +64,14 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     private lateinit var componentName: ComponentName
 
     private var _binding: FragmentSettingsBinding? = null
+
+    private val ankiPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) showAnkiDeckMenu()
+        else requireContext().showToast(getString(R.string.anki_permission_needed))
+    }
+
+    // Below Android 11 storage is a runtime permission; above, the all files access settings page
+    private val storagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
     private val binding get() = _binding!!
     private var dialog: OlDialog? = null
 
@@ -86,6 +103,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         populateStatusBar()
         populateDateTime()
         populateSwipeApps()
+        populateAnki()
         initClickListeners()
         initObservers()
     }
@@ -109,6 +127,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             R.id.appThemeText -> showAppThemeMenu(view, showSystem = false)
             R.id.textSizeValue -> showTextSizeDialog()
             R.id.boldFont -> toggleBoldFont()
+            R.id.ankiDeck -> selectAnkiDeck()
+            R.id.ankiCardCount -> showAnkiCardCountMenu(view)
 
             R.id.swipeLeftApp -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_LEFT_APP)
             R.id.swipeRightApp -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_RIGHT_APP)
@@ -161,6 +181,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         binding.appThemeText.setOnClickListener(this)
         binding.textSizeValue.setOnClickListener(this)
         binding.boldFont.setOnClickListener(this)
+        binding.ankiDeck.setOnClickListener(this)
+        binding.ankiCardCount.setOnClickListener(this)
 
         binding.dailyWallpaper.setOnLongClickListener(this)
         binding.alignment.setOnLongClickListener(this)
@@ -233,6 +255,80 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
                 R.id.themeSystem -> updateTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
         }
+    }
+
+    private fun showAnkiCardCountMenu(anchor: View) {
+        anchor.showPopupMenu(
+            configure = { menu ->
+                for (num in 1..3) menu.add(Menu.NONE, num, num, num.toString())
+            }
+        ) { item ->
+            prefs.ankiCardCount = item.itemId
+            populateAnki()
+        }
+    }
+
+    // Anki
+
+    private fun selectAnkiDeck() {
+        val context = requireContext()
+        when {
+            !AnkiDroid.isInstalled(context) -> context.showToast(getString(R.string.ankidroid_not_installed))
+            !AnkiDroid.hasPermission(context) -> ankiPermission.launch(AnkiDroid.PERMISSION)
+            else -> showAnkiDeckMenu()
+        }
+    }
+
+    private fun showAnkiDeckMenu() {
+        val context = requireContext().applicationContext
+        viewLifecycleOwner.lifecycleScope.launch {
+            val decks = withContext(Dispatchers.IO) { AnkiDroid.getDecks(context) }
+            if (!isShowing()) return@launch
+            binding.ankiDeck.showPopupMenu(
+                configure = { menu ->
+                    menu.add(Menu.NONE, 0, 0, R.string.off)
+                    decks.forEachIndexed { i, deck -> menu.add(Menu.NONE, i + 1, i + 1, deck.name) }
+                }
+            ) { item ->
+                val deck = decks.getOrNull(item.itemId - 1)
+                prefs.ankiDeckId = deck?.id ?: 0L
+                prefs.ankiDeckName = deck?.name.orEmpty()
+                populateAnki()
+                if (deck != null && !AnkiDroid.canReadMedia(context)) showMediaAccessDialog()
+            }
+        }
+    }
+
+    // Images in cards are read from the AnkiDroid folder; the cards still work without them
+    private fun showMediaAccessDialog() {
+        showDialog(
+            requireContext().createDialog(
+                R.string.anki_deck,
+                R.string.permission,
+                message = R.string.anki_media_access_message,
+                onAction = { requestMediaAccess() }
+            )
+        )
+    }
+
+    private fun requestMediaAccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                "package:${requireContext().packageName}".toUri()
+            )
+            if (!requireContext().startActivitySafely(intent))
+                requireContext().showToast(R.string.unable_to_open_app)
+        } else {
+            storagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun populateAnki() {
+        val deckOn = prefs.ankiDeckId != 0L
+        binding.ankiDeck.text = if (deckOn) prefs.ankiDeckName else getString(R.string.off)
+        binding.ankiCardCountLayout.isVisible = deckOn
+        binding.ankiCardCount.text = prefs.ankiCardCount.toString()
     }
 
     // Dialogs

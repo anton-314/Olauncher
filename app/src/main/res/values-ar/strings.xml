@@ -123,4 +123,14 @@
     <string name="breathing_pause">استراحة تنفس</string>
     <string name="breathing_pause_message">خذ نفسًا عميقًا. هل تريد حقًا فتح %1$s الآن؟</string>
     <string name="open_app">فتح</string>
+    <string name="anki_deck">مجموعة Anki</string>
+    <string name="anki_cards">بطاقات Anki لكل استراحة</string>
+    <string name="show_answer">إظهار الإجابة</string>
+    <string name="anki_again">مجددًا</string>
+    <string name="anki_hard">صعب</string>
+    <string name="anki_good">جيد</string>
+    <string name="anki_easy">سهل</string>
+    <string name="ankidroid_not_installed">AnkiDroid غير مثبّت</string>
+    <string name="anki_permission_needed">يحتاج Olauncher إلى الوصول إلى AnkiDroid لعرض البطاقات</string>
+    <string name="anki_media_access_message">اسمح لـ Olauncher بقراءة مجلد AnkiDroid لكي تعرض البطاقات صورها. بدون هذا الوصول تظهر البطاقات بدون صور.</string>
 </resources>

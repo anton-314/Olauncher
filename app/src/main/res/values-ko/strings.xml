@@ -120,4 +120,14 @@
     <string name="breathing_pause">숨 고르기</string>
     <string name="breathing_pause_message">심호흡을 해 보세요. 정말 지금 %1$s을(를) 여시겠어요?</string>
     <string name="open_app">열기</string>
+    <string name="anki_deck">Anki 덱</string>
+    <string name="anki_cards">쉬는 시간마다 Anki 카드</string>
+    <string name="show_answer">정답 보기</string>
+    <string name="anki_again">다시</string>
+    <string name="anki_hard">어려움</string>
+    <string name="anki_good">좋음</string>
+    <string name="anki_easy">쉬움</string>
+    <string name="ankidroid_not_installed">AnkiDroid가 설치되어 있지 않습니다</string>
+    <string name="anki_permission_needed">카드를 표시하려면 Olauncher에 AnkiDroid 접근 권한이 필요합니다</string>
+    <string name="anki_media_access_message">카드의 이미지를 표시하려면 Olauncher가 AnkiDroid 폴더를 읽도록 허용하세요. 허용하지 않으면 카드가 이미지 없이 표시됩니다.</string>
 </resources>

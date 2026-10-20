@@ -125,4 +125,14 @@
     <string name="breathing_pause">Predah</string>
     <string name="breathing_pause_message">Duboko udahnite. Želite li stvarno sada otvoriti %1$s?</string>
     <string name="open_app">Otvori</string>
+    <string name="anki_deck">Anki špil</string>
+    <string name="anki_cards">Anki kartice po pauzi</string>
+    <string name="show_answer">Prikaži odgovor</string>
+    <string name="anki_again">Ponovno</string>
+    <string name="anki_hard">Teško</string>
+    <string name="anki_good">Dobro</string>
+    <string name="anki_easy">Lako</string>
+    <string name="ankidroid_not_installed">AnkiDroid nije instaliran</string>
+    <string name="anki_permission_needed">Olauncher treba pristup AnkiDroidu za prikaz kartica</string>
+    <string name="anki_media_access_message">Dopustite Olauncheru čitanje mape AnkiDroid kako bi kartice prikazivale svoje slike. Bez tog pristupa kartice se prikazuju bez slika.</string>
 </resources><!-- Croatian -->

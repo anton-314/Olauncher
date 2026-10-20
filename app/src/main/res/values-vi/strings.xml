@@ -122,4 +122,14 @@
     <string name="breathing_pause">Hít thở</string>
     <string name="breathing_pause_message">Hãy hít thở sâu. Bạn có thật sự muốn mở %1$s bây giờ không?</string>
     <string name="open_app">Mở</string>
+    <string name="anki_deck">Bộ thẻ Anki</string>
+    <string name="anki_cards">Số thẻ Anki mỗi lần nghỉ</string>
+    <string name="show_answer">Hiện đáp án</string>
+    <string name="anki_again">Lại</string>
+    <string name="anki_hard">Khó</string>
+    <string name="anki_good">Tốt</string>
+    <string name="anki_easy">Dễ</string>
+    <string name="ankidroid_not_installed">Chưa cài đặt AnkiDroid</string>
+    <string name="anki_permission_needed">Olauncher cần quyền truy cập AnkiDroid để hiển thị thẻ</string>
+    <string name="anki_media_access_message">Cho phép Olauncher đọc thư mục AnkiDroid để thẻ hiển thị hình ảnh. Nếu không có quyền này, thẻ sẽ hiển thị không có hình ảnh.</string>
 </resources>

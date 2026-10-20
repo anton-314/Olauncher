@@ -144,4 +144,14 @@
     <string name="breathing_pause">Breathing pause</string>
     <string name="breathing_pause_message">Take a deep breath. Do you really want to open %1$s now?</string>
     <string name="open_app">Open</string>
+    <string name="anki_deck">Anki deck</string>
+    <string name="anki_cards">Anki cards per pause</string>
+    <string name="show_answer">Show answer</string>
+    <string name="anki_again">Again</string>
+    <string name="anki_hard">Hard</string>
+    <string name="anki_good">Good</string>
+    <string name="anki_easy">Easy</string>
+    <string name="ankidroid_not_installed">AnkiDroid is not installed</string>
+    <string name="anki_permission_needed">Olauncher needs access to AnkiDroid to show cards</string>
+    <string name="anki_media_access_message">Allow Olauncher to read the AnkiDroid folder so that cards show their images. Without this access, cards are shown without images.</string>
 </resources>

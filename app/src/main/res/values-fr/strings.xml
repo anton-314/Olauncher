@@ -124,4 +124,14 @@
     <string name="breathing_pause">Pause respiration</string>
     <string name="breathing_pause_message">Prenez une grande inspiration. Voulez-vous vraiment ouvrir %1$s maintenant ?</string>
     <string name="open_app">Ouvrir</string>
+    <string name="anki_deck">Paquet Anki</string>
+    <string name="anki_cards">Cartes Anki par pause</string>
+    <string name="show_answer">Afficher la réponse</string>
+    <string name="anki_again">À revoir</string>
+    <string name="anki_hard">Difficile</string>
+    <string name="anki_good">Correct</string>
+    <string name="anki_easy">Facile</string>
+    <string name="ankidroid_not_installed">AnkiDroid n\'est pas installé</string>
+    <string name="anki_permission_needed">Olauncher a besoin d\'accéder à AnkiDroid pour afficher les cartes</string>
+    <string name="anki_media_access_message">Autorisez Olauncher à lire le dossier AnkiDroid pour que les cartes affichent leurs images. Sans cet accès, les cartes s\'affichent sans images.</string>
 </resources><!-- French -->

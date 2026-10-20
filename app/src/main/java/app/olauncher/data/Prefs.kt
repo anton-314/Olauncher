@@ -45,6 +45,9 @@ class Prefs(private val prefs: SharedPreferences) {
     private val PAUSED_APPS = "PAUSED_APPS"
     private val PAUSE_GRANT_PACKAGE = "PAUSE_GRANT_PACKAGE"
     private val PAUSE_GRANT_TIME = "PAUSE_GRANT_TIME"
+    private val ANKI_DECK_ID = "ANKI_DECK_ID"
+    private val ANKI_DECK_NAME = "ANKI_DECK_NAME"
+    private val ANKI_CARD_COUNT = "ANKI_CARD_COUNT"
     private val APP_THEME = "APP_THEME"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
     private val BOLD_FONT = "BOLD_FONT"
@@ -249,6 +252,19 @@ class Prefs(private val prefs: SharedPreferences) {
             putString(PAUSE_GRANT_PACKAGE, appPackage)
             putLong(PAUSE_GRANT_TIME, now)
         }
+
+    // Deck whose due cards are reviewed in the breathing pause; 0 means off
+    var ankiDeckId: Long
+        get() = prefs.getLong(ANKI_DECK_ID, 0L)
+        set(value) = prefs.edit { putLong(ANKI_DECK_ID, value) }
+
+    var ankiDeckName: String
+        get() = prefs.getString(ANKI_DECK_NAME, "").orEmpty()
+        set(value) = prefs.edit { putString(ANKI_DECK_NAME, value) }
+
+    var ankiCardCount: Int
+        get() = prefs.getInt(ANKI_CARD_COUNT, 2).coerceIn(1, 3)
+        set(value) = prefs.edit { putInt(ANKI_CARD_COUNT, value.coerceIn(1, 3)) }
 
     fun isBreathingPauseGranted(appPackage: String, now: Long = System.currentTimeMillis()): Boolean =
         prefs.getString(PAUSE_GRANT_PACKAGE, null) == appPackage

@@ -147,6 +147,21 @@
         <item name="android:windowExitAnimation">@null</item>
     </style>
 
+    <!-- One of the four answer buttons under an Anki card: the answer, the next interval below -->
+    <style name="AnkiAnswerButton" parent="TextSmall">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textColor">?attr/primaryColor</item>
+    </style>
+
     <!-- Full screen breathing pause: an opaque plain background instead of the wallpaper -->
     <style name="BreathingPauseTheme" parent="AppTheme">
         <item name="android:windowShowWallpaper">false</item>

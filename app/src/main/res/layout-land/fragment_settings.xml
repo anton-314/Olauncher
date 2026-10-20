@@ -456,6 +456,60 @@
                         android:text="@string/off" />
                 </FrameLayout>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="160dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/anki_deck"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/ankiDeck"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:ellipsize="end"
+                        android:maxWidth="150dp"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:text="@string/off" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/ankiCardCountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="80dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/anki_cards"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/ankiCardCount"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:padding="10dp"
+                        tools:text="2" />
+                </FrameLayout>
+
                 <!-- Home button for recents feature disabled
                 <FrameLayout
                     android:layout_width="match_parent"
