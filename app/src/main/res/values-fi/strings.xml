@@ -53,7 +53,7 @@
     <string name="digital_wellbeing_message">Jos haluat asettaa aikarajoja tietyille sovelluksille, Androidin Digitaalinen hyvinvointi -toiminto voi auttaa sinua siinä. Etsi Digitaalinen hyvinvointi puhelimesi asetuksista ja ota se käyttöön.</string>
     <string name="app_usage_message">Näyttääksesi/piilottaaksesi ruutuajan aloitusnäytöllä, salli tai kiellä sovellusten käyttöoikeus.
         \n\nHuomio: Sovellusten käyttötietoja ei kerätä. Kaikki käsitellään laitteellasi.</string>
-    <string name="accessibility_service_description">Esteettömyysoikeus vaaditaan Lukitse kaksoisnapautuksella -eleen käyttöönottoon. Mitään Olauncherin tämän palvelun kautta hankkimaa tietoa ei lähetetä laitteestasi pois.</string>
+    <string name="accessibility_service_description">Esteettömyysoikeus vaaditaan Lukitse kaksoisnapautuksella -eleeseen ja hengähdystaukoon, kun tauolle merkitty sovellus avataan käynnistimen ulkopuolelta. Olauncherin tämän palvelun kautta saamat tiedot eivät poistu laitteeltasi.</string>
     <string name="support_olauncher_for_free">Tue Olauncheria ilmaiseksi käyttämällä Amazon-kumppanuuslinkkiämme.</string>
     <string name="support_olauncher_message">Aina kun ostat jotain linkkimme kautta, saamme pienen palkkion. Tallenna linkki ja käytä sitä aina kun teet ostoksia verkossa.\nKiitos!</string>
     <string name="open">Avaa linkki</string>
@@ -70,7 +70,7 @@
     <string name="affiliate">Kumppanuus</string>
     <string name="tip_start_typing_for_rename">Vinkki: Aloita kirjoittaminen saadaksesi sovelluksen NIMEÄ UUDELLEEN -vaihtoehdon</string>
     <string name="hidden_apps_message">Huomio: Napauta \'Olauncher\' tämän asetussivun yläreunassa löytääksesi piilotetut sovelluksesi.\n\nLisätietoja Tietoja-sivulla.</string>
-    <string name="accessibility_disclosure">Ota Olauncherin esteettömyyspalvelu käyttöön laitteesi asetuksista, jotta voit ottaa käyttöön Lukitse kaksoisnapautuksella -eleen.\n\nHuomaa, että tätä palvelua käytetään vain tähän tiettyyn ominaisuuteen. Esteettömyyspalvelumme ei kerää tai jaa mitään tietoja.</string>
+    <string name="accessibility_disclosure">Ota Olauncherin esteettömyyspalvelu käyttöön laitteesi asetuksista, jotta voit käyttää Lukitse kaksoisnapautuksella -elettä.\n\nPalvelua käytetään myös hengähdystauon näyttämiseen, kun tauolle merkitty sovellus avataan käynnistimen ulkopuolelta, esim. viimeisimmistä sovelluksista. Se ei kerää eikä jaa tietoja.</string>
     <string name="accept">Hyväksy</string>
     <string name="permission">Käyttöoikeus</string>
     <string name="double_tap_lock">Lukitse kaksoisnapautuksella</string>

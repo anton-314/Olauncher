@@ -45,6 +45,7 @@ Apps are listed across every `UserManager.userProfiles` (work profiles included)
 - `helper/Utils.kt` and `helper/Extensions.kt` hold most of the platform logic: app lists, wallpapers, default-launcher checks, dark theme, and similar.
 - `FakeHomeActivity` is disabled in the manifest. It is enabled briefly so that Android shows the default-launcher chooser again (a "reset launcher" trick).
 - Double-tap-to-lock uses `MyAccessibilityService`, which runs in the separate `:serviceProcess`, or falls back to `listener/DeviceAdmin`.
+- Breathing pause: packages in `Prefs.pausedApps` (toggled from the drawer's long-press menu) open only after `ui/BreathingPauseActivity`, a full screen countdown. Launches from the launcher go through it via `MainViewModel.selectedApp`. `MyAccessibilityService` also watches window state changes of all apps and shows it when a paused app comes to the front another way (recents, notifications). It reads prefs with `Prefs.fromServiceProcess` and skips apps the launcher just let through (`grantBreathingPause`).
 - `PinItemActivity` handles `CONFIRM_PIN_SHORTCUT` requests coming from other apps.
 - `helper/WallpaperWorker` is a WorkManager periodic job. It downloads the daily wallpaper from the gist at `Constants.URL_WALLPAPERS`, and the `INTERNET` permission exists only for this.
 - `helper/usageStats/` computes the screen-time figure on the home screen from `UsageStatsManager` events. `MainViewModel.getTodaysScreenTime` runs this computation off the main thread.

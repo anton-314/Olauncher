@@ -53,7 +53,7 @@
     <string name="digital_wellbeing_message">Si deseas establecer límites de tiempo para determinadas aplicaciones, la función Bienestar digital de Android puede ayudarte a hacerlo. Busca Bienestar digital en la configuración de tu teléfono y actívalo.</string>
     <string name="app_usage_message">Para mostrar/ocultar el tiempo de pantalla en la pantalla de inicio, permita o deniegue el permiso de uso de la aplicación.
         \n\nNota: No se recopilan datos de uso de la aplicación. Todo se procesa en su dispositivo.</string>
-    <string name="accessibility_service_description">El permiso de accesibilidad es necesario para habilitar el gesto de doble toque para bloquear. Ningún dato obtenido por Olauncher a través de este servicio saldrá de tu dispositivo.</string>
+    <string name="accessibility_service_description">El permiso de accesibilidad es necesario para el gesto de doble toque para bloquear y para la pausa de respiración cuando una app en pausa se abre fuera del launcher. Los datos que Olauncher obtenga mediante este servicio no saldrán de tu dispositivo.</string>
     <string name="support_olauncher_for_free">Apoya a Olauncher de forma gratuita utilizando nuestro enlace de afiliado de Amazon.</string>
     <string name="support_olauncher_message">Cada vez que compre algo usando nuestro enlace, obtendremos una pequeña comisión. Guarde el enlace y utilícelo cada vez que compre en línea.\n¡Gracias!</string>
     <string name="open">Abrir enlace</string>
@@ -70,7 +70,7 @@
     <string name="affiliate">Afiliado</string>
     <string name="tip_start_typing_for_rename">Sugerencia: Comienza a escribir para RENOMBRAR la aplicación</string>
     <string name="hidden_apps_message">Nota: pulsa \'Olauncher\' en la parte superior de esta página de Configuración para encontrar las aplicaciones ocultas.\n\nMás detalles disponibles en nuestra página \'Acerca de\'.</string>
-    <string name="accessibility_disclosure">Activa el servicio de accesibilidad de Olauncher en la configuración de tu dispositivo para habilitar el gesto de doble toque para bloquear.\n\nTen en cuenta que este servicio solo se utiliza para esta función en concreto. Nuestro servicio de accesibilidad no recopila ni comparte ningún dato.</string>
+    <string name="accessibility_disclosure">Activa el servicio de accesibilidad de Olauncher en la configuración de tu dispositivo para habilitar el gesto de doble toque para bloquear.\n\nEl servicio también se usa para mostrar la pausa de respiración cuando una app en pausa se abre fuera del launcher, p. ej. desde las apps recientes. No recopila ni comparte ningún dato.</string>
     <string name="accept">Aceptar</string>
     <string name="permission">Permiso</string>
     <string name="double_tap_lock">Tocar dos veces para bloquear</string>

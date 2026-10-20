@@ -23,7 +23,7 @@
     <string name="no_hidden_apps">Keine versteckten Apps</string>
     <string name="hidden_apps">Versteckte Apps</string>
     <string name="hidden_apps_message">Hinweis: Tippen Sie oben auf dieser Einstellungsseite auf „Olauncher“, um Ihre versteckten Apps zu finden.\n\nWeitere Einzelheiten finden Sie auf unserer Seite „Über“.</string>
-    <string name="accessibility_disclosure">Bitte aktivieren Sie den Bedienungshilfen-Dienst von Olauncher in den Einstellungen Ihres Geräts, um die Geste „Doppeltippen zum Sperren“ zu aktivieren.\n\nBitte beachten Sie, dass dieser Dienst nur für diese eine Funktion verwendet wird. Unser Bedienungshilfen-Dienst sammelt oder teilt keine Daten.</string>
+    <string name="accessibility_disclosure">Bitte aktivieren Sie den Bedienungshilfen-Dienst von Olauncher in den Einstellungen Ihres Geräts, um die Geste „Doppeltippen zum Sperren“ zu aktivieren.\n\nDer Dienst zeigt außerdem die Atempause, wenn eine pausierte App außerhalb des Launchers geöffnet wird, z. B. über die zuletzt verwendeten Apps. Er sammelt oder teilt keine Daten.</string>
     <string name="accept">Akzeptieren</string>
     <string name="permission">Erlaubnis</string>
     <string name="double_tap_lock">Zum Sperren zweimal tippen</string>
@@ -83,7 +83,7 @@
         \n\nBitte suchen Sie in Ihren Telefoneinstellungen nach Digital Wellbeing und aktivieren Sie es.</string>
     <string name="app_usage_message">Um die Bildschirmzeit auf dem Startbildschirm anzuzeigen oder zu verbergen, erteilen Sie bitte die Erlaubnis für die App-Nutzung oder verweigern Sie sie.
         \n\nHinweis: Es werden keine Daten zur App-Nutzung gesammelt. Alles wird auf Ihrem Gerät verarbeitet.</string>
-    <string name="accessibility_service_description">Die Berechtigung für Bedienungshilfen ist erforderlich, um die Geste „Doppeltippen zum Sperren“ zu aktivieren. Daten, die Olauncher über diesen Dienst erhält, verlassen Ihr Gerät nicht.</string>
+    <string name="accessibility_service_description">Die Berechtigung für Bedienungshilfen ist erforderlich für die Geste „Doppeltippen zum Sperren“ und für die Atempause, wenn eine pausierte App außerhalb des Launchers geöffnet wird. Daten, die Olauncher über diesen Dienst erhält, verlassen Ihr Gerät nicht.</string>
     <string name="support_olauncher_for_free">Unterstützen Sie Olauncher kostenlos, indem Sie unseren Amazon-Partnerlink verwenden.</string>
     <string name="support_olauncher_message">Jedes Mal, wenn Sie über unseren Link etwas kaufen, erhalten wir eine kleine Provision. Bitte speichern Sie den Link und verwenden Sie ihn bei jedem Online-Einkauf.\nDanke!</string>
     <string name="open">Link öffnen</string>

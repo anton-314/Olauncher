@@ -14,6 +14,13 @@ class Prefs(private val prefs: SharedPreferences) {
         private const val PREFS_FILENAME = "app.olauncher"
         const val MIN_TEXT_SIZE_SCALE = 0.5f
         const val MAX_TEXT_SIZE_SCALE = 2.0f
+        private const val BREATHING_PAUSE_GRANT_MS = 5000L
+
+        // For reading in the accessibility service process only. MODE_MULTI_PROCESS makes every
+        // call reload the file if the launcher process changed it since.
+        @Suppress("DEPRECATION")
+        fun fromServiceProcess(context: Context) =
+            Prefs(context.getSharedPreferences(PREFS_FILENAME, Context.MODE_MULTI_PROCESS))
     }
 
     private val FIRST_OPEN = "FIRST_OPEN"
@@ -36,6 +43,8 @@ class Prefs(private val prefs: SharedPreferences) {
     private val HIDDEN_APPS = "HIDDEN_APPS"
     private val HIDDEN_APPS_UPDATED = "HIDDEN_APPS_UPDATED"
     private val PAUSED_APPS = "PAUSED_APPS"
+    private val PAUSE_GRANT_PACKAGE = "PAUSE_GRANT_PACKAGE"
+    private val PAUSE_GRANT_TIME = "PAUSE_GRANT_TIME"
     private val APP_THEME = "APP_THEME"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
     private val BOLD_FONT = "BOLD_FONT"
@@ -231,6 +240,19 @@ class Prefs(private val prefs: SharedPreferences) {
     var pausedApps: MutableSet<String>
         get() = prefs.getStringSet(PAUSED_APPS, null)?.toMutableSet() ?: mutableSetOf()
         set(value) = prefs.edit { putStringSet(PAUSED_APPS, HashSet(value)).apply() }
+
+    // Marks a package as just let through the breathing pause, so the accessibility service does not
+    // pause it again when it comes to the front. Committed synchronously: the service reads it from
+    // the file right after the app opens.
+    fun grantBreathingPause(appPackage: String, now: Long = System.currentTimeMillis()) =
+        prefs.edit(commit = true) {
+            putString(PAUSE_GRANT_PACKAGE, appPackage)
+            putLong(PAUSE_GRANT_TIME, now)
+        }
+
+    fun isBreathingPauseGranted(appPackage: String, now: Long = System.currentTimeMillis()): Boolean =
+        prefs.getString(PAUSE_GRANT_PACKAGE, null) == appPackage
+                && now - prefs.getLong(PAUSE_GRANT_TIME, 0L) in 0..BREATHING_PAUSE_GRANT_MS
 
     var appName1: String
         get() = prefs.getString(APP_NAME_1, "").toString()

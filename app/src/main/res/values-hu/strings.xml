@@ -55,7 +55,7 @@
         \n\nKeresse meg a Digitális jólét elemet a telefon beállításai között, és engedélyezze.</string>
     <string name="app_usage_message">A képernyőidő megjelenítéséhez/elrejtéséhez a kezdőképernyőn engedélyezze vagy tagadja meg az alkalmazás használati engedélyét.
         \n\nMegjegyzés: Nem gyűjtünk alkalmazás-használati adatokat. Minden az Ön eszközén kerül feldolgozásra.</string>
-    <string name="accessibility_service_description">A kisegítő lehetőségek engedélye szükséges a dupla koppintás a lezáráshoz mozdulat engedélyezéséhez. Az Olauncher által ezen a szolgáltatáson keresztül megszerzett adatok nem hagyják el a készüléket.</string>
+    <string name="accessibility_service_description">A kisegítő lehetőségek engedélye szükséges a dupla koppintásos zárolás kézmozdulatához és a lélegzetvételi szünethez, ha egy szüneteltetett alkalmazást az indítón kívülről nyitnak meg. Az Olauncher által ezen a szolgáltatáson keresztül szerzett adatok nem hagyják el az eszközét.</string>
     <string name="support_olauncher_for_free">Támogasson minket ingyenesen az Amazon affiliate linkünk használatával.</string>
     <string name="support_olauncher_message">Minden alkalommal, amikor vásárol valamit a linkünket használva, egy kis jutalékot kapunk. Kérjük, mentse el a linket, és használja fel, amikor csak online vásárol.
         \n\nKöszönjük!</string>
@@ -73,7 +73,7 @@
     <string name="affiliate">Affiliate</string>
     <string name="tip_start_typing_for_rename">Tipp: Kezdjen el gépelni az alkalmazás ÁTNEVEZÉSE opcióhoz</string>
     <string name="hidden_apps_message">Megjegyzés: A rejtett alkalmazások megtalálásához érintse meg az \"Olauncher\" elemet ennek a beállítás oldalnak a tetején.\n\nTöbb részlet elérhető a Névjegy oldalon.</string>
-    <string name="accessibility_disclosure">Kérjük, kapcsolja be az Olauncher kisegítő lehetőségek szolgáltatását az eszköz beállításaiban a dupla koppintás a lezáráshoz mozdulat engedélyezéséhez.\n\nKérjük, vegye figyelembe, hogy ez a szolgáltatás csak ehhez az egy funkcióhoz használatos. Kisegítő lehetőségek szolgáltatásunk nem gyűjt és nem oszt meg semmilyen adatot.</string>
+    <string name="accessibility_disclosure">Kérjük, kapcsolja be az Olauncher kisegítő lehetőségek szolgáltatását az eszköz beállításaiban a dupla koppintásos zárolás kézmozdulatának engedélyezéséhez.\n\nA szolgáltatás a lélegzetvételi szünet megjelenítésére is szolgál, ha egy szüneteltetett alkalmazást az indítón kívülről nyit meg, pl. a legutóbbi alkalmazásokból. Nem gyűjt és nem oszt meg adatokat.</string>
     <string name="accept">Elfogad</string>
     <string name="permission">Engedély</string>
     <string name="double_tap_lock">Dupla koppintás a lezáráshoz</string>

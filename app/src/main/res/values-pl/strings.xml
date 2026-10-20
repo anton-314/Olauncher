@@ -23,7 +23,7 @@
     <string name="no_hidden_apps">Brak ukrytych aplikacji</string>
     <string name="hidden_apps">Ukryte aplikacje</string>
     <string name="hidden_apps_message">Uwaga: Stuknij w „Olauncher” u góry tej strony ustawień, aby znaleźć ukryte aplikacje.\n\nWięcej informacji znajdziesz na naszej stronie Informacje.</string>
-    <string name="accessibility_disclosure">Włącz usługę ułatwień dostępu Olauncher w ustawieniach urządzenia, aby włączyć gest podwójnego dotknięcia do zablokowania.\n\nPamiętaj, że ta usługa jest używana wyłącznie do tej jednej funkcji. Nasza usługa ułatwień dostępu nie zbiera ani nie udostępnia żadnych danych.</string>
+    <string name="accessibility_disclosure">Włącz usługę ułatwień dostępu Olauncher w ustawieniach urządzenia, aby włączyć gest podwójnego dotknięcia, aby zablokować.\n\nUsługa służy też do wyświetlania chwili oddechu, gdy wstrzymana aplikacja zostanie otwarta poza launcherem, np. z ostatnich aplikacji. Nie zbiera ani nie udostępnia żadnych danych.</string>
     <string name="accept">Akceptuj</string>
     <string name="permission">Uprawnienie</string>
     <string name="double_tap_lock">Dotknij dwukrotnie, aby zablokować</string>
@@ -82,7 +82,7 @@
         \n\nWyszukaj opcję Cyfrowa równowaga w ustawieniach telefonu i włącz ją.</string>
     <string name="app_usage_message">Aby wyświetlić/ukryć czas ekranu na ekranie głównym, pozwól lub zabroń aplikacji na dostęp do danych o użyciu.
         \n\nUwaga: Nie są gromadzone żadne dane o użyciu aplikacji. Wszystko jest przetwarzane na Twoim urządzeniu.</string>
-    <string name="accessibility_service_description">Uprawnienie ułatwień dostępu jest wymagane, aby włączyć gest podwójnego dotknięcia do zablokowania. Żadne dane pozyskane przez Olauncher za pośrednictwem tej usługi nie opuszczą Twojego urządzenia.</string>
+    <string name="accessibility_service_description">Uprawnienie ułatwień dostępu jest wymagane do gestu podwójnego dotknięcia, aby zablokować, oraz do chwili oddechu, gdy wstrzymana aplikacja zostanie otwarta poza launcherem. Dane uzyskane przez Olauncher za pomocą tej usługi nie opuszczają urządzenia.</string>
     <string name="support_olauncher_for_free">Wesprzyj Olauncher za darmo, korzystając z naszego linku afiliacyjnego Amazon.</string>
     <string name="support_olauncher_message">Za każdym razem, gdy kupujesz coś za pomocą naszego linku, otrzymujemy niewielką prowizję. Zapisz link i używaj go podczas zakupów online.\nDziękujemy!</string>
     <string name="open">Otwórz łącze</string>

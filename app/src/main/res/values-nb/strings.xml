@@ -53,7 +53,7 @@
     <string name="digital_wellbeing_message">Hvis du vil angi tidsbegrensninger for bestemte apper, kan Androids Digital velvære-funksjon hjelpe deg med det. Søk etter Digital velvære i telefoninnstillingene og aktiver den.</string>
     <string name="app_usage_message">For å vise/skjule skjermtiden din på startskjermen må du tillate eller avslå tillatelsen for appbruk.
         \n\nMerk: Ingen data om appbruk samles inn. Alt behandles på enheten din.</string>
-    <string name="accessibility_service_description">Tilgjengelighetstillatelsen kreves for å aktivere bevegelsen - dobbelttrykk for å låse. Ingen data hentet av Olauncher via denne tjenesten forlater enheten din.</string>
+    <string name="accessibility_service_description">Tilgjengelighetstillatelsen kreves for bevegelsen dobbelttrykk for å låse og for pustepausen når en app på pause åpnes utenfor startprogrammet. Data Olauncher får via denne tjenesten forlater ikke enheten din.</string>
     <string name="support_olauncher_for_free">Støtt Olauncher gratis ved å bruke vår Amazon-partnerlenke.</string>
     <string name="support_olauncher_message">Hver gang du kjøper noe via lenken vår, får vi en liten provisjon. Lagre lenken og bruk den når du handler på nett.\nTakk!</string>
     <string name="open">Åpne lenke</string>
@@ -70,7 +70,7 @@
     <string name="affiliate">Partner</string>
     <string name="tip_start_typing_for_rename">Tips: Begynn å skrive for å få opp alternativet for å endre navn på appen</string>
     <string name="hidden_apps_message">Merk: Trykk på \'Olauncher\' øverst på denne innstillingssiden for å finne de skjulte appene dine.\n\nFlere detaljer finnes på vår Om-side.</string>
-    <string name="accessibility_disclosure">Slå på Olaunchers tilgjengelighetstjeneste i enhetens innstillinger for å aktivere bevegelsen Dobbelttrykk for å låse.\n\nMerk at denne tjenesten kun brukes til denne bestemte funksjonen. Tilgjengelighetstjenesten vår samler ikke inn eller deler noen data.</string>
+    <string name="accessibility_disclosure">Slå på Olaunchers tilgjengelighetstjeneste i enhetens innstillinger for å aktivere bevegelsen dobbelttrykk for å låse.\n\nTjenesten brukes også til å vise pustepausen når en app på pause åpnes utenfor startprogrammet, f.eks. fra nylige apper. Den samler ikke inn eller deler data.</string>
     <string name="accept">Godta</string>
     <string name="permission">Tillatelse</string>
     <string name="double_tap_lock">Dobbelttrykk for å låse</string>

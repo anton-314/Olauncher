@@ -54,7 +54,7 @@
         \n\nSilakan cari Digital Wellbeing di pengaturan ponsel Anda dan aktifkan.</string>
     <string name="app_usage_message">Untuk menampilkan/menyembunyikan waktu layar di layar utama, izinkan atau tolak izin penggunaan aplikasi.
         \n\nCatatan: Tidak ada data penggunaan aplikasi yang dikumpulkan. Semua diproses di perangkat Anda.</string>
-    <string name="accessibility_service_description">Izin aksesibilitas diperlukan untuk mengaktifkan gerakan ketuk dua kali untuk mengunci. Data apa pun yang diperoleh Olauncher melalui layanan ini tidak akan meninggalkan perangkat Anda.</string>
+    <string name="accessibility_service_description">Izin aksesibilitas diperlukan untuk gerakan ketuk dua kali untuk mengunci dan untuk jeda napas saat aplikasi yang dijeda dibuka dari luar peluncur. Data apa pun yang diperoleh Olauncher melalui layanan ini tidak akan keluar dari perangkat Anda.</string>
     <string name="support_olauncher_for_free">Dukung Olauncher secara gratis dengan menggunakan tautan afiliasi Amazon kami.</string>
     <string name="support_olauncher_message">Setiap kali Anda membeli sesuatu menggunakan tautan kami, kami mendapat komisi kecil. Harap simpan tautan dan gunakan setiap kali Anda berbelanja online.\nTerima kasih!</string>
     <string name="open">Buka tautan</string>
@@ -71,7 +71,7 @@
     <string name="affiliate">Afiliasi</string>
     <string name="tip_start_typing_for_rename">Tip: Mulailah mengetik untuk opsi RENAME aplikasi</string>
     <string name="hidden_apps_message">Catatan: Ketuk \'Olauncher\' di bagian atas halaman Pengaturan ini untuk menemukan aplikasi tersembunyi Anda.\n\nRincian lebih lanjut tersedia di halaman Tentang kami.</string>
-    <string name="accessibility_disclosure">Harap aktifkan layanan aksesibilitas Olauncher di pengaturan perangkat Anda untuk mengaktifkan gerakan ketuk dua kali untuk mengunci.\n\nHarap perhatikan bahwa layanan ini hanya digunakan untuk fitur ini saja. Layanan aksesibilitas kami tidak mengumpulkan atau membagikan data apa pun.</string>
+    <string name="accessibility_disclosure">Harap aktifkan layanan aksesibilitas Olauncher di pengaturan perangkat Anda untuk mengaktifkan gerakan ketuk dua kali untuk mengunci.\n\nLayanan ini juga digunakan untuk menampilkan jeda napas saat aplikasi yang dijeda dibuka dari luar peluncur, misalnya dari aplikasi terbaru. Layanan ini tidak mengumpulkan atau membagikan data apa pun.</string>
     <string name="accept">Terima</string>
     <string name="permission">Izin</string>
     <string name="double_tap_lock">Ketuk dua kali untuk mengunci</string>

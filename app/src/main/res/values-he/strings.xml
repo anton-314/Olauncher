@@ -48,7 +48,7 @@
     <string name="dark">כהה</string>
     <string name="light">בהירה</string>
     <string name="keyboard_message">היי, המקלדת היא הדרך המהירה ביותר למצוא ולפתוח יישומים ב־Olauncher. האם נוכל לבקש מכם להשאיר את ההגדרה הזאת פעילה עוד כמה ימים ואז להחליט?\n\nהבחירה תמיד שלכם.</string>
-    <string name="accessibility_service_description">הרשאת הנגישות נחוצה להפעלת המחווה של נעילה בהקשה כפולה. כל הנתונים שייאספו על ידי Olauncher דרך שירות זה לא יעזבו את המכשיר שלכם.</string>
+    <string name="accessibility_service_description">הרשאת הנגישות נחוצה למחווה של נעילה בהקשה כפולה ולהפסקת הנשימה כשאפליקציה מושהית נפתחת מחוץ למפעיל. כל הנתונים ש-Olauncher מקבל דרך שירות זה לא יוצאים מהמכשיר שלך.</string>
     <string name="support_olauncher_for_free">אפשר לתמוך ב־Olauncher מבלי לשלם שקל, בעזרת שימוש בקישור ה־Amazon affiliate שלנו.</string>
     <string name="support_olauncher_message">על כל רכישה שתבוצע דרך הקישור שלנו אנחנו נקבל עמלה קטנה. נשמח אם תשמרו את הקישור ותשתמשו בו בקניות מהאינטרנט.\nתודה רבה!</string>
     <string name="open">פתיחת קישור</string>
@@ -65,7 +65,7 @@
     <string name="affiliate">שותפים</string>
     <string name="tip_start_typing_for_rename">עצה: אפשר להתחיל להקליד בשביל להגיע לאפשרות לשינוי שם של יישומים</string>
     <string name="hidden_apps_message">הערה: כדי להגיע ליישומים המוסתרים, יש ללחוץ על הכיתוב \'Olauncher\' שנמצא בראש עמוד ההגדרות.\n\nפרטים נוספים אפשר למצוא בעמוד \"מידע כללי\" שלנו.</string>
-    <string name="accessibility_disclosure">נא להפעיל את שירות הנגישות של Olauncher בהגדרות המכשיר כדי להפעיל את מחוות הנעילה בהקשה כפולה.\n\nשימו לב ששירות זה משמש רק לתכונה זו בלבד. שירות הנגישות שלנו אינו אוסף או משתף נתונים כלשהם.</string>
+    <string name="accessibility_disclosure">נא להפעיל את שירות הנגישות של Olauncher בהגדרות המכשיר כדי להפעיל את מחוות הנעילה בהקשה כפולה.\n\nהשירות משמש גם להצגת הפסקת הנשימה כשאפליקציה מושהית נפתחת מחוץ למפעיל, למשל מהאפליקציות האחרונות. הוא לא אוסף ולא משתף נתונים.</string>
     <string name="accept">הסכמה</string>
     <string name="permission">הרשאה</string>
     <string name="double_tap_lock">לחיצה כפולה לנעילת המסך</string>

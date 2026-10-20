@@ -54,7 +54,7 @@
         \n\nVeuillez rechercher Digital Wellbeing dans les paramètres de votre téléphone et l\'activer.</string>
     <string name="app_usage_message">Pour afficher/masquer le temps d\'écran sur l\'écran d\'accueil, autorisez ou refusez l\'autorisation d\'utilisation de l\'application.
         \n\nRemarque : Aucune donnée d\'utilisation de l\'application n\'est collectée. Tout est traité sur votre appareil.</string>
-    <string name="accessibility_service_description">L\'autorisation d\'accessibilité est requise pour activer le geste Double appui pour verrouiller. Les données obtenues par Olauncher via ce service ne quitteront pas votre appareil.</string>
+    <string name="accessibility_service_description">L\'autorisation d\'accessibilité est requise pour le geste « double appui pour verrouiller » et pour la pause respiration lorsqu\'une application en pause est ouverte en dehors du lanceur. Les données obtenues par Olauncher via ce service ne quittent pas votre appareil.</string>
     <string name="support_olauncher_for_free">Soutenez Olauncher gratuitement en utilisant notre lien d\'affiliation Amazon.</string>
     <string name="support_olauncher_message">Chaque fois que vous achetez quelque chose en utilisant notre lien, nous recevons une petite commission. Enregistrez le lien et utilisez-le chaque fois que vous faites des achats en ligne.\nMerci !</string>
     <string name="open">Ouvrir le lien</string>
@@ -71,7 +71,7 @@
     <string name="affiliate">Affiliation</string>
     <string name="tip_start_typing_for_rename">Conseil : Commencez à écrire pour faire apparaitre l\'option RENOMMER.</string>
     <string name="hidden_apps_message">Remarque : Appuyez sur \'Olauncher\' en haut de cette page Paramètres pour trouver vos applications cachées.\n\nPlus de détails sont disponibles sur notre page À propos.</string>
-    <string name="accessibility_disclosure">Veuillez activer le service d\'accessibilité d\'Olauncher dans les paramètres de votre appareil pour utiliser le geste Double appui pour verrouiller.\n\nVeuillez noter que ce service est utilisé uniquement pour cette fonctionnalité. Notre service d\'accessibilité ne collecte ni ne partage aucune donnée.</string>
+    <string name="accessibility_disclosure">Veuillez activer le service d\'accessibilité d\'Olauncher dans les paramètres de votre appareil pour activer le geste « double appui pour verrouiller ».\n\nLe service sert aussi à afficher la pause respiration lorsqu\'une application en pause est ouverte en dehors du lanceur, par exemple depuis les applications récentes. Il ne collecte ni ne partage aucune donnée.</string>
     <string name="accept">Accepter</string>
     <string name="permission">Autorisation</string>
     <string name="double_tap_lock">Appuyer deux fois pour verrouiller</string>

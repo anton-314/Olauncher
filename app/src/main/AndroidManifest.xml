@@ -47,6 +47,16 @@
             </intent-filter>
         </activity>
 
+        <!-- Own task affinity: when the accessibility service starts it over a paused app,
+             it must not bring the launcher's task along -->
+        <activity
+            android:name=".ui.BreathingPauseActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity="${applicationId}.pause"
+            android:theme="@style/BreathingPauseTheme" />
+
         <activity
             android:name=".helper.PinItemActivity"
             android:exported="true"

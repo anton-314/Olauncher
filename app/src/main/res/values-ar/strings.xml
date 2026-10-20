@@ -25,7 +25,7 @@
     <string name="swipe_left_app_disabled">التمرير لليسار معطّل</string>
     <string name="swipe_right_app_disabled">التمرير لليمين معطّل</string>
     <string name="hidden_apps_message">ملاحظة: اضغط على \'Olauncher\' أعلى صفحة الإعدادات هذه للعثور على تطبيقاتك المخفية.\n\nالمزيد من التفاصيل متوفرة في صفحة \"حول\".</string>
-    <string name="accessibility_disclosure">يرجى تشغيل خدمة إمكانية الوصول الخاصة بـ Olauncher في إعدادات جهازك لتفعيل إيماءة النقر المزدوج للقفل.\n\nيرجى ملاحظة أن هذه الخدمة تُستخدم فقط لهذه الميزة بالذات. خدمة إمكانية الوصول لدينا لا تجمع أو تشارك أي بيانات.</string>
+    <string name="accessibility_disclosure">يرجى تشغيل خدمة إمكانية الوصول الخاصة بـ Olauncher في إعدادات جهازك لتفعيل إيماءة النقر المزدوج للقفل.\n\nتُستخدم الخدمة أيضًا لعرض استراحة التنفس عند فتح تطبيق متوقف مؤقتًا من خارج المشغّل، مثلًا من التطبيقات الأخيرة. لا تجمع الخدمة أي بيانات ولا تشاركها.</string>
     <string name="accept">قبول</string>
     <string name="permission">إذن</string>
     <string name="double_tap_lock">النقر المزدوج للقفل</string>
@@ -83,7 +83,7 @@
         \n\nيرجى البحث عن الرفاهية الرقمية في إعدادات هاتفك وتمكينها.</string>
     <string name="app_usage_message">لعرض/إخفاء وقت استخدام الشاشة على الشاشة الرئيسية، يرجى السماح أو منع إذن استخدام التطبيق.
         \n\nملاحظة: لا يتم جمع أي بيانات حول استخدام التطبيقات. يتم معالجة كل شيء على جهازك.</string>
-    <string name="accessibility_service_description">إذن إمكانية الوصول مطلوب لتفعيل إيماءة النقر المزدوج للقفل. أي بيانات يحصل عليها Olauncher عبر هذه الخدمة لن تغادر جهازك.</string>
+    <string name="accessibility_service_description">إذن إمكانية الوصول مطلوب لإيماءة النقر المزدوج للقفل ولاستراحة التنفس عند فتح تطبيق متوقف مؤقتًا من خارج المشغّل. أي بيانات يحصل عليها Olauncher عبر هذه الخدمة لن تغادر جهازك.</string>
     <string name="support_olauncher_for_free">ادعم Olauncher مجانًا باستخدام رابط الشراكة التابع لشركة Amazon.</string>
     <string name="support_olauncher_message">في كل مرة تشتري فيها شيئًا باستخدام رابطنا، نحصل على عمولة صغيرة. يرجى حفظ الرابط واستخدامه كلما تسوقت عبر الإنترنت.\nشكرًا لك!</string>
     <string name="open">افتح الرابط</string>

@@ -54,7 +54,7 @@
         \n\nVänligen sök efter Digitalt välmående i dina telefoninställningar och aktivera den.</string>
     <string name="app_usage_message">För att visa/dölja din skärmtid på startsidan, vänligen tillåt eller neka appanvändningsbehörigheten.
         \n\nObs: Inga data om appanvändning samlas in. Allt bearbetas på din enhet.</string>
-    <string name="accessibility_service_description">Tillgänglighetsbehörigheten krävs för att aktivera gesten dubbeltryck för att låsa. Inga data som Olauncher får via denna tjänst lämnar din enhet.</string>
+    <string name="accessibility_service_description">Tillgänglighetsbehörigheten krävs för gesten dubbeltryck för att låsa och för andningspausen när en pausad app öppnas utanför startprogrammet. Data som Olauncher får via den här tjänsten lämnar inte din enhet.</string>
     <string name="support_olauncher_for_free">Stöd Olauncher utan kostnad genom att använda vår Amazon-affiliatelänk.</string>
     <string name="support_olauncher_message">Varje gång du köper något via vår länk får vi en liten provision. Vänligen spara länken och använd den när du handlar på nätet.\nTack!</string>
     <string name="open">Öppna länk</string>
@@ -71,7 +71,7 @@
     <string name="affiliate">Affiliate</string>
     <string name="tip_start_typing_for_rename">Tips: Börja skriv för BYT NAMN-alternativ för appen</string>
     <string name="hidden_apps_message">Observera: Tryck på \'Olauncher\' högst upp på denna Inställningar-sida för att hitta dina dolda appar.\n\nMer information finns på vår Om-sida.</string>
-    <string name="accessibility_disclosure">Vänligen sätt på Olaunchers tillgänglighetstjänst i din enhets inställningar för att aktivera gesten dubbeltryck för att låsa.\n\nObservera att denna tjänst bara används för just denna funktion. Vår tillgänglighetstjänst samlar inte in eller delar några data.</string>
+    <string name="accessibility_disclosure">Vänligen sätt på Olaunchers tillgänglighetstjänst i enhetens inställningar för att aktivera gesten dubbeltryck för att låsa.\n\nTjänsten används också för att visa andningspausen när en pausad app öppnas utanför startprogrammet, t.ex. från senaste appar. Den samlar inte in eller delar några data.</string>
     <string name="accept">Godkänn</string>
     <string name="permission">Behörighet</string>
     <string name="double_tap_lock">Dubbeltryck för att låsa</string>

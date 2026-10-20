@@ -125,6 +125,18 @@ class PrefsTest {
     }
 
     @Test
+    fun `breathing pause grant holds only for that package and a few seconds`() {
+        assertFalse(prefs.isBreathingPauseGranted("com.instagram.android"))
+        prefs.grantBreathingPause("com.instagram.android", now = 10_000L)
+        assertTrue(prefs.isBreathingPauseGranted("com.instagram.android", now = 10_000L))
+        assertTrue(prefs.isBreathingPauseGranted("com.instagram.android", now = 15_000L))
+        assertFalse(prefs.isBreathingPauseGranted("com.instagram.android", now = 15_001L))
+        assertFalse(prefs.isBreathingPauseGranted("com.other.app", now = 10_000L))
+        // A grant from the future, e.g. after the clock was moved back, does not count
+        assertFalse(prefs.isBreathingPauseGranted("com.instagram.android", now = 9_000L))
+    }
+
+    @Test
     fun `hidden apps getter returns a copy that does not change the stored set`() {
         prefs.hiddenApps = mutableSetOf("a|UserHandle{0}")
         val hidden = prefs.hiddenApps

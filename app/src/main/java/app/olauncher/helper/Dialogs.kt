@@ -13,7 +13,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
-import app.olauncher.R
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.DialogBaseBinding
 
@@ -127,54 +126,6 @@ fun Context.showMessageDialog(
     onAction: () -> Unit,
 ): OlDialog {
     val dialog = createDialog(title, action, message = message, onAction = onAction)
-    dialog.showRespectingStatusBar()
-    return dialog
-}
-
-/**
- * Asks to take a breath before opening a distracting app. The open action is
- * enabled only after a countdown of [seconds]; closing the dialog cancels.
- */
-fun Context.showBreathingPauseDialog(
-    appLabel: String,
-    seconds: Int,
-    onOpen: () -> Unit,
-): OlDialog {
-    val dialog = OlDialog(this)
-    val binding = DialogBaseBinding.inflate(LayoutInflater.from(dialog.context))
-    binding.tvTitle.setText(R.string.breathing_pause)
-    binding.tvMessage.text = getString(R.string.breathing_pause_message, appLabel)
-    binding.tvMessage.isVisible = true
-    binding.tvNeutral.setText(R.string.close)
-    binding.tvNeutral.isVisible = true
-
-    val openLabel = getString(R.string.open_app)
-    var remaining = seconds
-    val countdown = object : Runnable {
-        override fun run() {
-            if (remaining > 0) {
-                binding.tvAction.text = "$openLabel ($remaining)"
-                binding.tvAction.isEnabled = false
-                binding.tvAction.alpha = 0.5f
-                remaining--
-                binding.root.postDelayed(this, 1000)
-            } else {
-                binding.tvAction.text = openLabel
-                binding.tvAction.isEnabled = true
-                binding.tvAction.alpha = 1f
-            }
-        }
-    }
-    countdown.run()
-    dialog.setOnDismissListener { binding.root.removeCallbacks(countdown) }
-
-    dialog.setView(binding.root)
-    binding.ivClose.setOnClickListener { dialog.dismiss() }
-    binding.tvNeutral.setOnClickListener { dialog.dismiss() }
-    binding.tvAction.setOnClickListener {
-        onOpen()
-        dialog.dismiss()
-    }
     dialog.showRespectingStatusBar()
     return dialog
 }

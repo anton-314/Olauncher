@@ -53,7 +53,7 @@
     <string name="digital_wellbeing_message">Dacă vrei să setezi limite de timp pentru anumite aplicații, funcția Bunăstare digitală din Android te poate ajuta. Caută Bunăstare digitală în setările telefonului și activeaz-o.</string>
     <string name="app_usage_message">Pentru a afișa/ascunde timpul petrecut pe ecran de pe ecranul de start, permite sau refuză permisiunea de utilizare a aplicațiilor.
         \n\nNotă: Nu se colectează date privind utilizarea aplicațiilor. Totul este procesat pe dispozitivul tău.</string>
-    <string name="accessibility_service_description">Permisiunea de accesibilitate este necesară pentru a activa gestul - atinge dublu pentru blocare. Niciun fel de date obținute de Olauncher prin acest serviciu nu părăsesc dispozitivul tău.</string>
+    <string name="accessibility_service_description">Permisiunea de accesibilitate este necesară pentru gestul de atingere dublă pentru blocare și pentru pauza de respirație când o aplicație pusă pe pauză este deschisă din afara launcherului. Datele obținute de Olauncher prin acest serviciu nu părăsesc dispozitivul tău.</string>
     <string name="support_olauncher_for_free">Sprijină Olauncher gratuit folosind linkul nostru afiliat Amazon.</string>
     <string name="support_olauncher_message">De fiecare dată când cumperi ceva folosind linkul nostru, primim un mic comision. Te rugăm să salvezi linkul și să îl folosești ori de câte ori faci cumpărături online.\nMulțumim!</string>
     <string name="open">Deschide linkul</string>
@@ -70,8 +70,7 @@
     <string name="affiliate">Afiliat</string>
     <string name="tip_start_typing_for_rename">Sfat: Începe să tastezi pentru opțiunea de REDENUMIRE aplicație</string>
     <string name="hidden_apps_message">Notă: Atinge \'Olauncher\' în partea de sus a acestei pagini de setări pentru a găsi aplicațiile tale ascunse.\n\nMai multe detalii sunt disponibile pe pagina noastră Despre.</string>
-    <string name="accessibility_disclosure">Te rugăm să activezi serviciul de accesibilitate Olauncher din setările dispozitivului pentru a activa gestul Atinge dublu pentru blocare.
-    \n\nTe rugăm să reții că acest serviciu este utilizat doar pentru această funcție specifică. Serviciul nostru de accesibilitate nu colectează și nu partajează date.</string>
+    <string name="accessibility_disclosure">Te rugăm să activezi serviciul de accesibilitate Olauncher din setările dispozitivului pentru a activa gestul de atingere dublă pentru blocare.\n\nServiciul este folosit și pentru a afișa pauza de respirație când o aplicație pusă pe pauză este deschisă din afara launcherului, de ex. din aplicațiile recente. Nu colectează și nu partajează date.</string>
     <string name="accept">Acceptă</string>
     <string name="permission">Permisiune</string>
     <string name="double_tap_lock">Atinge dublu pentru blocare</string>

@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
@@ -35,11 +36,11 @@ import app.olauncher.helper.isSystemAnimationsDisabled
 import app.olauncher.helper.isTablet
 import app.olauncher.helper.resetLauncherViaFakeActivity
 import app.olauncher.helper.setPlainWallpaper
-import app.olauncher.helper.showBreathingPauseDialog
 import app.olauncher.helper.showLauncherSelector
 import app.olauncher.helper.showMessageDialog
 import app.olauncher.helper.showToast
 import app.olauncher.helper.startActivitySafely
+import app.olauncher.ui.BreathingPauseActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -55,6 +56,12 @@ class MainActivity : AppCompatActivity() {
     private var profileReceiver: BroadcastReceiver? = null
     private var launcherAppsCallback: LauncherApps.Callback? = null
     private var messageDialog: OlDialog? = null
+
+    private val breathingPause = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val appModel = viewModel.breathingPauseApp ?: return@registerForActivityResult
+        viewModel.breathingPauseApp = null
+        if (it.resultCode == RESULT_OK) viewModel.launch(appModel)
+    }
 
 //    override fun onBackPressed() {
 //        if (navController.currentDestination?.id != R.id.mainFragment)
@@ -226,10 +233,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBreathingPause(appModel: AppModel) {
-        messageDialog?.dismiss()
-        messageDialog = showBreathingPauseDialog(appModel.appLabel, Constants.BREATHING_PAUSE_SECONDS) {
-            viewModel.launch(appModel)
-        }
+        viewModel.breathingPauseApp = appModel
+        breathingPause.launch(
+            Intent(this, BreathingPauseActivity::class.java)
+                .putExtra(BreathingPauseActivity.EXTRA_PACKAGE, appModel.appPackage)
+                .putExtra(BreathingPauseActivity.EXTRA_LABEL, appModel.appLabel)
+                .putExtra(BreathingPauseActivity.EXTRA_FROM_LAUNCHER, true)
+        )
     }
 
     private fun showMessage(title: Int, message: Int, action: Int, clickListener: () -> Unit) {

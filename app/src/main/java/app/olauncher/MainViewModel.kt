@@ -66,6 +66,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val showDialog = SingleLiveEvent<String>()
     val showBreathingPause = SingleLiveEvent<AppModel>()
+    // The app waiting behind the breathing pause screen, kept here to survive activity recreation
+    var breathingPauseApp: AppModel? = null
     val resetLauncherLiveData = SingleLiveEvent<Unit?>()
     // Home button for recents feature disabled
     // val showRecentApps = SingleLiveEvent<Unit?>()
@@ -97,7 +99,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Called by the breathing pause dialog once the user chose to open the app
+    // Also called once the user chose to open the app on the breathing pause screen
     fun launch(appModel: AppModel) {
         when (appModel) {
             is AppModel.PinnedShortcut ->

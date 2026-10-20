@@ -147,4 +147,10 @@
         <item name="android:windowExitAnimation">@null</item>
     </style>
 
+    <!-- Full screen breathing pause: an opaque plain background instead of the wallpaper -->
+    <style name="BreathingPauseTheme" parent="AppTheme">
+        <item name="android:windowShowWallpaper">false</item>
+        <item name="android:windowBackground">?attr/primaryInverseColor</item>
+    </style>
+
 </resources>
