@@ -122,4 +122,8 @@
     <string name="unable_to_open_shortcut">Nem lehet megnyitni a parancsikont</string>
     <string name="unable_to_open_app_info">Nem lehet megnyitni az alkalmazás adatait</string>
     <string name="bold_font">Félkövér betűtípus</string>
+    <string name="pause">Szünet</string>
+    <string name="breathing_pause">Lélegzetvétel</string>
+    <string name="breathing_pause_message">Vegyen egy mély levegőt. Biztosan most szeretné megnyitni ezt: %1$s?</string>
+    <string name="open_app">Megnyitás</string>
 </resources><!-- Hungarian -->

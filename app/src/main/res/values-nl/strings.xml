@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">Kan snelkoppeling niet openen</string>
     <string name="unable_to_open_app_info">Kan app-info niet openen</string>
     <string name="bold_font">Vet lettertype</string>
+    <string name="pause">Pauze</string>
+    <string name="breathing_pause">Ademruimte</string>
+    <string name="breathing_pause_message">Haal even diep adem. Wil je %1$s nu echt openen?</string>
+    <string name="open_app">Openen</string>
 </resources><!-- Dutch -->

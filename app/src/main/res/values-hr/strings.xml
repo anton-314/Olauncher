@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">Prečac nije moguće otvoriti</string>
     <string name="unable_to_open_app_info">Nije moguće otvoriti informacije o aplikaciji</string>
     <string name="bold_font">Podebljani font</string>
+    <string name="pause">Pauza</string>
+    <string name="breathing_pause">Predah</string>
+    <string name="breathing_pause_message">Duboko udahnite. Želite li stvarno sada otvoriti %1$s?</string>
+    <string name="open_app">Otvori</string>
 </resources><!-- Croatian -->

@@ -119,4 +119,8 @@
     <string name="shortcut_not_found">ไม่พบทางลัด</string>
     <string name="unable_to_open_shortcut">ไม่สามารถเปิดทางลัดได้</string>
     <string name="bold_font">ตัวหนา</string>
+    <string name="pause">หยุดชั่วคราว</string>
+    <string name="breathing_pause">พักหายใจ</string>
+    <string name="breathing_pause_message">หายใจลึก ๆ คุณต้องการเปิด %1$s ตอนนี้จริง ๆ หรือ?</string>
+    <string name="open_app">เปิด</string>
 </resources>

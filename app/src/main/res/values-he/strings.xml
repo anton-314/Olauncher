@@ -116,4 +116,8 @@
     <string name="unable_to_open_shortcut">לא ניתן לפתוח את קיצור הדרך</string>
     <string name="unable_to_open_app_info">אין אפשרות לפתוח את המידע על היישום</string>
     <string name="bold_font">גופן מודגש</string>
+    <string name="pause">השהיה</string>
+    <string name="breathing_pause">הפסקת נשימה</string>
+    <string name="breathing_pause_message">קחו נשימה עמוקה. באמת לפתוח את %1$s עכשיו?</string>
+    <string name="open_app">פתיחה</string>
 </resources>

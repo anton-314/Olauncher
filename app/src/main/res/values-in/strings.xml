@@ -120,4 +120,8 @@
     <string name="unable_to_open_shortcut">Tidak dapat membuka pintasan</string>
     <string name="unable_to_open_app_info">Tidak dapat membuka info aplikasi</string>
     <string name="bold_font">Font tebal</string>
+    <string name="pause">Jeda</string>
+    <string name="breathing_pause">Tarik napas</string>
+    <string name="breathing_pause_message">Tarik napas dalam-dalam. Yakin ingin membuka %1$s sekarang?</string>
+    <string name="open_app">Buka</string>
 </resources><!-- Indonesian -->

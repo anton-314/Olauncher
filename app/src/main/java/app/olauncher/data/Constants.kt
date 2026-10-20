@@ -72,6 +72,8 @@ object Constants {
     const val ONE_HOUR_IN_MILLIS = 3600000L
     const val ONE_MINUTE_IN_MILLIS = 60000L
 
+    const val BREATHING_PAUSE_SECONDS = 6
+
     const val MIN_ANIM_REFRESH_RATE = 30f
 
     const val URL_WALLPAPERS = "https://gist.githubusercontent.com/tanujnotes/85e2d0343ace71e76615ac346fbff82b/raw"

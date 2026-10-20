@@ -119,4 +119,8 @@
     <string name="unable_to_open_shortcut">Impossibile aprire la scorciatoia</string>
     <string name="unable_to_open_app_info">Impossibile aprire le informazioni dell\'app</string>
     <string name="bold_font">Carattere in grassetto</string>
+    <string name="pause">Pausa</string>
+    <string name="breathing_pause">Respira</string>
+    <string name="breathing_pause_message">Fai un respiro profondo. Vuoi davvero aprire %1$s adesso?</string>
+    <string name="open_app">Apri</string>
 </resources><!-- Italian -->

@@ -120,4 +120,8 @@
     <string name="unable_to_open_shortcut">Impossible d\'ouvrir le raccourci</string>
     <string name="unable_to_open_app_info">Impossible d\'ouvrir les informations sur l\'application</string>
     <string name="bold_font">Police en gras</string>
+    <string name="pause">Pause</string>
+    <string name="breathing_pause">Pause respiration</string>
+    <string name="breathing_pause_message">Prenez une grande inspiration. Voulez-vous vraiment ouvrir %1$s maintenant ?</string>
+    <string name="open_app">Ouvrir</string>
 </resources><!-- French -->

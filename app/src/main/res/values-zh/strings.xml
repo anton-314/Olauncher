@@ -120,4 +120,8 @@
     <string name="unable_to_open_shortcut">无法打开快捷方式</string>
     <string name="unable_to_open_app_info">无法打开应用程序信息</string>
     <string name="bold_font">粗体字体</string>
+    <string name="pause">暂停</string>
+    <string name="breathing_pause">深呼吸</string>
+    <string name="breathing_pause_message">先深呼吸一下。确定现在要打开 %1$s 吗？</string>
+    <string name="open_app">打开</string>
 </resources><!-- Chinese -->

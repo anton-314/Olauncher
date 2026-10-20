@@ -235,6 +235,17 @@ class AppDrawerFragment : BaseFragment() {
                 prefs.setAppRenameLabel(identifier, renameLabel)
                 viewModel.getAppList()
             },
+            appPauseListener = { appModel ->
+                val pausedApps = prefs.pausedApps
+                val paused = appModel.appPackage !in pausedApps
+                if (paused) pausedApps.add(appModel.appPackage) else pausedApps.remove(appModel.appPackage)
+                prefs.pausedApps = pausedApps
+                requireContext().showToast(
+                    getString(R.string.breathing_pause) + ": " +
+                            getString(if (paused) R.string.enabled else R.string.disabled)
+                )
+            },
+            isAppPaused = { it in prefs.pausedApps },
             privateSpaceToggleListener = {
                 viewModel.togglePrivateSpaceLock()
             },

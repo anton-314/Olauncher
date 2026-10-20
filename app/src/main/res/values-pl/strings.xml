@@ -120,4 +120,8 @@
     <string name="unable_to_open_shortcut">Nie można otworzyć skrótu</string>
     <string name="unable_to_open_app_info">Nie można otworzyć informacji o aplikacji</string>
     <string name="bold_font">Pogrubiona czcionka</string>
+    <string name="pause">Pauza</string>
+    <string name="breathing_pause">Oddech</string>
+    <string name="breathing_pause_message">Głęboki wdech. Na pewno otworzyć teraz %1$s?</string>
+    <string name="open_app">Otwórz</string>
 </resources><!-- Polish -->

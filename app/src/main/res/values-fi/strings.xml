@@ -118,4 +118,8 @@
     <string name="shortcut_not_found">Pikakuvaketta ei löytynyt</string>
     <string name="unable_to_open_shortcut">Pikakuvaketta ei voida avata</string>
     <string name="bold_font">Lihavoitu fontti</string>
+    <string name="pause">Tauko</string>
+    <string name="breathing_pause">Hengähdystauko</string>
+    <string name="breathing_pause_message">Hengitä syvään. Haluatko todella avata sovelluksen %1$s nyt?</string>
+    <string name="open_app">Avaa</string>
 </resources>

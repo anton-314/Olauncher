@@ -119,4 +119,8 @@
     <string name="shortcut_not_found">Comanda rapidă nu a fost găsită</string>
     <string name="unable_to_open_shortcut">Nu se poate deschide comanda rapidă</string>
     <string name="bold_font">Font îngroșat</string>
+    <string name="pause">Pauză</string>
+    <string name="breathing_pause">Respiră</string>
+    <string name="breathing_pause_message">Respiră adânc. Chiar vrei să deschizi %1$s acum?</string>
+    <string name="open_app">Deschide</string>
 </resources>

@@ -119,4 +119,8 @@
     <string name="shortcut_not_found">Η συντόμευση δεν βρέθηκε</string>
     <string name="unable_to_open_shortcut">Αδύνατο το άνοιγμα της συντόμευσης</string>
     <string name="bold_font">Έντονη γραμματοσειρά</string>
+    <string name="pause">Παύση</string>
+    <string name="breathing_pause">Ανάσα</string>
+    <string name="breathing_pause_message">Πάρε μια βαθιά ανάσα. Θέλεις σίγουρα να ανοίξεις το %1$s τώρα;</string>
+    <string name="open_app">Άνοιγμα</string>
 </resources>

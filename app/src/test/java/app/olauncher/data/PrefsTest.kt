@@ -112,6 +112,19 @@ class PrefsTest {
     }
 
     @Test
+    fun `paused apps toggle and persist independently of the hidden apps`() {
+        assertTrue(prefs.pausedApps.isEmpty())
+        val paused = prefs.pausedApps
+        paused.add("com.instagram.android")
+        assertTrue(prefs.pausedApps.isEmpty())
+        prefs.pausedApps = paused
+        assertEquals(setOf("com.instagram.android"), prefs.pausedApps)
+        assertTrue(prefs.hiddenApps.isEmpty())
+        prefs.pausedApps = prefs.pausedApps.apply { remove("com.instagram.android") }
+        assertTrue(prefs.pausedApps.isEmpty())
+    }
+
+    @Test
     fun `hidden apps getter returns a copy that does not change the stored set`() {
         prefs.hiddenApps = mutableSetOf("a|UserHandle{0}")
         val hidden = prefs.hiddenApps

@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">ショートカットを開けません</string>
     <string name="unable_to_open_app_info">アプリ情報を開けません</string>
     <string name="bold_font">太字フォント</string>
+    <string name="pause">一時停止</string>
+    <string name="breathing_pause">ひと呼吸</string>
+    <string name="breathing_pause_message">深呼吸しましょう。本当に今 %1$s を開きますか？</string>
+    <string name="open_app">開く</string>
 </resources> <!-- Japanese -->

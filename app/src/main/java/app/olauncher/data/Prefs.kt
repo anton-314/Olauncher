@@ -35,6 +35,7 @@ class Prefs(private val prefs: SharedPreferences) {
     private val SWIPE_RIGHT_ENABLED = "SWIPE_RIGHT_ENABLED"
     private val HIDDEN_APPS = "HIDDEN_APPS"
     private val HIDDEN_APPS_UPDATED = "HIDDEN_APPS_UPDATED"
+    private val PAUSED_APPS = "PAUSED_APPS"
     private val APP_THEME = "APP_THEME"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
     private val BOLD_FONT = "BOLD_FONT"
@@ -225,6 +226,11 @@ class Prefs(private val prefs: SharedPreferences) {
     var hiddenAppsUpdated: Boolean
         get() = prefs.getBoolean(HIDDEN_APPS_UPDATED, false)
         set(value) = prefs.edit { putBoolean(HIDDEN_APPS_UPDATED, value).apply() }
+
+    // Packages that open only after a breathing pause; returns a copy like hiddenApps
+    var pausedApps: MutableSet<String>
+        get() = prefs.getStringSet(PAUSED_APPS, null)?.toMutableSet() ?: mutableSetOf()
+        set(value) = prefs.edit { putStringSet(PAUSED_APPS, HashSet(value)).apply() }
 
     var appName1: String
         get() = prefs.getString(APP_NAME_1, "").toString()

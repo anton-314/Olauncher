@@ -118,4 +118,8 @@
     <string name="shortcut_not_found">Snarvei ikke funnet</string>
     <string name="unable_to_open_shortcut">Kan ikke åpne snarvei</string>
     <string name="bold_font">Fet skrift</string>
+    <string name="pause">Pause</string>
+    <string name="breathing_pause">Pustepause</string>
+    <string name="breathing_pause_message">Trekk pusten dypt. Vil du virkelig åpne %1$s nå?</string>
+    <string name="open_app">Åpne</string>
 </resources>

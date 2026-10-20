@@ -33,6 +33,8 @@ class AppDrawerAdapter(
     private val appDeleteListener: (AppModel) -> Unit,
     private val appHideListener: (AppModel, Int) -> Unit,
     private val appRenameListener: (AppModel, String) -> Unit,
+    private val appPauseListener: (AppModel) -> Unit,
+    private val isAppPaused: (String) -> Boolean,
     private val privateSpaceToggleListener: () -> Unit = {},
     private val privateSpaceSettingsListener: () -> Unit = {},
 ) : ListAdapter<AppModel, RecyclerView.ViewHolder>(DIFF_CALLBACK), Filterable {
@@ -119,6 +121,8 @@ class AppDrawerAdapter(
                     appDeleteListener,
                     appInfoListener,
                     appHideListener,
+                    appPauseListener,
+                    isAppPaused,
                     appRenameListener
                 )
             }
@@ -232,6 +236,8 @@ class AppDrawerAdapter(
             appDeleteListener: (AppModel) -> Unit,
             appInfoListener: (AppModel) -> Unit,
             appHideListener: (AppModel, Int) -> Unit,
+            appPauseListener: (AppModel) -> Unit,
+            isAppPaused: (String) -> Boolean,
             appRenameListener: (AppModel, String) -> Unit,
         ) = with(binding) {
             appHideLayout.visibility = View.GONE
@@ -265,6 +271,10 @@ class AppDrawerAdapter(
                         true -> 0.5f
                         false -> 1.0f
                     }
+                    appPause.text = if (isAppPaused(appModel.appPackage))
+                        root.context.getString(R.string.pause) + " ✓"
+                    else
+                        root.context.getString(R.string.pause)
                     appHideLayout.visibility = View.VISIBLE
                     // Only allow renaming non hidden apps
                     appRename.isVisible = flag != Constants.FLAG_HIDDEN_APPS
@@ -339,6 +349,11 @@ class AppDrawerAdapter(
                 appTitle.visibility = View.VISIBLE
             }
             appHide.setOnClickListener { appHideListener(appModel, bindingAdapterPosition) }
+            appPause.setOnClickListener {
+                appPauseListener(appModel)
+                appHideLayout.visibility = View.GONE
+                appTitle.visibility = View.VISIBLE
+            }
         }
 
         private fun getAppName(context: Context, appPackage: String, user: UserHandle): String {

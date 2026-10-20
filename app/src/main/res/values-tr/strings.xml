@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">Kısayol açılamıyor</string>
     <string name="unable_to_open_app_info">Uygulama bilgisi açılamıyor</string>
     <string name="bold_font">Kalın yazı tipi</string>
+    <string name="pause">Duraklat</string>
+    <string name="breathing_pause">Nefes molası</string>
+    <string name="breathing_pause_message">Derin bir nefes al. %1$s uygulamasını şimdi gerçekten açmak istiyor musun?</string>
+    <string name="open_app">Aç</string>
 </resources><!-- Turkish -->

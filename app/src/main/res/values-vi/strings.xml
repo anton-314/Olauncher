@@ -119,4 +119,8 @@
     <string name="shortcut_not_found">Không tìm thấy lối tắt</string>
     <string name="unable_to_open_shortcut">Không thể mở lối tắt</string>
     <string name="bold_font">Phông chữ đậm</string>
+    <string name="pause">Tạm dừng</string>
+    <string name="breathing_pause">Hít thở</string>
+    <string name="breathing_pause_message">Hãy hít thở sâu. Bạn có thật sự muốn mở %1$s bây giờ không?</string>
+    <string name="open_app">Mở</string>
 </resources>

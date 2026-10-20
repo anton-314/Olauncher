@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">Não é possível abrir o atalho</string>
     <string name="unable_to_open_app_info">Não é possível abrir as informações do aplicativo</string>
     <string name="bold_font">Fonte em negrito</string>
+    <string name="pause">Pausa</string>
+    <string name="breathing_pause">Respire</string>
+    <string name="breathing_pause_message">Respire fundo. Quer mesmo abrir %1$s agora?</string>
+    <string name="open_app">Abrir</string>
 </resources><!-- Portuguese -->

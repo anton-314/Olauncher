@@ -141,4 +141,8 @@
     <string name="invalid_shortcut">Invalid shortcut</string>
     <string name="shortcut_not_found">Shortcut not found</string>
     <string name="unable_to_open_shortcut">Unable to open shortcut</string>
+    <string name="pause">Pause</string>
+    <string name="breathing_pause">Breathing pause</string>
+    <string name="breathing_pause_message">Take a deep breath. Do you really want to open %1$s now?</string>
+    <string name="open_app">Open</string>
 </resources>

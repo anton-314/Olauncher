@@ -116,4 +116,8 @@
     <string name="shortcut_not_found">바로가기를 찾을 수 없습니다</string>
     <string name="unable_to_open_shortcut">바로가기를 열 수 없습니다</string>
     <string name="bold_font">굵은 글꼴</string>
+    <string name="pause">일시정지</string>
+    <string name="breathing_pause">숨 고르기</string>
+    <string name="breathing_pause_message">심호흡을 해 보세요. 정말 지금 %1$s을(를) 여시겠어요?</string>
+    <string name="open_app">열기</string>
 </resources>

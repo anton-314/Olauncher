@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">Verknüpfung kann nicht geöffnet werden</string>
     <string name="unable_to_open_app_info">App-Informationen können nicht geöffnet werden</string>
     <string name="bold_font">Fette Schrift</string>
+    <string name="pause">Pause</string>
+    <string name="breathing_pause">Atempause</string>
+    <string name="breathing_pause_message">Atmen Sie kurz durch. Möchten Sie %1$s jetzt wirklich öffnen?</string>
+    <string name="open_app">Öffnen</string>
 </resources>

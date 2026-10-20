@@ -120,4 +120,8 @@
     <string name="unable_to_open_shortcut">Det går inte att öppna genvägen</string>
     <string name="unable_to_open_app_info">Kunde inte öppna appinfon</string>
     <string name="bold_font">Fetstil</string>
+    <string name="pause">Paus</string>
+    <string name="breathing_pause">Andningspaus</string>
+    <string name="breathing_pause_message">Ta ett djupt andetag. Vill du verkligen öppna %1$s nu?</string>
+    <string name="open_app">Öppna</string>
 </resources><!-- Swedish -->

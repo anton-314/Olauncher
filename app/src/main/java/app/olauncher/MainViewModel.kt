@@ -65,6 +65,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var isPrivateSpaceToggling = false
 
     val showDialog = SingleLiveEvent<String>()
+    val showBreathingPause = SingleLiveEvent<AppModel>()
     val resetLauncherLiveData = SingleLiveEvent<Unit?>()
     // Home button for recents feature disabled
     // val showRecentApps = SingleLiveEvent<Unit?>()
@@ -72,22 +73,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun selectedApp(appModel: AppModel, flag: Int) {
         if (appModel is AppModel.PrivateSpaceHeader) return
         when (flag) {
-            Constants.FLAG_LAUNCH_APP -> {
-                when (appModel) {
-                    is AppModel.PinnedShortcut ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) launchShortcut(appModel)
-
-                    is AppModel.App ->
-                        launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
-
-                    else -> {}
-                }
-            }
-
-            Constants.FLAG_HIDDEN_APPS -> {
-                if (appModel is AppModel.App) {
-                    launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
-                }
+            Constants.FLAG_LAUNCH_APP, Constants.FLAG_HIDDEN_APPS -> {
+                if (appModel.appPackage in prefs.pausedApps)
+                    showBreathingPause.postValue(appModel)
+                else
+                    launch(appModel)
             }
 
             Constants.FLAG_SET_HOME_APP_1 -> saveHomeApp(appModel, 1)
@@ -104,6 +94,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             Constants.FLAG_SET_CLOCK_APP -> saveClockApp(appModel)
             Constants.FLAG_SET_CALENDAR_APP -> saveCalendarApp(appModel)
             Constants.FLAG_SET_SCREEN_TIME_APP -> saveScreenTimeApp(appModel)
+        }
+    }
+
+    // Called by the breathing pause dialog once the user chose to open the app
+    fun launch(appModel: AppModel) {
+        when (appModel) {
+            is AppModel.PinnedShortcut ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) launchShortcut(appModel)
+
+            is AppModel.App ->
+                launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
+
+            else -> {}
         }
     }
 

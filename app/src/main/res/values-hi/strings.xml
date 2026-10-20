@@ -119,4 +119,8 @@
     <string name="shortcut_not_found">शॉर्टकट नहीं मिला</string>
     <string name="unable_to_open_shortcut">शॉर्टकट खोलने में असमर्थ</string>
     <string name="bold_font">बोल्ड फ़ॉन्ट</string>
+    <string name="pause">विराम</string>
+    <string name="breathing_pause">साँस लें</string>
+    <string name="breathing_pause_message">गहरी साँस लें। क्या आप सच में अभी %1$s खोलना चाहते हैं?</string>
+    <string name="open_app">खोलें</string>
 </resources>

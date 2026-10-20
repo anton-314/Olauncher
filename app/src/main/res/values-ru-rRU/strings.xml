@@ -121,4 +121,8 @@
     <string name="unable_to_open_shortcut">Не удалось открыть ярлык</string>
     <string name="unable_to_open_app_info">Не удалось открыть информацию о приложении</string>
     <string name="bold_font">Жирный шрифт</string>
+    <string name="pause">Пауза</string>
+    <string name="breathing_pause">Передышка</string>
+    <string name="breathing_pause_message">Сделай глубокий вдох. Точно открыть %1$s сейчас?</string>
+    <string name="open_app">Открыть</string>
 </resources><!-- Russian -->

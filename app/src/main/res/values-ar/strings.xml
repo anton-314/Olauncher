@@ -119,4 +119,8 @@
     <string name="unable_to_open_shortcut">يتعذر فتح الاختصار</string>
     <string name="unable_to_open_app_info">تعذر فتح معلومات التطبيق</string>
     <string name="bold_font">خط عريض</string>
+    <string name="pause">إيقاف مؤقت</string>
+    <string name="breathing_pause">استراحة تنفس</string>
+    <string name="breathing_pause_message">خذ نفسًا عميقًا. هل تريد حقًا فتح %1$s الآن؟</string>
+    <string name="open_app">فتح</string>
 </resources>

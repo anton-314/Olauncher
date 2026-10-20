@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.ActivityMainBinding
@@ -34,6 +35,7 @@ import app.olauncher.helper.isSystemAnimationsDisabled
 import app.olauncher.helper.isTablet
 import app.olauncher.helper.resetLauncherViaFakeActivity
 import app.olauncher.helper.setPlainWallpaper
+import app.olauncher.helper.showBreathingPauseDialog
 import app.olauncher.helper.showLauncherSelector
 import app.olauncher.helper.showMessageDialog
 import app.olauncher.helper.showToast
@@ -200,6 +202,7 @@ class MainActivity : AppCompatActivity() {
             else
                 showLauncherSelector(Constants.REQUEST_CODE_LAUNCHER_SELECTOR)
         }
+        viewModel.showBreathingPause.observe(this) { showBreathingPause(it) }
         viewModel.showDialog.observe(this) {
             when (it) {
                 Constants.Dialog.HIDDEN -> {
@@ -219,6 +222,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun showBreathingPause(appModel: AppModel) {
+        messageDialog?.dismiss()
+        messageDialog = showBreathingPauseDialog(appModel.appLabel, Constants.BREATHING_PAUSE_SECONDS) {
+            viewModel.launch(appModel)
         }
     }
 
