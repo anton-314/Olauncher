@@ -37,8 +37,8 @@ fun View.showPopupMenu(
 }
 
 /**
- * App dialog: shows without bringing back a hidden status bar, and blurs the
- * screen behind it on Android 12+, fading blur and dialog out together on dismiss.
+ * App dialog: sits at the bottom of the screen, shows without bringing back a hidden status bar,
+ * and blurs the screen behind it on Android 12+, fading blur and dialog out together on dismiss.
  */
 class OlDialog(context: Context) : AlertDialog(context) {
 
@@ -46,6 +46,7 @@ class OlDialog(context: Context) : AlertDialog(context) {
 
     fun showRespectingStatusBar() {
         val window = window
+        window?.setGravity(Gravity.BOTTOM)
         if (window == null || Prefs(context).showStatusBar) {
             show()
         } else {
@@ -54,6 +55,8 @@ class OlDialog(context: Context) : AlertDialog(context) {
             window.hideStatusBar()
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         }
+        // Full width; the window background insets the dialog from the screen edges
+        window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         blur = window?.let { WindowBlur(it).apply { fadeIn() } }
     }
 
@@ -76,21 +79,27 @@ class OlDialog(context: Context) : AlertDialog(context) {
 }
 
 /**
- * Builds a dialog using the app's own layout: a title row with a close icon,
- * an optional [message] or custom [content], and a text [action] at the end.
- * [content] receives the container so the inflated view keeps its XML margins.
+ * Builds a dialog using the app's own layout: an optional small [eyebrow] above the title,
+ * an optional [message] or custom [content], and the [action] as a pill at the end.
+ * Back or a tap outside closes it. [content] receives the container so the inflated view
+ * keeps its XML margins.
  */
 fun Context.createDialog(
     @StringRes title: Int,
     @StringRes action: Int,
     @StringRes message: Int = 0,
     @StringRes neutral: Int = 0,
+    @StringRes eyebrow: Int = 0,
     onNeutral: () -> Unit = {},
     onAction: () -> Unit = {},
     content: ((ViewGroup) -> View)? = null,
 ): OlDialog {
     val dialog = OlDialog(this)
     val binding = DialogBaseBinding.inflate(LayoutInflater.from(dialog.context))
+    if (eyebrow != 0) {
+        binding.tvEyebrow.setText(eyebrow)
+        binding.tvEyebrow.isVisible = true
+    }
     binding.tvTitle.setText(title)
     binding.tvAction.setText(action)
     if (message != 0) {
@@ -106,7 +115,7 @@ fun Context.createDialog(
         binding.contentContainer.isVisible = true
     }
     dialog.setView(binding.root)
-    binding.ivClose.setOnClickListener { dialog.dismiss() }
+    dialog.setCanceledOnTouchOutside(true)
     binding.tvNeutral.setOnClickListener {
         onNeutral()
         dialog.dismiss()
@@ -118,14 +127,15 @@ fun Context.createDialog(
     return dialog
 }
 
-/** Title with a close icon, a message and a single action. */
+/** Title, a message and a single action. */
 fun Context.showMessageDialog(
     @StringRes title: Int,
     @StringRes message: Int,
     @StringRes action: Int,
+    @StringRes eyebrow: Int = 0,
     onAction: () -> Unit,
 ): OlDialog {
-    val dialog = createDialog(title, action, message = message, onAction = onAction)
+    val dialog = createDialog(title, action, message = message, eyebrow = eyebrow, onAction = onAction)
     dialog.showRespectingStatusBar()
     return dialog
 }

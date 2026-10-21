@@ -4,15 +4,16 @@
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/primaryShadeDarkColor">
+    android:background="?attr/settingsBackgroundColor">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="8dp"
+        android:clipToPadding="false"
         android:fadingEdgeLength="48dp"
         android:overScrollMode="never"
+        android:paddingHorizontal="@dimen/screen_inset"
         android:requiresFadingEdge="vertical"
         android:scrollbars="none">
 
@@ -21,541 +22,322 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingVertical="64dp">
+            android:paddingTop="64dp"
+            android:paddingBottom="64dp">
 
+            <!-- Title, a long press opens Olauncher's app info; hidden apps on the right -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
-                android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp">
-
-                    <TextView
-                        android:id="@+id/olauncherHiddenApps"
-                        style="@style/TextLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/app_name" />
-
-                    <ImageView
-                        android:id="@+id/appInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center_vertical"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_info" />
-                </FrameLayout>
+                android:layout_marginHorizontal="@dimen/settings_gutter"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/setLauncher"
-                    style="@style/TextSmall"
+                    android:id="@+id/settingsTitle"
+                    style="@style/TextTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings" />
+
+                <TextView
+                    android:id="@+id/olauncherHiddenApps"
+                    style="@style/TextMonoSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/set_as_default_launcher" />
-
+                    android:layout_marginEnd="-8dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:text="@string/hidden_apps_short"
+                    android:textColor="?attr/textLabelColor" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/setLauncher"
+                style="@style/TextDefault"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginHorizontal="@dimen/settings_gutter"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
-                android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp"
-                tools:visibility="visible">
+                android:background="?attr/selectableItemBackground"
+                android:focusable="true"
+                android:paddingVertical="8dp"
+                android:text="@string/set_as_default_launcher"
+                android:textColor="?attr/primaryColor"
+                android:textSize="14sp" />
 
-                <TextView
-                    style="@style/TextLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/home_screen"
-                    android:textColor="?attr/primaryColor" />
+            <!-- Home screen -->
+            <TextView
+                style="@style/SettingsSection"
+                android:layout_marginTop="24dp"
+                android:text="@string/home_screen" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+            <LinearLayout style="@style/SettingsGroup">
+
+                <LinearLayout
+                    android:id="@+id/homeAppsNumRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/apps_on_home_screen"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/apps_on_home_screen" />
 
                     <TextView
                         android:id="@+id/homeAppsNum"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:paddingVertical="8dp"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="8dp"
-                        tools:text="@string/_8" />
-                </FrameLayout>
+                        style="@style/SettingsRowValue"
+                        tools:text="@string/_6" />
+                </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+                <LinearLayout
+                    android:id="@+id/dateTimeRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/show_date_time"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/show_date_time" />
 
                     <TextView
                         android:id="@+id/dateTime"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
+                        style="@style/SettingsRowValue"
                         android:text="@string/on" />
-                </FrameLayout>
+                </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+                <LinearLayout
+                    android:id="@+id/alignmentRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/home_layout_alignment"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/home_layout_alignment" />
 
                     <TextView
                         android:id="@+id/alignment"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
+                        style="@style/SettingsRowValue"
                         android:text="@string/left" />
-                </FrameLayout>
+                </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
                     android:id="@+id/screenTimeLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="4dp">
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/screen_time"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/screen_time" />
 
-                    <TextView
-                        android:id="@+id/screenTimeOnOff"
-                        style="@style/TextSmallBold"
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/screenTimeSwitch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
-                android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp"
-                tools:visibility="visible">
+            <!-- Appearance -->
+            <TextView
+                style="@style/SettingsSection"
+                android:text="@string/appearance" />
 
-                <TextView
-                    style="@style/TextLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/appearance"
-                    android:textColor="?attr/primaryColor" />
+            <LinearLayout style="@style/SettingsGroup">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
+                <LinearLayout
+                    android:id="@+id/appThemeRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/auto_show_keyboard"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/autoShowKeyboard"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/on" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
-
-                    <TextView
-                        android:id="@+id/dailyWallpaperUrl"
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/daily_wallpaper_update" />
-
-                    <TextView
-                        android:id="@+id/dailyWallpaper"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/notification_bar"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/statusBar"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/theme_mode"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/theme_mode" />
 
                     <TextView
                         android:id="@+id/appThemeText"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
+                        style="@style/SettingsRowValue"
                         android:text="@string/dark" />
-                </FrameLayout>
+                </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/bold_font"
-                        android:textColor="?attr/primaryColor" />
+                <LinearLayout
+                    android:id="@+id/textSizeRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        android:id="@+id/boldFont"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="4dp">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/text_size"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/text_size" />
 
                     <TextView
                         android:id="@+id/textSizeValue"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:paddingVertical="8dp"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="8dp"
-                        tools:text="1.0" />
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
-                android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp">
-
-                <TextView
-                    style="@style/TextLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/gestures"
-                    android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowValue"
+                        tools:text="100%" />
+                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
+                    android:id="@+id/boldFontRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/bold_font" />
+
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/boldFontSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/autoShowKeyboardRow"
+                    style="@style/SettingsRow">
+
+                    <TextView
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/auto_show_keyboard" />
+
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/autoShowKeyboardSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Tapping the label opens the wallpaper source, a long press removes the wallpaper -->
+                <LinearLayout
+                    android:id="@+id/dailyWallpaperRow"
+                    style="@style/SettingsRow">
+
+                    <TextView
+                        android:id="@+id/dailyWallpaperUrl"
+                        style="@style/SettingsRowLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/daily_wallpaper_update" />
+
+                    <Space
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_weight="1"
-                        android:lines="1"
-                        android:paddingVertical="8dp"
-                        android:text="@string/swipe_left_app"
-                        android:textColor="?attr/primaryColor" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/dailyWallpaperSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/statusBarRow"
+                    style="@style/SettingsRow">
+
+                    <TextView
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/notification_bar" />
+
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/statusBarSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Gestures: a long press on a swipe row turns the gesture on or off -->
+            <TextView
+                style="@style/SettingsSection"
+                android:text="@string/gestures" />
+
+            <LinearLayout style="@style/SettingsGroup">
+
+                <LinearLayout
+                    android:id="@+id/swipeLeftRow"
+                    style="@style/SettingsRow">
+
+                    <TextView
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/swipe_left_app" />
 
                     <TextView
                         android:id="@+id/swipeLeftApp"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:lines="1"
-                        android:padding="8dp" />
+                        style="@style/SettingsRowValue"
+                        android:maxWidth="150dp"
+                        tools:text="@string/camera" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
+                    android:id="@+id/swipeRightRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_weight="1"
-                        android:lines="1"
-                        android:paddingVertical="8dp"
-                        android:text="@string/swipe_right_app"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/swipe_right_app" />
 
                     <TextView
                         android:id="@+id/swipeRightApp"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:lines="1"
-                        android:padding="8dp" />
+                        style="@style/SettingsRowValue"
+                        android:maxWidth="150dp"
+                        tools:text="@string/phone" />
                 </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:visibility="visible">
+                <!-- A long press opens the accessibility settings -->
+                <LinearLayout
+                    android:id="@+id/toggleLockRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/double_tap_to_lock_screen" />
+
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/toggleLockSwitch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="8dp"
-                        android:text="@string/double_tap_to_lock_screen"
-                        android:textColor="?attr/primaryColor" />
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <!-- Home button for recents feature disabled
+                <LinearLayout
+                    android:id="@+id/homeButtonRecentsRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        android:id="@+id/toggleLock"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="10dp"
-                        android:text="@string/off" />
-                </FrameLayout>
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/home_button_show_recents" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp">
+                    <app.olauncher.ui.SettingSwitch
+                        android:id="@+id/homeButtonRecentsSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                -->
+            </LinearLayout>
+
+            <!-- Breathing pause -->
+            <TextView
+                style="@style/SettingsSection"
+                android:text="@string/breathing_pause" />
+
+            <LinearLayout style="@style/SettingsGroup">
+
+                <LinearLayout
+                    android:id="@+id/ankiDeckRow"
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="160dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/anki_deck"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/anki_deck" />
 
                     <TextView
                         android:id="@+id/ankiDeck"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:ellipsize="end"
+                        style="@style/SettingsRowValue"
                         android:maxWidth="150dp"
-                        android:maxLines="1"
-                        android:padding="10dp"
                         android:text="@string/off" />
-                </FrameLayout>
+                </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
                     android:id="@+id/ankiCardCountLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp">
+                    style="@style/SettingsRow">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/anki_cards"
-                        android:textColor="?attr/primaryColor" />
+                        style="@style/SettingsRowLabel"
+                        android:text="@string/anki_cards" />
 
                     <TextView
                         android:id="@+id/ankiCardCount"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="10dp"
+                        style="@style/SettingsRowValue"
                         tools:text="2" />
-                </FrameLayout>
-
-                <!-- Home button for recents feature disabled
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:visibility="visible">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/home_button_show_recents"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/homeButtonRecents"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="10dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-                -->
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

@@ -7,15 +7,14 @@
 
     <TextView
         android:id="@+id/privateSpaceTitle"
-        style="@style/TextLarge"
+        style="@style/TextDrawer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:alpha="0.8"
         android:maxLines="1"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="@dimen/home_gutter"
         android:paddingVertical="@dimen/app_padding_vertical"
-        android:text="@string/private_space" />
+        android:text="@string/private_space"
+        android:textColor="?attr/textSecondaryColor" />
 
 </LinearLayout>
-

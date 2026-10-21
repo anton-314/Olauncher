@@ -221,12 +221,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 Constants.Dialog.KEYBOARD -> {
-                    showMessage(R.string.app_name, R.string.keyboard_message, R.string.okay) {
+                    showMessage(R.string.auto_show_keyboard, R.string.keyboard_message, R.string.okay, R.string.appearance) {
                     }
                 }
 
                 Constants.Dialog.DIGITAL_WELLBEING -> {
-                    showMessage(R.string.screen_time, R.string.app_usage_message, R.string.permission) {
+                    showMessage(R.string.screen_time, R.string.app_usage_message, R.string.permission, R.string.home_screen) {
                         if (!startActivitySafely(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)))
                             showToast(R.string.unable_to_open_app)
                     }
@@ -245,9 +245,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun showMessage(title: Int, message: Int, action: Int, clickListener: () -> Unit) {
+    private fun showMessage(title: Int, message: Int, action: Int, eyebrow: Int = 0, clickListener: () -> Unit) {
         messageDialog?.dismiss()
-        messageDialog = showMessageDialog(title, message, action, clickListener)
+        messageDialog = showMessageDialog(title, message, action, eyebrow, clickListener)
     }
 
     @SuppressLint("SourceLockedOrientationActivity")

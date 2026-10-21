@@ -6,26 +6,58 @@
 
     <!--White-->
     <color name="white">#FFFFFF</color>
-    <color name="whiteTrans90">#E6FFFFFF</color>
     <color name="whiteTrans80">#CCFFFFFF</color>
     <color name="whiteTrans50">#80FFFFFF</color>
     <color name="whiteInverse">#000000</color>
-    <color name="whiteInverseTrans10">#1A000000</color>
-    <color name="whiteInverseTrans25">#40000000</color>
-    <color name="whiteInverseTrans50">#80000000</color>
-    <color name="whiteInverseTrans80">#CC000000</color>
-    <color name="whiteInverseTrans90">#E6000000</color>
 
     <!--Black-->
     <color name="black">#000000</color>
-    <color name="blackTrans90">#E6000000</color>
-    <color name="blackTrans80">#CC000000</color>
-    <color name="blackTrans50">#80000000</color>
-    <color name="blackInverse">#FFFFFF</color>
-    <color name="blackInverseTrans10">#1AFFFFFF</color>
-    <color name="blackInverseTrans25">#40FFFFFF</color>
-    <color name="blackInverseTrans50">#80FFFFFF</color>
-    <color name="blackInverseTrans80">#CCFFFFFF</color>
-    <color name="blackInverseTrans90">#E6FFFFFF</color>
+
+    <!-- Dark style: white on black -->
+    <color name="darkTextMeta">#B8FFFFFF</color>
+    <color name="darkTextValue">#B3FFFFFF</color>
+    <color name="darkTextBody">#A6FFFFFF</color>
+    <color name="darkTextMuted">#99FFFFFF</color>
+    <color name="darkTextSecondary">#8CFFFFFF</color>
+    <color name="darkGestureHint">#80FFFFFF</color>
+    <color name="darkTextLabel">#6BFFFFFF</color>
+    <color name="darkTextFaint">#59FFFFFF</color>
+    <color name="darkTextHint">#61FFFFFF</color>
+    <color name="darkDivider">#14FFFFFF</color>
+    <color name="darkSearchLine">#24FFFFFF</color>
+    <color name="darkSearchLineActive">#4DFFFFFF</color>
+    <color name="darkChipStroke">#2EFFFFFF</color>
+    <color name="darkOutline">#4DFFFFFF</color>
+    <color name="darkCard">#12FFFFFF</color>
+    <color name="darkSurface">#1C1C1E</color>
+    <color name="darkSettingsBackground">#111112</color>
+    <color name="darkDrawerOverlay">#D60E0E0F</color>
+    <color name="darkSwitchTrackOff">#2EFFFFFF</color>
+    <color name="darkSwitchThumbOff">#B3FFFFFF</color>
+
+    <!-- Light style: the exact inverse, ink on white -->
+    <color name="ink">#111112</color>
+    <color name="inkTrans80">#CC111112</color>
+    <color name="inkTrans50">#80111112</color>
+    <color name="lightTextMeta">#B3111112</color>
+    <color name="lightTextValue">#B3111112</color>
+    <color name="lightTextBody">#A6111112</color>
+    <color name="lightTextMuted">#8C111112</color>
+    <color name="lightTextSecondary">#80111112</color>
+    <color name="lightGestureHint">#8C111112</color>
+    <color name="lightTextLabel">#80111112</color>
+    <color name="lightTextFaint">#59111112</color>
+    <color name="lightTextHint">#61111112</color>
+    <color name="lightDivider">#1A111112</color>
+    <color name="lightSearchLine">#4D111112</color>
+    <color name="lightSearchLineActive">#4D111112</color>
+    <color name="lightChipStroke">#2E111112</color>
+    <color name="lightOutline">#4D111112</color>
+    <color name="lightCard">#12111112</color>
+    <color name="lightSurface">#FFFFFF</color>
+    <color name="lightSettingsBackground">#F6F6F4</color>
+    <color name="lightDrawerOverlay">#E0F8F8F6</color>
+    <color name="lightSwitchTrackOff">#26111112</color>
+    <color name="lightSwitchThumbOff">#FFFFFF</color>
 
 </resources>

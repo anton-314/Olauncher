@@ -52,10 +52,13 @@ import app.olauncher.helper.showPopupMenu
 import app.olauncher.helper.showStatusBar
 import app.olauncher.helper.showToast
 import app.olauncher.helper.startActivitySafely
+import app.olauncher.helper.swipeLeftLabel
+import app.olauncher.helper.swipeRightLabel
 import app.olauncher.listener.DeviceAdmin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListener {
 
@@ -111,46 +114,53 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         initObservers()
     }
 
+    // Usage access and the accessibility service are granted in system settings
+    override fun onResume() {
+        super.onResume()
+        populateScreenTimeOnOff()
+        populateLockSettings()
+    }
+
     override fun onClick(view: View) {
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
-            R.id.screenTimeOnOff -> viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
-            R.id.appInfo -> openAppInfo(requireContext(), Process.myUserHandle(), BuildConfig.APPLICATION_ID)
+            R.id.screenTimeLayout -> viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
             R.id.setLauncher -> viewModel.resetLauncherLiveData.call()
-            R.id.toggleLock -> toggleLockMode()
+            R.id.toggleLockRow -> toggleLockMode()
             // Home button for recents feature disabled
-            // R.id.homeButtonRecents -> toggleHomeButtonRecents()
-            R.id.autoShowKeyboard -> toggleKeyboardText()
-            R.id.homeAppsNum -> showHomeAppsNumMenu(view)
+            // R.id.homeButtonRecentsRow -> toggleHomeButtonRecents()
+            R.id.autoShowKeyboardRow -> toggleKeyboardText()
+            R.id.homeAppsNumRow -> showHomeAppsNumMenu(view)
             R.id.dailyWallpaperUrl -> requireContext().openUrl(prefs.dailyWallpaperUrl)
-            R.id.dailyWallpaper -> toggleDailyWallpaperUpdate()
-            R.id.alignment -> showAlignmentMenu(view)
-            R.id.statusBar -> toggleStatusBar()
-            R.id.dateTime -> showDateTimeMenu(view)
-            R.id.appThemeText -> showAppThemeMenu(view, showSystem = false)
-            R.id.textSizeValue -> showTextSizeDialog()
-            R.id.boldFont -> toggleBoldFont()
-            R.id.ankiDeck -> selectAnkiDeck()
-            R.id.ankiCardCount -> showAnkiCardCountDialog()
+            R.id.dailyWallpaperRow -> toggleDailyWallpaperUpdate()
+            R.id.alignmentRow -> showAlignmentMenu(view)
+            R.id.statusBarRow -> toggleStatusBar()
+            R.id.dateTimeRow -> showDateTimeMenu(view)
+            R.id.appThemeRow -> showAppThemeMenu(view, showSystem = false)
+            R.id.textSizeRow -> showTextSizeDialog()
+            R.id.boldFontRow -> toggleBoldFont()
+            R.id.ankiDeckRow -> selectAnkiDeck()
+            R.id.ankiCardCountLayout -> showAnkiCardCountDialog()
 
-            R.id.swipeLeftApp -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_LEFT_APP)
-            R.id.swipeRightApp -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_RIGHT_APP)
+            R.id.swipeLeftRow -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_LEFT_APP)
+            R.id.swipeRightRow -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_RIGHT_APP)
         }
     }
 
     override fun onLongClick(view: View): Boolean {
         when (view.id) {
-            R.id.alignment -> {
+            R.id.settingsTitle -> openAppInfo(requireContext(), Process.myUserHandle(), BuildConfig.APPLICATION_ID)
+            R.id.alignmentRow -> {
                 prefs.appLabelAlignment = prefs.homeAlignment
                 if (isShowing()) findNavController().navigate(R.id.action_settingsFragment_to_appListFragment)
                 requireContext().showToast(getString(R.string.alignment_changed))
             }
 
-            R.id.dailyWallpaper -> removeWallpaper()
-            R.id.appThemeText -> showAppThemeMenu(view, showSystem = true)
-            R.id.swipeLeftApp -> toggleSwipeLeft()
-            R.id.swipeRightApp -> toggleSwipeRight()
-            R.id.toggleLock -> openAccessibilitySettings()
+            R.id.dailyWallpaperRow, R.id.dailyWallpaperUrl -> removeWallpaper()
+            R.id.appThemeRow -> showAppThemeMenu(view, showSystem = true)
+            R.id.swipeLeftRow -> toggleSwipeLeft()
+            R.id.swipeRightRow -> toggleSwipeRight()
+            R.id.toggleLockRow -> openAccessibilitySettings()
         }
         return true
     }
@@ -166,39 +176,45 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
 
     private fun initClickListeners() {
         binding.olauncherHiddenApps.setOnClickListener(this)
-        binding.appInfo.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
-        binding.autoShowKeyboard.setOnClickListener(this)
-        binding.toggleLock.setOnClickListener(this)
+        binding.autoShowKeyboardRow.setOnClickListener(this)
+        binding.toggleLockRow.setOnClickListener(this)
         // Home button for recents feature disabled
-        // binding.homeButtonRecents.setOnClickListener(this)
-        binding.homeAppsNum.setOnClickListener(this)
-        binding.screenTimeOnOff.setOnClickListener(this)
+        // binding.homeButtonRecentsRow.setOnClickListener(this)
+        binding.homeAppsNumRow.setOnClickListener(this)
+        binding.screenTimeLayout.setOnClickListener(this)
         binding.dailyWallpaperUrl.setOnClickListener(this)
-        binding.dailyWallpaper.setOnClickListener(this)
-        binding.alignment.setOnClickListener(this)
-        binding.statusBar.setOnClickListener(this)
-        binding.dateTime.setOnClickListener(this)
-        binding.swipeLeftApp.setOnClickListener(this)
-        binding.swipeRightApp.setOnClickListener(this)
-        binding.appThemeText.setOnClickListener(this)
-        binding.textSizeValue.setOnClickListener(this)
-        binding.boldFont.setOnClickListener(this)
-        binding.ankiDeck.setOnClickListener(this)
-        binding.ankiCardCount.setOnClickListener(this)
+        binding.dailyWallpaperRow.setOnClickListener(this)
+        binding.alignmentRow.setOnClickListener(this)
+        binding.statusBarRow.setOnClickListener(this)
+        binding.dateTimeRow.setOnClickListener(this)
+        binding.swipeLeftRow.setOnClickListener(this)
+        binding.swipeRightRow.setOnClickListener(this)
+        binding.appThemeRow.setOnClickListener(this)
+        binding.textSizeRow.setOnClickListener(this)
+        binding.boldFontRow.setOnClickListener(this)
+        binding.ankiDeckRow.setOnClickListener(this)
+        binding.ankiCardCountLayout.setOnClickListener(this)
 
-        binding.dailyWallpaper.setOnLongClickListener(this)
-        binding.alignment.setOnLongClickListener(this)
-        binding.appThemeText.setOnLongClickListener(this)
-        binding.swipeLeftApp.setOnLongClickListener(this)
-        binding.swipeRightApp.setOnLongClickListener(this)
-        binding.toggleLock.setOnLongClickListener(this)
+        binding.settingsTitle.setOnLongClickListener(this)
+        binding.dailyWallpaperRow.setOnLongClickListener(this)
+        binding.dailyWallpaperUrl.setOnLongClickListener(this)
+        binding.alignmentRow.setOnLongClickListener(this)
+        binding.appThemeRow.setOnLongClickListener(this)
+        binding.swipeLeftRow.setOnLongClickListener(this)
+        binding.swipeRightRow.setOnLongClickListener(this)
+        binding.toggleLockRow.setOnLongClickListener(this)
     }
 
     private fun initObservers() {
         prefs.firstSettingsOpen = false
-        viewModel.isOlauncherDefault.observe(viewLifecycleOwner) {
-            if (it) binding.setLauncher.text = getString(R.string.change_default_launcher)
+        // Tapping the line opens the launcher chooser either way
+        viewModel.isOlauncherDefault.observe(viewLifecycleOwner) { isDefault ->
+            binding.setLauncher.text =
+                getString(if (isDefault) R.string.is_default_launcher else R.string.set_as_default_launcher)
+            binding.setLauncher.setTextColor(
+                requireContext().getColorFromAttr(if (isDefault) R.attr.textSecondaryColor else R.attr.primaryColor)
+            )
         }
         viewModel.homeAppAlignment.observe(viewLifecycleOwner) {
             populateAlignment()
@@ -263,7 +279,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     // Same stepper as the text size; a long press steps by 10
     private fun showAnkiCardCountDialog() {
         var stepper: DialogTextSizeBinding? = null
-        val dialog = requireContext().createDialog(R.string.anki_cards, R.string.okay) { container ->
+        val dialog = requireContext().createDialog(
+            R.string.anki_cards,
+            R.string.okay,
+            eyebrow = R.string.breathing_pause,
+        ) { container ->
             DialogTextSizeBinding.inflate(layoutInflater, container, false).also { stepper = it }.root
         }
         stepper?.apply {
@@ -302,7 +322,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             val decks = withContext(Dispatchers.IO) { AnkiDroid.getDecks(context) }
             if (!isShowing()) return@launch
             val rows = mutableListOf<Pair<TextView, AnkiDroid.Deck?>>()
-            val dialog = requireContext().createDialog(R.string.anki_deck, R.string.close) { container ->
+            val dialog = requireContext().createDialog(
+                R.string.anki_deck,
+                R.string.close,
+                eyebrow = R.string.breathing_pause,
+            ) { container ->
                 ScrollView(container.context).apply {
                     addView(LinearLayout(container.context).apply {
                         orientation = LinearLayout.VERTICAL
@@ -340,6 +364,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
                 R.string.anki_deck,
                 R.string.okay,
                 message = R.string.anki_media_not_found_message,
+                eyebrow = R.string.breathing_pause,
             )
         )
     }
@@ -351,6 +376,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
                 R.string.anki_deck,
                 R.string.permission,
                 message = R.string.anki_media_access_message,
+                eyebrow = R.string.breathing_pause,
                 onAction = { requestMediaAccess() }
             )
         )
@@ -390,7 +416,11 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
 
     private fun showTextSizeDialog() {
         var stepper: DialogTextSizeBinding? = null
-        val dialog = requireContext().createDialog(R.string.text_size, R.string.okay) { container ->
+        val dialog = requireContext().createDialog(
+            R.string.text_size,
+            R.string.okay,
+            eyebrow = R.string.appearance,
+        ) { container ->
             DialogTextSizeBinding.inflate(layoutInflater, container, false).also { stepper = it }.root
         }
         stepper?.apply {
@@ -407,9 +437,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         val serviceEnabled = isAccessServiceEnabled(requireContext())
         showDialog(
             requireContext().createDialog(
-                title = R.string.gestures,
+                title = R.string.double_tap_to_lock_screen,
                 action = if (serviceEnabled) R.string.disable else R.string.enable,
                 message = R.string.accessibility_disclosure,
+                eyebrow = R.string.gestures,
                 onAction = { openAccessibilityService() },
             )
         )
@@ -417,24 +448,18 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
 
     private fun toggleSwipeLeft() {
         prefs.swipeLeftEnabled = !prefs.swipeLeftEnabled
-        if (prefs.swipeLeftEnabled) {
-            binding.swipeLeftApp.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColor))
-            requireContext().showToast(getString(R.string.swipe_left_app_enabled))
-        } else {
-            binding.swipeLeftApp.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColorTrans50))
-            requireContext().showToast(getString(R.string.swipe_left_app_disabled))
-        }
+        populateSwipeApps()
+        requireContext().showToast(
+            getString(if (prefs.swipeLeftEnabled) R.string.swipe_left_app_enabled else R.string.swipe_left_app_disabled)
+        )
     }
 
     private fun toggleSwipeRight() {
         prefs.swipeRightEnabled = !prefs.swipeRightEnabled
-        if (prefs.swipeRightEnabled) {
-            binding.swipeRightApp.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColor))
-            requireContext().showToast(getString(R.string.swipe_right_app_enabled))
-        } else {
-            binding.swipeRightApp.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColorTrans50))
-            requireContext().showToast(getString(R.string.swipe_right_app_disabled))
-        }
+        populateSwipeApps()
+        requireContext().showToast(
+            getString(if (prefs.swipeRightEnabled) R.string.swipe_right_app_enabled else R.string.swipe_right_app_disabled)
+        )
     }
 
     private fun toggleStatusBar() {
@@ -443,13 +468,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun populateStatusBar() {
-        if (prefs.showStatusBar) {
-            requireActivity().window.showStatusBar()
-            binding.statusBar.text = getString(R.string.on)
-        } else {
-            requireActivity().window.hideStatusBar()
-            binding.statusBar.text = getString(R.string.off)
-        }
+        if (prefs.showStatusBar) requireActivity().window.showStatusBar()
+        else requireActivity().window.hideStatusBar()
+        binding.statusBarSwitch.isChecked = prefs.showStatusBar
     }
 
     private fun toggleDateTime(selected: Int) {
@@ -461,7 +482,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     private fun populateDateTime() {
         binding.dateTime.text = getString(
             when (prefs.dateTimeVisibility) {
-                Constants.DateTime.DATE_ONLY -> R.string.date
+                Constants.DateTime.DATE_ONLY -> R.string.date_only
                 Constants.DateTime.ON -> R.string.on
                 else -> R.string.off
             }
@@ -579,7 +600,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     private fun pendingOrCurrentTextSizeScale(): Float =
         if (pendingTextSizeScale > 0) pendingTextSizeScale else prefs.textSizeScale
 
-    private fun formatScale(scale: Float): String = String.format("%.1f", scale)
+    private fun formatScale(scale: Float): String = "${(scale * 100).roundToInt()}%"
 
     private fun adjustTextSizePreview(delta: Float, dialogBinding: DialogTextSizeBinding) {
         val maxScale = if (isTablet(requireContext())) 2.0f else 1.5f
@@ -662,24 +683,21 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun populateBoldFont() {
-        binding.boldFont.text = getString(if (prefs.boldFont) R.string.on else R.string.off)
+        binding.boldFontSwitch.isChecked = prefs.boldFont
     }
 
     private fun populateScreenTimeOnOff() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (requireContext().appUsagePermissionGranted()) binding.screenTimeOnOff.text = getString(R.string.on)
-            else binding.screenTimeOnOff.text = getString(R.string.off)
-        } else binding.screenTimeLayout.visibility = View.GONE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            binding.screenTimeSwitch.isChecked = requireContext().appUsagePermissionGranted()
+        else binding.screenTimeLayout.visibility = View.GONE
     }
 
     private fun populateKeyboardText() {
-        if (prefs.autoShowKeyboard) binding.autoShowKeyboard.text = getString(R.string.on)
-        else binding.autoShowKeyboard.text = getString(R.string.off)
+        binding.autoShowKeyboardSwitch.isChecked = prefs.autoShowKeyboard
     }
 
     private fun populateWallpaperText() {
-        if (prefs.dailyWallpaper) binding.dailyWallpaper.text = getString(R.string.on)
-        else binding.dailyWallpaper.text = getString(R.string.off)
+        binding.dailyWallpaperSwitch.isChecked = prefs.dailyWallpaper
     }
 
     private fun updateHomeBottomAlignment() {
@@ -711,33 +729,22 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     // }
 
     // private fun populateHomeButtonRecents() {
-    //     binding.homeButtonRecents.text = getString(
-    //         if (prefs.homeButtonShowRecents && isAccessServiceEnabled(requireContext())) R.string.on
-    //         else R.string.off
-    //     )
+    //     binding.homeButtonRecentsSwitch.isChecked =
+    //         prefs.homeButtonShowRecents && isAccessServiceEnabled(requireContext())
     // }
 
     private fun populateLockSettings() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            binding.toggleLock.text = getString(
-                if (prefs.lockModeOn && isAccessServiceEnabled(requireContext())) R.string.on
-                else R.string.off
-            )
-        } else {
-            binding.toggleLock.text = getString(
-                if (prefs.lockModeOn) R.string.on
-                else R.string.off
-            )
-        }
+        binding.toggleLockSwitch.isChecked =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                prefs.lockModeOn && isAccessServiceEnabled(requireContext())
+            else prefs.lockModeOn
     }
 
     private fun populateSwipeApps() {
-        binding.swipeLeftApp.text = prefs.appNameSwipeLeft
-        binding.swipeRightApp.text = prefs.appNameSwipeRight
-        if (!prefs.swipeLeftEnabled)
-            binding.swipeLeftApp.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColorTrans50))
-        if (!prefs.swipeRightEnabled)
-            binding.swipeRightApp.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColorTrans50))
+        binding.swipeLeftApp.text =
+            if (prefs.swipeLeftEnabled) requireContext().swipeLeftLabel(prefs) else getString(R.string.off)
+        binding.swipeRightApp.text =
+            if (prefs.swipeRightEnabled) requireContext().swipeRightLabel(prefs) else getString(R.string.off)
     }
 
 //    private fun populateDigitalWellbeing() {

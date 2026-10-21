@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Olauncher is a minimal, ad-free Android home-screen launcher (`app.olauncher`), written in Kotlin with a single `app` module. Licensed GPLv3. This repo is a personal fork of upstream Olauncher (tanujnotes), tailored to one user; it is not published to any store. Upstream's promotional parts (Pro/rate/share prompts, GitHub/X/privacy links, ads for other apps, store listing) were removed and should not come back. The project values simplicity: niche features exist but stay hidden. Keep new features small and keep dependencies to a minimum. The only libraries used are AndroidX core/appcompat/recyclerview/lifecycle/navigation/work and Material. KaTeX is bundled as an asset (`assets/katex`) for Anki cards.
+Olauncher is a minimal, ad-free Android home-screen launcher (`app.olauncher`), written in Kotlin with a single `app` module. Licensed GPLv3. This repo is a personal fork of upstream Olauncher (tanujnotes), tailored to one user; it is not published to any store. Upstream's promotional parts (Pro/rate/share prompts, GitHub/X/privacy links, ads for other apps, store listing) were removed and should not come back. The project values simplicity: niche features exist but stay hidden. Keep new features small and keep dependencies to a minimum. The only libraries used are AndroidX core/appcompat/recyclerview/lifecycle/navigation/work and Material. KaTeX is bundled as an asset (`assets/katex`) for Anki cards. The fonts Geist and IBM Plex Mono are bundled in `res/font` (SIL OFL, license texts in `assets/licenses`).
 
 ## Commands
 
@@ -51,6 +51,14 @@ Apps are listed across every `UserManager.userProfiles` (work profiles included)
 - `helper/WallpaperWorker` is a WorkManager periodic job. It downloads the daily wallpaper from the gist at `Constants.URL_WALLPAPERS`, and the `INTERNET` permission exists only for this.
 - `helper/usageStats/` computes the screen-time figure on the home screen from `UsageStatsManager` events. `MainViewModel.getTodaysScreenTime` runs this computation off the main thread.
 - Gestures are handled by `listener/OnSwipeTouchListener` and `ViewSwipeTouchListener`.
+
+## Look
+
+- Dark is white on black, light is the exact inverse; there is no accent color. Colors are theme attributes (`res/values/attrs.xml`): `AppTheme` in `values/styles.xml` sets the light values, the one in `values-night/styles.xml` the dark values, and both inherit everything else from `Base.AppTheme`. Use `?attr/…` in layouts and `getColorFromAttr` in code, never fixed colors.
+- Geist (`?attr/mainFontFamily`, Medium with the bold font option) for names, titles and body text. IBM Plex Mono in capitals (`TextMono`, `TextMonoLabel`, `TextMonoValue`, `TextMonoSmall`) for data, values, labels and actions. No text shadows; the home screen gets `home_scrim` behind it instead.
+- Settings rows use the `SettingsSection` / `SettingsGroup` / `SettingsRow` styles; the whole row is the tap target, and on/off options show a `ui/SettingSwitch`.
+- Sizes live in `values/dimens.xml` only, not per density. `values-land` widens the app list and settings for tablets.
+- In styles, use `paddingStart`/`paddingEnd` etc.: the `…Horizontal`/`…Vertical` attributes need API 26 there.
 
 ## Localization
 

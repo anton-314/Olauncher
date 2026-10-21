@@ -1,56 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Closed by back or a tap outside, there is no close button -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingStart="24dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="24dp">
+    android:paddingTop="22dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="16dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvEyebrow"
+        style="@style/TextMonoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        tools:text="@string/appearance"
+        tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginEnd="48dp"
-            android:includeFontPadding="false"
-            android:textColor="?attr/primaryColor"
-            tools:text="@string/app_name" />
-
-        <ImageView
-            android:id="@+id/ivClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:alpha="0.5"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/close"
-            android:focusable="true"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="6dp"
-            android:src="@drawable/ic_close" />
-    </FrameLayout>
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/TextDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="-0.015"
+        android:textColor="?attr/primaryColor"
+        tools:text="@string/app_name" />
 
     <TextView
         android:id="@+id/tvMessage"
-        style="@style/TextSmall"
+        style="@style/TextDefault"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="12dp"
-        android:includeFontPadding="false"
-        android:lineSpacingExtra="2dp"
-        android:paddingEnd="8dp"
-        android:textColor="?attr/primaryColor"
+        android:layout_marginTop="12dp"
+        android:textColor="?attr/textValueColor"
+        android:textSize="15sp"
         android:visibility="gone"
-        tools:ignore="RtlSymmetry"
+        app:lineHeight="22.5sp"
         tools:text="@string/keyboard_message"
         tools:visibility="visible" />
 
@@ -64,21 +53,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tvNeutral"
-            style="@style/TextSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:includeFontPadding="false"
-            android:paddingVertical="8dp"
-            android:paddingEnd="8dp"
+            style="@style/TextButton"
+            android:layout_marginStart="-4dp"
+            android:paddingHorizontal="4dp"
+            android:textColor="?attr/textMutedColor"
             android:visibility="gone"
-            tools:ignore="RtlSymmetry"
             tools:text="@string/disable"
             tools:visibility="visible" />
 
@@ -89,14 +74,16 @@
 
         <TextView
             android:id="@+id/tvAction"
-            style="@style/TextSmallBold"
+            style="@style/TextMono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@drawable/bg_filled_pill"
             android:focusable="true"
-            android:includeFontPadding="false"
-            android:padding="8dp"
-            android:textSize="18sp"
+            android:fontFamily="@font/ibm_plex_mono_medium"
+            android:letterSpacing="0.08"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="13dp"
+            android:textColor="?attr/settingsBackgroundColor"
             tools:text="@string/okay" />
     </LinearLayout>
 

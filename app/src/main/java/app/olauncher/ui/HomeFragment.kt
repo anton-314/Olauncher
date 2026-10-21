@@ -4,23 +4,21 @@ import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
-import android.content.res.Configuration
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
-import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -31,7 +29,6 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentHomeBinding
 import app.olauncher.helper.appUsagePermissionGranted
-import app.olauncher.helper.dpToPx
 import app.olauncher.helper.expandNotificationDrawer
 import app.olauncher.helper.getChangedAppTheme
 import app.olauncher.helper.getUserHandleFromString
@@ -43,6 +40,8 @@ import app.olauncher.helper.openCameraApp
 import app.olauncher.helper.openDialerApp
 import app.olauncher.helper.setPlainWallpaperByTheme
 import app.olauncher.helper.showToast
+import app.olauncher.helper.swipeLeftLabel
+import app.olauncher.helper.swipeRightLabel
 import app.olauncher.listener.OnSwipeTouchListener
 import app.olauncher.listener.ViewSwipeTouchListener
 import java.text.SimpleDateFormat
@@ -57,6 +56,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    // The dot after an abbreviated weekday or month, as in "Mi., 21. Okt."
+    private val abbreviationDot = Regex("(?<=\\p{L})\\.")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -272,13 +274,15 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateDateTime() {
-        binding.dateTimeLayout.isVisible = prefs.dateTimeVisibility != Constants.DateTime.OFF
         binding.clock.isVisible = Constants.DateTime.isTimeVisible(prefs.dateTimeVisibility)
         binding.date.isVisible = Constants.DateTime.isDateVisible(prefs.dateTimeVisibility)
 
-//        var dateText = SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(Date())
-        val dateFormat = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
-        var dateText = dateFormat.format(Date())
+        // Weekday, day and month in the locale's order, without abbreviation dots or commas: "MI 21. OKT"
+        val locale = Locale.getDefault()
+        val pattern = DateFormat.getBestDateTimePattern(locale, "EEEdMMM")
+        var dateText = SimpleDateFormat(pattern, locale).format(Date())
+            .replace(abbreviationDot, "")
+            .replace(",", "")
 
         if (!prefs.showStatusBar) {
             val battery = (requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager)
@@ -286,39 +290,38 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
             if (battery > 0)
                 dateText = getString(R.string.day_battery, dateText, battery)
         }
-        binding.date.text = dateText.replace(".,", ",")
+        binding.date.text = dateText
+        updateDateRow()
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun populateScreenTime() {
-        if (requireContext().appUsagePermissionGranted().not()) return
+        val granted = requireContext().appUsagePermissionGranted()
+        binding.tvScreenTime.isVisible = granted
+        updateDateRow()
+        if (granted) viewModel.getTodaysScreenTime()
+    }
 
-        viewModel.getTodaysScreenTime()
-        binding.tvScreenTime.visibility = View.VISIBLE
+    // The row under the clock holds the date and the screen time, either of which can be off
+    private fun updateDateRow() {
+        val dateShown = binding.date.isVisible
+        val screenTimeShown = binding.tvScreenTime.isVisible
+        binding.dateSeparator.isVisible = dateShown && screenTimeShown
+        binding.dateRow.isVisible = dateShown || screenTimeShown
+        binding.dateTimeLayout.isVisible = binding.clock.isVisible || binding.dateRow.isVisible
+    }
 
-        val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        val horizontalMargin = if (isLandscape) 64.dpToPx() else 10.dpToPx()
-        val marginTop = if (isLandscape) {
-            if (prefs.dateTimeVisibility == Constants.DateTime.DATE_ONLY) 36.dpToPx() else 56.dpToPx()
-        } else {
-            if (prefs.dateTimeVisibility == Constants.DateTime.DATE_ONLY) 45.dpToPx() else 72.dpToPx()
-        }
-        val params = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            topMargin = marginTop
-            marginStart = horizontalMargin
-            marginEnd = horizontalMargin
-            gravity = if (prefs.homeAlignment == Gravity.END) Gravity.START else Gravity.END
-        }
-        binding.tvScreenTime.layoutParams = params
-        binding.tvScreenTime.setPadding(10.dpToPx())
+    private fun populateSwipeHints() {
+        binding.swipeLeftHint.isVisible = prefs.swipeLeftEnabled
+        binding.swipeRightHint.isVisible = prefs.swipeRightEnabled
+        binding.swipeLeftHint.text = getString(R.string.swipe_left_hint, requireContext().swipeLeftLabel(prefs))
+        binding.swipeRightHint.text = getString(R.string.swipe_right_hint, requireContext().swipeRightLabel(prefs))
     }
 
     private fun populateHomeScreen(appCountUpdated: Boolean) {
         if (appCountUpdated) hideHomeApps()
         populateDateTime()
+        populateSwipeHints()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             populateScreenTime()

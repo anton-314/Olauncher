@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import app.olauncher.BuildConfig
 import app.olauncher.R
 import app.olauncher.data.Constants
+import app.olauncher.data.Prefs
 import java.util.Calendar
 import java.util.Locale
 
@@ -262,3 +263,10 @@ fun Long.hasBeenMinutes(minutes: Int): Boolean =
 fun Int.dpToPx(): Int {
     return (this * Resources.getSystem().displayMetrics.density).toInt()
 }
+
+// Until an app is picked, the swipes open the camera and the dialer
+fun Context.swipeLeftLabel(prefs: Prefs): String =
+    if (prefs.appPackageSwipeLeft.isEmpty()) getString(R.string.camera) else prefs.appNameSwipeLeft
+
+fun Context.swipeRightLabel(prefs: Prefs): String =
+    if (prefs.appPackageSwipeRight.isEmpty()) getString(R.string.phone) else prefs.appNameSwipeRight

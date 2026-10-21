@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lifts the home screen text off the wallpaper at the top and bottom, instead of a text shadow -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="1dp"
+    android:height="100dp"
+    android:viewportWidth="1"
+    android:viewportHeight="100">
+    <path android:pathData="M0,0h1v100h-1z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="0"
+                android:endY="100"
+                android:startX="0"
+                android:startY="0"
+                android:type="linear">
+                <item
+                    android:color="#61000000"
+                    android:offset="0" />
+                <item
+                    android:color="#00000000"
+                    android:offset="0.34" />
+                <item
+                    android:color="#00000000"
+                    android:offset="0.55" />
+                <item
+                    android:color="#52000000"
+                    android:offset="1" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

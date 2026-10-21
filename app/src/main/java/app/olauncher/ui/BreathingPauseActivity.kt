@@ -1,5 +1,7 @@
 package app.olauncher.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -129,10 +131,12 @@ class BreathingPauseActivity : AppCompatActivity() {
 
         cardTextColor = String.format(Locale.ROOT, "#%06X", 0xFFFFFF and getColorFromAttr(R.attr.primaryColor))
         cardNightMode = isDarkThemeOn()
+        // In capitals like the other actions; set here as textAllCaps would drop the interval's smaller size
         answerLabels = listOf(R.string.anki_again, R.string.anki_hard, R.string.anki_good, R.string.anki_easy)
-            .map { getString(it) }
+            .map { getString(it).uppercase(Locale.getDefault()) }
 
         val label = intent.getStringExtra(EXTRA_LABEL) ?: appLabel(appPackage)
+        binding.tvPausedApp.text = getString(R.string.paused_suffix, label)
         binding.tvMessage.text = getString(R.string.breathing_pause_message, label)
         binding.tvClose.setOnClickListener { close() }
         binding.tvAnkiClose.setOnClickListener { close() }
@@ -164,6 +168,9 @@ class BreathingPauseActivity : AppCompatActivity() {
     // One breath over the whole countdown: the circle grows while breathing in, shrinks while breathing out
     private fun startBreathing() {
         val halfBreathMs = Constants.BREATHING_PAUSE_SECONDS * 1000L / 2
+        var inhale = true
+        binding.tvBreath.setText(R.string.inhale)
+        binding.tvBreath.isInvisible = false
         breathing = ValueAnimator.ofFloat(0.6f, 1f).apply {
             duration = halfBreathMs
             repeatMode = ValueAnimator.REVERSE
@@ -174,6 +181,13 @@ class BreathingPauseActivity : AppCompatActivity() {
                 binding.breathCircle.scaleX = scale
                 binding.breathCircle.scaleY = scale
             }
+            // Each repeat turns the circle around
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationRepeat(animation: Animator) {
+                    inhale = !inhale
+                    binding.tvBreath.setText(if (inhale) R.string.inhale else R.string.exhale)
+                }
+            })
             start()
         }
     }

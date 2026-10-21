@@ -2,14 +2,34 @@
 <resources>
     <attr name="primaryColor" format="color" />
     <attr name="primaryInverseColor" format="color" />
-    <attr name="primaryTextShadowColor" format="color" />
     <attr name="primaryColorTrans50" format="color" />
     <attr name="primaryColorTrans80" format="color" />
-    <attr name="primaryColorInverseTrans90" format="color" />
-    <attr name="primaryColorInverseTrans80" format="color" />
-    <attr name="primaryColorInverseTrans50" format="color" />
-    <attr name="primaryShadeColor" format="color" />
-    <attr name="dialogShadeColor" format="color" />
-    <attr name="primaryShadeDarkColor" format="color" />
-    <attr name="mainFontFamily" format="string" />
+
+    <!-- Text in shades of the primary color, from most to least prominent -->
+    <attr name="textMetaColor" format="color" />
+    <attr name="textBodyColor" format="color" />
+    <attr name="textValueColor" format="color" />
+    <attr name="textMutedColor" format="color" />
+    <attr name="textSecondaryColor" format="color" />
+    <attr name="gestureHintColor" format="color" />
+    <attr name="textLabelColor" format="color" />
+    <attr name="textFaintColor" format="color" />
+    <attr name="textHintColor" format="color" />
+
+    <!-- Lines, outlines and surfaces -->
+    <attr name="dividerColor" format="color" />
+    <attr name="searchLineColor" format="color" />
+    <attr name="searchLineActiveColor" format="color" />
+    <attr name="chipStrokeColor" format="color" />
+    <attr name="outlineColor" format="color" />
+    <attr name="cardColor" format="color" />
+    <attr name="surfaceColor" format="color" />
+    <attr name="settingsBackgroundColor" format="color" />
+    <attr name="drawerOverlayColor" format="color" />
+
+    <!-- Settings switch -->
+    <attr name="switchTrackOffColor" format="color" />
+    <attr name="switchThumbOffColor" format="color" />
+
+    <attr name="mainFontFamily" format="reference|string" />
 </resources>

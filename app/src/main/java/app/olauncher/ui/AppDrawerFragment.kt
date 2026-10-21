@@ -12,7 +12,10 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.BaseInputConnection
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +27,10 @@ import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
+import app.olauncher.helper.WallpaperBlur
 import app.olauncher.helper.buildBangSearchUrl
 import app.olauncher.helper.deletePinnedShortcut
+import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isAt
 import app.olauncher.helper.isEinkDisplay
@@ -43,6 +48,7 @@ class AppDrawerFragment : BaseFragment() {
     private lateinit var prefs: Prefs
     private lateinit var adapter: AppDrawerAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var wallpaperBlur: WallpaperBlur
     private var searchTextView: TextView? = null
     private var cachedIsCjkKeyboard: Boolean? = null
 
@@ -69,6 +75,7 @@ class AppDrawerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
+        wallpaperBlur = WallpaperBlur(requireActivity().window)
         arguments?.let {
             flag = it.getInt(Constants.Key.FLAG, Constants.FLAG_LAUNCH_APP)
             canRename = it.getBoolean(Constants.Key.RENAME, false)
@@ -89,9 +96,33 @@ class AppDrawerFragment : BaseFragment() {
         try {
             searchTextView = binding.search.findViewById(R.id.search_src_text)
             searchTextView?.gravity = prefs.appLabelAlignment
+            // The query lines up with the app names, the underline below is its own view
+            searchTextView?.setPadding(0, 0, 0, 0)
+            binding.search.findViewById<View>(R.id.search_edit_frame)?.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                marginStart = 0
+                marginEnd = 0
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        // A new view starts with every menu closed
+        closeMenuOnBack.isEnabled = false
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, closeMenuOnBack)
+    }
+
+    // Back first closes an app's long press menu
+    private val closeMenuOnBack = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            adapter.closeMenu()
+        }
+    }
+
+    private fun showSearchResults(count: Int?) {
+        binding.searchResults.isVisible = count != null
+        if (count != null) binding.searchResults.text = resources.getQuantityString(R.plurals.search_results, count, count)
+        binding.searchLine.setBackgroundColor(
+            requireContext().getColorFromAttr(if (count != null) R.attr.searchLineActiveColor else R.attr.searchLineColor)
+        )
     }
 
     private fun initSearch() {
@@ -252,7 +283,9 @@ class AppDrawerFragment : BaseFragment() {
             privateSpaceSettingsListener = {
                 viewModel.openPrivateSpaceSettings()
                 if (isShowing()) findNavController().popBackStack(R.id.mainFragment, false)
-            }
+            },
+            searchResultsListener = { if (_binding != null) showSearchResults(it) },
+            menuOpenListener = { closeMenuOnBack.isEnabled = it },
         )
 
         linearLayoutManager = object : LinearLayoutManager(requireContext()) {
@@ -390,10 +423,12 @@ class AppDrawerFragment : BaseFragment() {
         super.onStart()
         cachedIsCjkKeyboard = null
         binding.search.showKeyboard(prefs.autoShowKeyboard)
+        wallpaperBlur.blur()
     }
 
     override fun onStop() {
         binding.search.hideKeyboard()
+        wallpaperBlur.clear()
         super.onStop()
     }
 

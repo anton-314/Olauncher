@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="alphabet_recycler_margin_bottom">16dp</dimen>
-    <dimen name="alphabet_recycler_margin_end">10dp</dimen>
-    <dimen name="alphabet_recycler_margin_start">320dp</dimen>
     <dimen name="dialog_blur_behind_radius">4dp</dimen>
+    <dimen name="drawer_blur_behind_radius">24dp</dimen>
+
+    <dimen name="text_large">26sp</dimen>
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="drawer_text">22sp</dimen>
+    <dimen name="time_size">68sp</dimen>
+    <dimen name="date_size">12sp</dimen>
+    <dimen name="app_padding_vertical">11dp</dimen>
+    <dimen name="home_app_padding_vertical">12dp</dimen>
+
+    <!-- Side margins of the home screen and app list -->
+    <dimen name="home_gutter">28dp</dimen>
+    <!-- Side margins of settings and the breathing pause -->
+    <dimen name="settings_gutter">24dp</dimen>
+    <!-- Extra side room for the app list and settings, on tablets in landscape -->
+    <dimen name="screen_inset">0dp</dimen>
 </resources>

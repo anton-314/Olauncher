@@ -94,3 +94,36 @@ class WindowBlur(private val window: Window) {
         window.setDimAmount(DIM_WITH_BLUR * fraction)
     }
 }
+
+/**
+ * Blurs the wallpaper behind the app list on Android 12+, ramping in with the list. The
+ * activity's [window] shows the wallpaper, so its background blur is what the list sits on.
+ * Without blur support, on e-ink or with animations off the list's tinted background stays as is.
+ */
+class WallpaperBlur(private val window: Window) {
+
+    private val supported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            !window.context.isEinkDisplay() && !window.context.isSystemAnimationsDisabled()
+    private val duration = window.context.resources.getInteger(R.integer.dialog_anim_duration).toLong()
+    private val radius = window.context.resources.getDimensionPixelSize(R.dimen.drawer_blur_behind_radius)
+    private var animator: ValueAnimator? = null
+
+    fun blur() {
+        if (!supported || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+        animator?.cancel()
+        animator = ValueAnimator.ofInt(0, radius).apply {
+            duration = this@WallpaperBlur.duration
+            interpolator = DecelerateInterpolator()
+            addUpdateListener { window.setBackgroundBlurRadius(it.animatedValue as Int) }
+            start()
+        }
+    }
+
+    // At once: the list is closing, or something else opens on top of it
+    fun clear() {
+        if (!supported || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+        animator?.cancel()
+        animator = null
+        window.setBackgroundBlurRadius(0)
+    }
+}

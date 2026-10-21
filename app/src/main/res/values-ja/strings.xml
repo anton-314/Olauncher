@@ -2,7 +2,6 @@
 <resources>
     <string name="app">アプリ</string>
     <string name="set_as_default_launcher">デフォルトのランチャーとして設定</string>
-    <string name="set_as_default_launcher_u"><u>デフォルトのランチャーとして設定</u></string>
     <string name="set_as_default_launcher_first">まず Olauncher をデフォルトに設定してください</string>
     <string name="_0">0</string>
     <string name="_1">1</string>
@@ -23,7 +22,7 @@
     <string name="long_press_to_enable">長押しして有効にします</string>
     <string name="no_hidden_apps">非表示のアプリはありません</string>
     <string name="hidden_apps">非表示のアプリ</string>
-    <string name="hidden_apps_message">注: この設定ページの上部にある「Olauncher」をタップすると、非表示のアプリを確認できます。\n\n詳細については「アプリについて」ページをご覧ください。</string>
+    <string name="hidden_apps_message">注: 設定ページの上部にある「非表示」をタップすると、非表示のアプリを確認できます。</string>
     <string name="accessibility_disclosure">ダブルタップでロックのジェスチャーを有効にするには、デバイスの設定で Olauncher のユーザー補助サービスをオンにしてください。\n\nこのサービスは、一時停止中のアプリが最近使ったアプリなどランチャー以外から開かれたときに、ひと呼吸の画面を表示するためにも使われます。データの収集や共有は一切行いません。</string>
     <string name="accept">同意する</string>
     <string name="permission">許可</string>
@@ -53,7 +52,6 @@
     <string name="on">オン</string>
     <string name="black">黒</string>
     <string name="white">白</string>
-    <string name="change_default_launcher">デフォルトのランチャーを変更する</string>
     <string name="follow">フォロー</string>
     <string name="email">Eメール</string>
 
@@ -92,7 +90,6 @@
     <string name="not_now">今はしない</string>
     <string name="public_roadmap">Olauncher の公開ロードマップ</string>
     <string name="roadmap">ロードマップ</string>
-    <string name="date">日付</string>
     <string name="date_only">日付のみ</string>
     <string name="bottom_on">下: オン</string>
     <string name="bottom_off">下: オフ</string>
@@ -136,4 +133,18 @@
     <string name="anki_permission_needed">カードを表示するには Olauncher に AnkiDroid へのアクセスが必要です</string>
     <string name="anki_media_access_message">カードの画像を表示するため、Olauncher に AnkiDroid フォルダの読み取りを許可してください。許可しない場合、カードは画像なしで表示されます。</string>
     <string name="anki_media_not_found_message">共有ストレージに AnkiDroid フォルダが見つからないため、カードは画像なしで表示されます。AnkiDroid の詳細設定で AnkiDroid ディレクトリを /storage/emulated/0/AnkiDroid に設定してください。</string>
+    <string name="settings">設定</string>
+    <string name="hidden_apps_short">非表示</string>
+    <string name="is_default_launcher">Olauncherはデフォルトのランチャーです。</string>
+    <string name="search">検索</string>
+    <string name="paused_suffix">%1$s · 一時停止中</string>
+    <string name="inhale">吸って</string>
+    <string name="exhale">吐いて</string>
+    <string name="camera">カメラ</string>
+    <string name="phone">電話</string>
+    <string name="save">保存</string>
+    <string name="cancel">キャンセル</string>
+    <plurals name="search_results">
+        <item quantity="other">%d件</item>
+    </plurals>
 </resources> <!-- Japanese -->
