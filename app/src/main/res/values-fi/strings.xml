@@ -132,4 +132,5 @@
     <string name="ankidroid_not_installed">AnkiDroidia ei ole asennettu</string>
     <string name="anki_permission_needed">Olauncher tarvitsee pääsyn AnkiDroidiin korttien näyttämiseksi</string>
     <string name="anki_media_access_message">Salli Olauncherin lukea AnkiDroid-kansiota, jotta korttien kuvat näkyvät. Ilman tätä käyttöoikeutta kortit näytetään ilman kuvia.</string>
+    <string name="anki_media_not_found_message">Jaetusta tallennustilasta ei löytynyt AnkiDroid-kansiota, joten kortit näytetään ilman kuvia. Aseta AnkiDroidin lisäasetuksissa AnkiDroid-hakemistoksi /storage/emulated/0/AnkiDroid.</string>
 </resources>

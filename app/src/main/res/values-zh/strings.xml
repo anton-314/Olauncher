@@ -134,4 +134,5 @@
     <string name="ankidroid_not_installed">未安装 AnkiDroid</string>
     <string name="anki_permission_needed">Olauncher 需要访问 AnkiDroid 才能显示卡片</string>
     <string name="anki_media_access_message">请允许 Olauncher 读取 AnkiDroid 文件夹，以便卡片显示图片。没有此权限时，卡片将不显示图片。</string>
+    <string name="anki_media_not_found_message">在共享存储中未找到 AnkiDroid 文件夹，因此卡片将不显示图片。请在 AnkiDroid 的高级设置中将 AnkiDroid 目录设为 /storage/emulated/0/AnkiDroid。</string>
 </resources><!-- Chinese -->

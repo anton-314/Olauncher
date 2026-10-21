@@ -136,4 +136,5 @@
     <string name="ankidroid_not_installed">Az AnkiDroid nincs telepítve</string>
     <string name="anki_permission_needed">Az Olaunchernek hozzáférés kell az AnkiDroidhoz a kártyák megjelenítéséhez</string>
     <string name="anki_media_access_message">Engedélyezze, hogy az Olauncher olvassa az AnkiDroid mappát, így a kártyák a képeiket is mutatják. E hozzáférés nélkül a kártyák képek nélkül jelennek meg.</string>
+    <string name="anki_media_not_found_message">A megosztott tárhelyen nem található AnkiDroid mappa, ezért a kártyák képek nélkül jelennek meg. Az AnkiDroid speciális beállításaiban állítsa az AnkiDroid könyvtárat erre: /storage/emulated/0/AnkiDroid.</string>
 </resources><!-- Hungarian -->

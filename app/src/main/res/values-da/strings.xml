@@ -132,4 +132,5 @@
     <string name="ankidroid_not_installed">AnkiDroid er ikke installeret</string>
     <string name="anki_permission_needed">Olauncher skal have adgang til AnkiDroid for at vise kort</string>
     <string name="anki_media_access_message">Giv Olauncher lov til at læse AnkiDroid-mappen, så kortene viser deres billeder. Uden denne adgang vises kortene uden billeder.</string>
+    <string name="anki_media_not_found_message">Der blev ikke fundet nogen AnkiDroid-mappe i det delte lager, så kort vises uden billeder. Angiv AnkiDroid-mappen til /storage/emulated/0/AnkiDroid i AnkiDroids avancerede indstillinger.</string>
 </resources>

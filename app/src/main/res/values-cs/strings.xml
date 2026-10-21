@@ -132,4 +132,5 @@
     <string name="ankidroid_not_installed">AnkiDroid není nainstalován</string>
     <string name="anki_permission_needed">Olauncher potřebuje přístup k AnkiDroidu, aby mohl zobrazit karty</string>
     <string name="anki_media_access_message">Povolte Olauncheru číst složku AnkiDroid, aby karty zobrazovaly obrázky. Bez tohoto přístupu se karty zobrazí bez obrázků.</string>
+    <string name="anki_media_not_found_message">Ve sdíleném úložišti nebyla nalezena složka AnkiDroid, proto se karty zobrazují bez obrázků. V pokročilém nastavení AnkiDroidu nastavte adresář AnkiDroid na /storage/emulated/0/AnkiDroid.</string>
 </resources>

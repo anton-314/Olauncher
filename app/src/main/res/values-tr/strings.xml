@@ -135,4 +135,5 @@
     <string name="ankidroid_not_installed">AnkiDroid yüklü değil</string>
     <string name="anki_permission_needed">Olauncher\'ın kartları göstermek için AnkiDroid erişimine ihtiyacı var</string>
     <string name="anki_media_access_message">Kartların resimlerini göstermesi için Olauncher\'ın AnkiDroid klasörünü okumasına izin ver. Bu erişim olmadan kartlar resimsiz gösterilir.</string>
+    <string name="anki_media_not_found_message">Paylaşılan depolamada AnkiDroid klasörü bulunamadı, bu yüzden kartlar resimsiz gösteriliyor. AnkiDroid\'in gelişmiş ayarlarında AnkiDroid dizinini /storage/emulated/0/AnkiDroid olarak ayarlayın.</string>
 </resources><!-- Turkish -->

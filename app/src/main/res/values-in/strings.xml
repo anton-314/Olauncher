@@ -134,4 +134,5 @@
     <string name="ankidroid_not_installed">AnkiDroid tidak terpasang</string>
     <string name="anki_permission_needed">Olauncher memerlukan akses ke AnkiDroid untuk menampilkan kartu</string>
     <string name="anki_media_access_message">Izinkan Olauncher membaca folder AnkiDroid agar kartu menampilkan gambarnya. Tanpa akses ini, kartu ditampilkan tanpa gambar.</string>
+    <string name="anki_media_not_found_message">Folder AnkiDroid tidak ditemukan di penyimpanan bersama, jadi kartu ditampilkan tanpa gambar. Di setelan lanjutan AnkiDroid, atur direktori AnkiDroid ke /storage/emulated/0/AnkiDroid.</string>
 </resources><!-- Indonesian -->

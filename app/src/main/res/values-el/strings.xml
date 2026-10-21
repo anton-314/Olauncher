@@ -132,4 +132,5 @@
     <string name="ankidroid_not_installed">Το AnkiDroid δεν είναι εγκατεστημένο</string>
     <string name="anki_permission_needed">Το Olauncher χρειάζεται πρόσβαση στο AnkiDroid για να εμφανίζει κάρτες</string>
     <string name="anki_media_access_message">Επιτρέψτε στο Olauncher να διαβάζει τον φάκελο του AnkiDroid ώστε οι κάρτες να δείχνουν τις εικόνες τους. Χωρίς αυτή την πρόσβαση οι κάρτες εμφανίζονται χωρίς εικόνες.</string>
+    <string name="anki_media_not_found_message">Δεν βρέθηκε φάκελος AnkiDroid στον κοινόχρηστο χώρο αποθήκευσης, γι\' αυτό οι κάρτες εμφανίζονται χωρίς εικόνες. Στις σύνθετες ρυθμίσεις του AnkiDroid, ορίστε τον κατάλογο AnkiDroid σε /storage/emulated/0/AnkiDroid.</string>
 </resources>

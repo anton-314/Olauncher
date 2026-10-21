@@ -6,7 +6,7 @@
     android:background="?attr/primaryInverseColor"
     android:fitsSystemWindows="true">
 
-    <!-- Countdown, also shown while due Anki cards are looked up -->
+    <!-- Countdown, shown when no Anki card is due -->
     <FrameLayout
         android:id="@+id/pauseLayout"
         android:layout_width="match_parent"

@@ -130,4 +130,5 @@
     <string name="ankidroid_not_installed">AnkiDroid가 설치되어 있지 않습니다</string>
     <string name="anki_permission_needed">카드를 표시하려면 Olauncher에 AnkiDroid 접근 권한이 필요합니다</string>
     <string name="anki_media_access_message">카드의 이미지를 표시하려면 Olauncher가 AnkiDroid 폴더를 읽도록 허용하세요. 허용하지 않으면 카드가 이미지 없이 표시됩니다.</string>
+    <string name="anki_media_not_found_message">공유 저장소에서 AnkiDroid 폴더를 찾을 수 없어 카드가 이미지 없이 표시됩니다. AnkiDroid의 고급 설정에서 AnkiDroid 디렉터리를 /storage/emulated/0/AnkiDroid(으)로 설정하세요.</string>
 </resources>

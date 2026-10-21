@@ -135,4 +135,5 @@
     <string name="ankidroid_not_installed">AnkiDroid is niet geïnstalleerd</string>
     <string name="anki_permission_needed">Olauncher heeft toegang tot AnkiDroid nodig om kaarten te tonen</string>
     <string name="anki_media_access_message">Geef Olauncher toestemming om de AnkiDroid-map te lezen, zodat kaarten hun afbeeldingen tonen. Zonder deze toegang worden kaarten zonder afbeeldingen getoond.</string>
+    <string name="anki_media_not_found_message">Er is geen AnkiDroid-map gevonden in de gedeelde opslag, dus kaarten worden zonder afbeeldingen getoond. Stel in de geavanceerde instellingen van AnkiDroid de AnkiDroid-map in op /storage/emulated/0/AnkiDroid.</string>
 </resources><!-- Dutch -->

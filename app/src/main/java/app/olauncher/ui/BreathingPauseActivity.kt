@@ -144,7 +144,6 @@ class BreathingPauseActivity : AppCompatActivity() {
         binding.answerEasy.setOnClickListener { answer(4) }
         onBackPressedDispatcher.addCallback(this) { close() }
 
-        if (!isEinkDisplay() && !isSystemAnimationsDisabled()) startBreathing()
         if (prefs.ankiDeckId != 0L && AnkiDroid.hasPermission(this)) loadAnkiCards()
         else startCountdown()
     }
@@ -157,7 +156,8 @@ class BreathingPauseActivity : AppCompatActivity() {
     }
 
     private fun startCountdown() {
-        binding.tvOpen.isInvisible = false
+        binding.pauseLayout.isInvisible = false
+        if (!isEinkDisplay() && !isSystemAnimationsDisabled()) startBreathing()
         countdown.run()
     }
 
@@ -196,9 +196,10 @@ class BreathingPauseActivity : AppCompatActivity() {
 
     // Anki review
 
-    // The breathing circle keeps going while the cards load; without a card the countdown takes over
+    // The screen stays empty while the cards load, so that it opens straight on the first card or,
+    // without one, on the countdown
     private fun loadAnkiCards() {
-        binding.tvOpen.isInvisible = true
+        binding.pauseLayout.isInvisible = true
         val deckId = prefs.ankiDeckId
         val limit = prefs.ankiCardCount
         lifecycleScope.launch {
@@ -210,9 +211,9 @@ class BreathingPauseActivity : AppCompatActivity() {
                 return@launch
             }
             ankiCards = cards
-            breathing?.cancel()
             binding.pauseLayout.isVisible = false
-            binding.ankiLayout.isVisible = true
+            // Invisible rather than gone so that the WebView lays out; shown once the card has rendered
+            binding.ankiLayout.isInvisible = true
             showCard(content)
         }
     }
@@ -270,7 +271,9 @@ class BreathingPauseActivity : AppCompatActivity() {
         settings.javaScriptEnabled = true
         settings.allowFileAccess = false
         settings.allowContentAccess = false
-        webViewClient = CardWebViewClient(assets, AnkiDroid.mediaDirectory)
+        webViewClient = CardWebViewClient(assets, AnkiDroid.mediaDirectory) {
+            binding.ankiLayout.isInvisible = false
+        }
         binding.ankiCardContainer.addView(
             this,
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -280,8 +283,11 @@ class BreathingPauseActivity : AppCompatActivity() {
 
     private class CardWebViewClient(
         private val assets: AssetManager,
-        private val mediaDirectory: File,
+        private val mediaDirectory: File?,
+        private val onPageFinished: () -> Unit,
     ) : WebViewClient() {
+
+        override fun onPageFinished(view: WebView, url: String?) = onPageFinished()
 
         // Links in a card don't navigate away from it; the card page itself loads without a gesture
         override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) =
@@ -301,7 +307,8 @@ class BreathingPauseActivity : AppCompatActivity() {
                     WebResourceResponse(mimeType(name), null, assets.open("katex/$name"))
                 } else {
                     // Without storage access this throws and the image stays empty
-                    val file = AnkiCardHtml.mediaFile(mediaDirectory, path) ?: return notFound()
+                    val directory = mediaDirectory ?: return notFound()
+                    val file = AnkiCardHtml.mediaFile(directory, path) ?: return notFound()
                     WebResourceResponse(mimeType(file.name), null, FileInputStream(file))
                 }
             } catch (_: Exception) {

@@ -135,4 +135,5 @@
     <string name="ankidroid_not_installed">AnkiDroid не встановлено</string>
     <string name="anki_permission_needed">Olauncher потрібен доступ до AnkiDroid, щоб показувати картки</string>
     <string name="anki_media_access_message">Дозволь Olauncher читати папку AnkiDroid, щоб картки показували зображення. Без цього доступу картки показуються без зображень.</string>
+    <string name="anki_media_not_found_message">У спільному сховищі не знайдено папку AnkiDroid, тому картки показуються без зображень. У розширених налаштуваннях AnkiDroid вкажи каталог AnkiDroid /storage/emulated/0/AnkiDroid.</string>
 </resources><!-- Ukrainian -->

@@ -135,4 +135,5 @@
     <string name="ankidroid_not_installed">AnkiDroid nije instaliran</string>
     <string name="anki_permission_needed">Olauncher treba pristup AnkiDroidu za prikaz kartica</string>
     <string name="anki_media_access_message">Dopustite Olauncheru čitanje mape AnkiDroid kako bi kartice prikazivale svoje slike. Bez tog pristupa kartice se prikazuju bez slika.</string>
+    <string name="anki_media_not_found_message">U zajedničkoj pohrani nije pronađena mapa AnkiDroid pa se kartice prikazuju bez slika. U naprednim postavkama AnkiDroida postavite direktorij AnkiDroid na /storage/emulated/0/AnkiDroid.</string>
 </resources><!-- Croatian -->

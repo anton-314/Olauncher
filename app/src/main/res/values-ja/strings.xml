@@ -135,4 +135,5 @@
     <string name="ankidroid_not_installed">AnkiDroid がインストールされていません</string>
     <string name="anki_permission_needed">カードを表示するには Olauncher に AnkiDroid へのアクセスが必要です</string>
     <string name="anki_media_access_message">カードの画像を表示するため、Olauncher に AnkiDroid フォルダの読み取りを許可してください。許可しない場合、カードは画像なしで表示されます。</string>
+    <string name="anki_media_not_found_message">共有ストレージに AnkiDroid フォルダが見つからないため、カードは画像なしで表示されます。AnkiDroid の詳細設定で AnkiDroid ディレクトリを /storage/emulated/0/AnkiDroid に設定してください。</string>
 </resources> <!-- Japanese -->

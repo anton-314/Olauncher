@@ -14,6 +14,7 @@ class Prefs(private val prefs: SharedPreferences) {
         private const val PREFS_FILENAME = "app.olauncher"
         const val MIN_TEXT_SIZE_SCALE = 0.5f
         const val MAX_TEXT_SIZE_SCALE = 2.0f
+        const val ANKI_MAX_CARD_COUNT = 99
         private const val BREATHING_PAUSE_GRANT_MS = 5000L
 
         // For reading in the accessibility service process only. MODE_MULTI_PROCESS makes every
@@ -263,8 +264,8 @@ class Prefs(private val prefs: SharedPreferences) {
         set(value) = prefs.edit { putString(ANKI_DECK_NAME, value) }
 
     var ankiCardCount: Int
-        get() = prefs.getInt(ANKI_CARD_COUNT, 2).coerceIn(1, 3)
-        set(value) = prefs.edit { putInt(ANKI_CARD_COUNT, value.coerceIn(1, 3)) }
+        get() = prefs.getInt(ANKI_CARD_COUNT, 2).coerceIn(1, ANKI_MAX_CARD_COUNT)
+        set(value) = prefs.edit { putInt(ANKI_CARD_COUNT, value.coerceIn(1, ANKI_MAX_CARD_COUNT)) }
 
     fun isBreathingPauseGranted(appPackage: String, now: Long = System.currentTimeMillis()): Boolean =
         prefs.getString(PAUSE_GRANT_PACKAGE, null) == appPackage

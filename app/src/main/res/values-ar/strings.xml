@@ -133,4 +133,5 @@
     <string name="ankidroid_not_installed">AnkiDroid غير مثبّت</string>
     <string name="anki_permission_needed">يحتاج Olauncher إلى الوصول إلى AnkiDroid لعرض البطاقات</string>
     <string name="anki_media_access_message">اسمح لـ Olauncher بقراءة مجلد AnkiDroid لكي تعرض البطاقات صورها. بدون هذا الوصول تظهر البطاقات بدون صور.</string>
+    <string name="anki_media_not_found_message">لم يُعثر على مجلد AnkiDroid في التخزين المشترك، لذا تظهر البطاقات بدون صور. في الإعدادات المتقدمة لـ AnkiDroid، اضبط مجلد AnkiDroid على /storage/emulated/0/AnkiDroid.</string>
 </resources>

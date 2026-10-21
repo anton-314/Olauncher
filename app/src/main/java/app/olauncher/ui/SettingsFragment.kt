@@ -131,7 +131,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             R.id.textSizeValue -> showTextSizeDialog()
             R.id.boldFont -> toggleBoldFont()
             R.id.ankiDeck -> selectAnkiDeck()
-            R.id.ankiCardCount -> showAnkiCardCountMenu(view)
+            R.id.ankiCardCount -> showAnkiCardCountDialog()
 
             R.id.swipeLeftApp -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_LEFT_APP)
             R.id.swipeRightApp -> showAppListIfEnabled(Constants.FLAG_SET_SWIPE_RIGHT_APP)
@@ -260,15 +260,25 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         }
     }
 
-    private fun showAnkiCardCountMenu(anchor: View) {
-        anchor.showPopupMenu(
-            configure = { menu ->
-                for (num in 1..3) menu.add(Menu.NONE, num, num, num.toString())
-            }
-        ) { item ->
-            prefs.ankiCardCount = item.itemId
-            populateAnki()
+    // Same stepper as the text size; a long press steps by 10
+    private fun showAnkiCardCountDialog() {
+        var stepper: DialogTextSizeBinding? = null
+        val dialog = requireContext().createDialog(R.string.anki_cards, R.string.okay) { container ->
+            DialogTextSizeBinding.inflate(layoutInflater, container, false).also { stepper = it }.root
         }
+        stepper?.apply {
+            fun step(delta: Int) {
+                prefs.ankiCardCount += delta
+                textSizeCurrent.text = prefs.ankiCardCount.toString()
+                populateAnki()
+            }
+            textSizeCurrent.text = prefs.ankiCardCount.toString()
+            textSizeMinus.setOnClickListener { step(-1) }
+            textSizePlus.setOnClickListener { step(1) }
+            textSizeMinus.setOnLongClickListener { step(-10); true }
+            textSizePlus.setOnLongClickListener { step(10); true }
+        }
+        showDialog(dialog)
     }
 
     // Anki
@@ -319,7 +329,19 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         prefs.ankiDeckId = deck?.id ?: 0L
         prefs.ankiDeckName = deck?.name.orEmpty()
         populateAnki()
-        if (deck != null && !AnkiDroid.canReadMedia(requireContext())) showMediaAccessDialog()
+        if (deck == null) return
+        if (!AnkiDroid.canReadMedia(requireContext())) showMediaAccessDialog()
+        else if (AnkiDroid.mediaDirectory == null) showMediaNotFoundDialog()
+    }
+
+    private fun showMediaNotFoundDialog() {
+        showDialog(
+            requireContext().createDialog(
+                R.string.anki_deck,
+                R.string.okay,
+                message = R.string.anki_media_not_found_message,
+            )
+        )
     }
 
     // Images in cards are read from the AnkiDroid folder; the cards still work without them

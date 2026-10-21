@@ -27,10 +27,22 @@ object AnkiDroid {
     private val NOTES_URI = Uri.withAppendedPath(AUTHORITY_URI, "notes")
     private val MODELS_URI = Uri.withAppendedPath(AUTHORITY_URI, "models")
 
-    // The provider gives no read access to media, so images are read from the AnkiDroid folder.
-    // This is the folder in shared storage; an app-specific folder under Android/data is unreadable.
-    val mediaDirectory: File
-        get() = File(Environment.getExternalStorageDirectory(), "AnkiDroid/collection.media")
+    // The provider gives no read access to media, so images are read from the AnkiDroid folder:
+    // the one in shared storage, or AnkiDroid's app-specific folder, which other apps can read only
+    // up to Android 10. AnkiDroid installed from Play keeps its folder there unless it is changed.
+    private val mediaDirectories: List<File>
+        get() = Environment.getExternalStorageDirectory().let { storage ->
+            listOfNotNull(
+                File(storage, "AnkiDroid/collection.media"),
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R)
+                    File(storage, "Android/data/com.ichi2.anki/files/AnkiDroid/collection.media")
+                else null,
+            )
+        }
+
+    /** The readable media folder of AnkiDroid, or null without storage access or when there is none. */
+    val mediaDirectory: File?
+        get() = mediaDirectories.firstOrNull { it.isDirectory && it.canRead() }
 
     data class Deck(val id: Long, val name: String)
 

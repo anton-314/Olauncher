@@ -130,4 +130,5 @@
     <string name="ankidroid_not_installed">AnkiDroid לא מותקנת</string>
     <string name="anki_permission_needed">Olauncher צריכה גישה ל-AnkiDroid כדי להציג כרטיסים</string>
     <string name="anki_media_access_message">יש לאפשר ל-Olauncher לקרוא את תיקיית AnkiDroid כדי שהכרטיסים יציגו את התמונות שלהם. ללא גישה זו הכרטיסים מוצגים ללא תמונות.</string>
+    <string name="anki_media_not_found_message">לא נמצאה תיקיית AnkiDroid באחסון המשותף, ולכן הכרטיסים מוצגים ללא תמונות. בהגדרות המתקדמות של AnkiDroid, יש להגדיר את תיקיית AnkiDroid ל-/storage/emulated/0/AnkiDroid.</string>
 </resources>

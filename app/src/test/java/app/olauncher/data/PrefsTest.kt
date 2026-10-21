@@ -137,13 +137,13 @@ class PrefsTest {
     }
 
     @Test
-    fun `anki review is off by default and the card count stays within 1 to 3`() {
+    fun `anki review is off by default and the card count stays within 1 to the maximum`() {
         assertEquals(0L, prefs.ankiDeckId)
         assertEquals(2, prefs.ankiCardCount)
-        prefs.ankiCardCount = 3
-        assertEquals(3, prefs.ankiCardCount)
         prefs.ankiCardCount = 7
-        assertEquals(3, prefs.ankiCardCount)
+        assertEquals(7, prefs.ankiCardCount)
+        prefs.ankiCardCount = Prefs.ANKI_MAX_CARD_COUNT + 1
+        assertEquals(Prefs.ANKI_MAX_CARD_COUNT, prefs.ankiCardCount)
         prefs.ankiCardCount = 0
         assertEquals(1, prefs.ankiCardCount)
     }

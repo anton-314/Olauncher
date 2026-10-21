@@ -132,4 +132,5 @@
     <string name="ankidroid_not_installed">AnkiDroid nu este instalat</string>
     <string name="anki_permission_needed">Olauncher are nevoie de acces la AnkiDroid pentru a afișa carduri</string>
     <string name="anki_media_access_message">Permite-i lui Olauncher să citească folderul AnkiDroid ca să afișeze imaginile cardurilor. Fără acest acces, cardurile apar fără imagini.</string>
+    <string name="anki_media_not_found_message">Nu a fost găsit niciun folder AnkiDroid în stocarea partajată, așa că fișele apar fără imagini. În setările avansate AnkiDroid, setează directorul AnkiDroid la /storage/emulated/0/AnkiDroid.</string>
 </resources>

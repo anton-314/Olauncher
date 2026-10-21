@@ -135,4 +135,5 @@
     <string name="ankidroid_not_installed">AnkiDroid ist nicht installiert</string>
     <string name="anki_permission_needed">Olauncher braucht Zugriff auf AnkiDroid, um Karten anzuzeigen</string>
     <string name="anki_media_access_message">Erlauben Sie Olauncher, den AnkiDroid-Ordner zu lesen, damit Karten ihre Bilder zeigen. Ohne diesen Zugriff erscheinen die Karten ohne Bilder.</string>
+    <string name="anki_media_not_found_message">Im gemeinsamen Speicher wurde kein AnkiDroid-Ordner gefunden, daher erscheinen die Karten ohne Bilder. Stellen Sie in den erweiterten Einstellungen von AnkiDroid das AnkiDroid-Verzeichnis auf /storage/emulated/0/AnkiDroid.</string>
 </resources>

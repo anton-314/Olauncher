@@ -134,4 +134,5 @@
     <string name="ankidroid_not_installed">AnkiDroid är inte installerat</string>
     <string name="anki_permission_needed">Olauncher behöver åtkomst till AnkiDroid för att visa kort</string>
     <string name="anki_media_access_message">Tillåt Olauncher att läsa AnkiDroid-mappen så att korten visar sina bilder. Utan den här åtkomsten visas korten utan bilder.</string>
+    <string name="anki_media_not_found_message">Ingen AnkiDroid-mapp hittades i den delade lagringen, så korten visas utan bilder. Ställ in AnkiDroid-katalogen på /storage/emulated/0/AnkiDroid i AnkiDroids avancerade inställningar.</string>
 </resources><!-- Swedish -->
