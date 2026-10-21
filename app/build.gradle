@@ -39,7 +39,7 @@ android {
         includeInBundle = true
     }
     androidResources {
-        localeFilters += ["en", "ar", "cs", "da", "de", "el", "es-rES", "es-rUS", "fi", "fr", "he", "hi", "hr", "hu", "in", "it", "ja", "ko", "nb", "nl", "pl", "pt-rBR", "ro", "ru-rRU", "sv", "th", "tr", "uk", "vi", "zh"]
+        localeFilters += ["en", "de", "ja"]
     }
     namespace = 'app.olauncher'
 }

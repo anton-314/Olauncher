@@ -54,9 +54,9 @@ Apps are listed across every `UserManager.userProfiles` (work profiles included)
 
 ## Localization
 
-Strings live in `res/values-*/strings.xml` (about 30 locales). Adding a locale takes all three of these changes, or it won't appear:
+Strings live in `res/values-*/strings.xml` (English default, German `de`, Japanese `ja`). Adding a locale takes all three of these changes, or it won't appear:
 1. a new `values-<locale>` folder;
-2. an entry in `resourceConfigurations` in `app/build.gradle`;
+2. an entry in `localeFilters` in `app/build.gradle`;
 3. an entry in `res/xml/locales_config.xml`, which uses BCP-47 form, e.g. `pt-BR` rather than `pt-rBR`.
 
 When you add or change a string in `values/strings.xml`, keep the translations in sync.
